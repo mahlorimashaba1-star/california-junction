@@ -48,36 +48,6 @@ Welcome to the official website repo for **California Junction Kota** & **GMM So
 
 ---
 
-## 🌐 Website
-
-This repository hosts our official website built with HTML/CSS, designed to work perfectly on:
-- ✅ Mobile phones (WhatsApp users)
-- ✅ Desktop
-- ✅ Free hosting on GitHub Pages
-
-**Live Site:** `https://YOURUSERNAME.github.io/californiajunction/` (replace YOURUSERNAME after enabling Pages)
-
-### How to enable GitHub Pages:
-1. Go to **Settings** > **Pages**
-2. Source: **Deploy from a branch**
-3. Branch: **main** / **root**
-4. Click **Save**
-5. Wait 2 minutes - your site will be live!
-
-## 📁 Files in this Repo
-- `index.html` - Main website (Kota Menu + IT Services)
-- `kota-classic.jpg` - Menu image for R10-R35 kotas
-- `kota-bigboss.jpg` - Hero image for R70 Big Boss
-- `kota-special.jpg` - Image for R45/R55 specials
-- `chips.jpg` - Chips only image
-- `README.md` - This file
-
-## 🎯 Why GitHub Pages?
-- **Free forever** - No hosting costs
-- **Fast** - Loads quick on slow data
-- **WhatsApp Ready** - Direct order buttons
-- **Generator Powered Business** - Just like our kota shop, always on!
-
 ## 📞 Contact
 
 **California Junction Kota Shop**

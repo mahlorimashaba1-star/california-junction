@@ -1,24 +1,41 @@
-{
-  "name": "California Junction POS LIVE",
-  "short_name": "CJ POS",
-  "description": "Live Sync POS for Kabelo & Califonia",
-  "start_url": "/california-junction/pos.html",
-  "display": "standalone",
-  "background_color": "#0a1931",
-  "theme_color": "#ff6b00",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png",
-      "sizes": "1600x1600",
-      "type": "image/webp",
-      "purpose": "any"
-    },
-    {
-      "src": "https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any maskable"
-    }
-  ]
-}
+const CACHE_NAME = "cj-pos-v2";
+const urlsToCache = [
+  "/california-junction/pos.html",
+  "/california-junction/manager.html",
+  "/california-junction/manifest.json",
+  "https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png"
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(clients.claim());
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      // Cache hit? Return cache, else fetch from network
+      if (response) {
+        return response;
+      }
+      return fetch(event.request).then(res => {
+        // Cache new resources
+        if(!event.request.url.includes('npoint.io')) {
+          return caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, res.clone());
+            return res;
+          });
+        }
+        return res;
+      }).catch(()=>caches.match('/california-junction/pos.html'));
+    })
+  );
+});

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>California Junction POS - Daily Sales</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#f0f2f5}
+.head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:12px;gap:15px}
+.logo{width:60px;height:60px;border-radius:50%;background:#fff;padding:3px}
+.head h1{font-size:20px} .head span{color:#ff6b00}
+.daily{background:#ff6b00;color:#000;padding:10px;display:flex;justify-content:space-between;flex-wrap:wrap;font-weight:900}
+.wrap{display:grid;grid-template-columns:2fr 1fr;gap:12px;padding:12px}
+@media(max-width:700px){.wrap{grid-template-columns:1fr}}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:16px 4px;font-weight:900;font-size:14px;cursor:pointer}
+.cart{background:#fff;border-radius:12px;padding:15px;position:sticky;top:10px}
+.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:14px}
+.total{font-size:22px;font-weight:900;display:flex;justify-content:space-between;margin:12px 0}
+.pay{width:100%;padding:14px;border:0;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer;margin-top:6px}
+.pay-o{background:#ff6b00;color:#000} .pay-g{background:#25D366;color:#fff}
+.sales{margin-top:15px;background:#f8f8f8;border-radius:8px;padding:10px;max-height:200px;overflow:auto}
+</style>
+</head>
+<body>
+<div class="head">
+<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" onerror="this.innerHTML='🍔'">
+<h1>CALIFORNIA <span>JUNCTION</span> POS<br><small style="font-size:11px;color:#ffcc00">062 460 0499 | Papatsview - Daily Sales Tracker</small></h1>
+</div>
+
+<div class="daily">
+<span>📅 TODAY: <span id="date"></span></span>
+<span>💰 DAILY TOTAL: <span id="dTotal">R0</span></span>
+<span>🧾 ORDERS: <span id="dCount">0</span></span>
+<button onclick="resetDaily()" style="background:#000;color:#ff6b00;border:0;padding:5px 10px;border-radius:5px;font-weight:900">RESET DAY</button>
+</div>
+
+<div class="wrap">
+<div>
+<input id="cust" placeholder="Customer Name" style="padding:10px;border:1px solid #ddd;border-radius:6px;width:100%;margin-bottom:8px">
+<div class="menu" id="menu"></div>
+</div>
+<div class="cart">
+<h3>Current Order #<span id="ord">1001</span></h3>
+<div id="items" style="margin-top:10px;min-height:80px">No items</div>
+<div class="total"><span>TOTAL</span><span id="tot">R0</span></div>
+<button class="pay pay-o" onclick="checkout()">CHECKOUT • PAY & ADD TO DAILY</button>
+<button class="pay" style="background:#0a1931;color:#fff" onclick="clearCart()">CLEAR CART</button>
+
+<div class="sales">
+<h4 style="color:#0a1931">📊 TODAY'S SALES</h4>
+<div id="todayList" style="font-size:12px;margin-top:6px">No sales yet today</div>
+</div>
+<p style="margin-top:8px;font-size:10px;color:#666">Receipt prints to Bluetooth printer / Save PDF / Screenshot for WhatsApp</p>
+</div>
+</div>
+
+<script>
+const products=[
+{name:"R10 Chips Kota",price:10},
+{name:"R15 Half Russian",price:15},
+{name:"R20 Single Kota",price:20},
+{name:"R25 Cheese Russian",price:25},
+{name:"R30 Options",price:30},
+{name:"R35 Mixes",price:35},
+{name:"R45 062 Special",price:45},
+{name:"R55 Full Tank",price:55},
+{name:"R70 Big Boss",price:70},
+{name:"Extra Cheese R5",price:5},
+{name:"Extra Russian R10",price:10}
+];
+let cart=[]; let orderNo=parseInt(localStorage.getItem('cj_order')||'1001');
+let dailySales=JSON.parse(localStorage.getItem('cj_daily')||'[]');
+document.getElementById('ord').innerText=orderNo;
+document.getElementById('date').innerText=new Date().toLocaleDateString('en-ZA');
+
+const menu=document.getElementById('menu');
+products.forEach((p,i)=>{let b=document.createElement('button');b.className='btn';b.innerHTML=`${p.name}<br>R${p.price}`;b.onclick=()=>add(i);menu.appendChild(b);});
+
+function add(i){let f=cart.find(c=>c.i==i);if(f)f.q++;else cart.push({i,q:1});render();}
+function render(){let h='';let t=0;if(!cart.length)h='No items';cart.forEach(c=>{let p=products[c.i];let s=p.price*c.q;t+=s;h+=`<div class=row><span>${c.q}x ${p.name}</span><span>R${s} <button onclick="rem(${c.i})" style="border:0;background:red;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px">x</button></span></div>`});document.getElementById('items').innerHTML=h;document.getElementById('tot').innerText='R'+t;renderDaily();}
+function rem(i){cart=cart.filter(c=>c.i!=i);render();}
+function clearCart(){cart=[];render();}
+function checkout(){
+if(!cart.length)return alert('Add kota!');
+let t=0;cart.forEach(c=>{t+=products[c.i].price*c.q;});
+let name=document.getElementById('cust').value||'Customer';
+let sale={no:orderNo,name,time:new Date().toLocaleTimeString(),total:t,items:[...cart]};
+dailySales.push(sale);
+localStorage.setItem('cj_daily',JSON.stringify(dailySales));
+orderNo++;localStorage.setItem('cj_order',orderNo);document.getElementById('ord').innerText=orderNo;
+
+let txt=`CALIFORNIA JUNCTION\nBest Kota in Papatsview\n062 460 0499 / 072 977 9153\nOrder #${sale.no}\nCustomer: ${name}\n${sale.time}\n----------------\n`;
+cart.forEach(c=>{let p=products[c.i];txt+=`${c.q}x ${p.name} R${p.price*c.q}\n`;});
+txt+=`----------------\nTOTAL: R${t}\nFREE JUICE + FREE DELIVERY\nThank you! Come Again!`;
+
+alert(`SOLD! R${t} added to DAILY TOTAL!\n\n${txt}`);
+let w=window.open('','','width=300,height=600');w.document.write(`<pre style="font-family:monospace">${txt}</pre><script>window.print();setTimeout(()=>window.close(),500)<\/script>`);
+clearCart();document.getElementById('cust').value='';
+}
+function renderDaily(){
+let total=0;dailySales.forEach(s=>total+=s.total);
+document.getElementById('dTotal').innerText='R'+total;
+document.getElementById('dCount').innerText=dailySales.length;
+if(!dailySales.length){document.getElementById('todayList').innerHTML='No sales yet today';return;}
+let h='';[...dailySales].reverse().forEach(s=>{h+=`#${s.no} ${s.name} - R${s.total} - ${s.time}<br>`;});
+document.getElementById('todayList').innerHTML=h;
+}
+function resetDaily(){if(confirm(`Reset daily? You made R${document.getElementById('dTotal').innerText} today in ${dailySales.length} orders. Save this number first! Are you sure you want to start new day?`)){dailySales=[];localStorage.setItem('cj_daily',JSON.stringify([]));renderDaily();alert('New day started! Daily total = R0');}}
+renderDaily(); render();
+</script>
+</body>
+</html>

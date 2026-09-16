@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Init Server</title></head><body style="font-family:Arial;padding:20px;text-align:center">
+<h1>🔧 FIX LIVE SYNC SERVER</h1>
+<p>Your server https://api.npoint.io/54f2c3245309deb2c4f6 is empty {}</p>
+<p>Click button below to fix it!</p>
+<button onclick="initServer()" style="padding:15px 30px;background:#25D366;color:#fff;border:0;border-radius:10px;font-weight:900;font-size:18px;cursor:pointer">✅ CLICK TO FIX SERVER - INITIALIZE</button>
+<div id="result" style="margin-top:20px;padding:15px;background:#f0f2f5;border-radius:10px;word-break:break-all"></div>
+
+<script>
+const NPOINT_URL="https://api.npoint.io/54f2c3245309deb2c4f6";
+async function initServer(){
+document.getElementById('result').innerHTML='⏳ Initializing...';
+let initData={
+sales:[],
+stock:{chips:100,russian:100,kota:100,mix:100,big:100,cheese:100,bread:100,fries:100,oil:100,salt:100}
+};
+try{
+let res=await fetch(NPOINT_URL,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify(initData)
+});
+let text=await res.text();
+document.getElementById('result').innerHTML=`✅ SUCCESS! Server fixed!<br><br>Response: ${text}<br><br><b>Now go back to POS and Manager - LIVE SYNC WILL WORK!</b><br><br><a href="pos.html" style="background:#0a1931;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none">Go to POS (kabelo/califonia)</a><br><br><a href="manager.html" style="background:#ff6b00;color:#000;padding:10px 20px;border-radius:8px;text-decoration:none">Go to Manager</a>`;
+alert('✅ SERVER FIXED! Now orders will sync LIVE between kabelo, califonia and manager!');
+}catch(e){
+document.getElementById('result').innerHTML=`❌ Error: ${e}<br>Try again or check internet`;
+}
+}
+async function checkServer(){
+try{
+let r=await fetch(NPOINT_URL);
+let data=await r.json();
+document.getElementById('result').innerHTML=`Current server data:<br><pre style="text-align:left;background:#000;color:#0f0;padding:10px;border-radius:8px;overflow:auto">${JSON.stringify(data,null,2)}</pre>${(!data.sales ? '<br>❌ EMPTY - Click button to fix!' : '<br>✅ Server has data - Live sync should work!')}`;
+}catch(e){document.getElementById('result').innerHTML='Error fetching: '+e;}
+}
+checkServer();
+</script>
+</body></html>

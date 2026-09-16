@@ -1,296 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>California Junction - Manager Desktop</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial;background:#f0f2f5;color:#000}
-.head{background:#0a1931;color:#fff;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.head h2{font-size:18px;line-height:1.2}
-.logo{width:50px;height:50px;border-radius:50%;background:#fff;padding:2px}
-.card{background:#fff;border-radius:12px;padding:14px;margin:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr!important}}
-.split{display:grid;grid-template-columns:2fr 1fr;gap:8px}
-.kpi{font-size:28px;font-weight:900;color:#0a1931}
-.pay{padding:9px 12px;border:0;border-radius:7px;font-weight:900;margin:4px 2px;cursor:pointer;font-size:12px}
-.pay-o{background:#ff6b00;color:#000}.pay-b{background:#0a1931;color:#fff}.pay-g{background:#107c41;color:#fff}.pay-r{background:#ff4444;color:#fff}.pay-d{background:#ddd;color:#000}
-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
-th,td{border:1px solid #ddd;padding:6px;text-align:left}th{background:#0a1931;color:#fff}
-input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0;font-size:13px}
-.syncCode{background:#000;color:#0f0;padding:12px;border-radius:8px;font-family:monospace;font-size:11px;word-break:break-all;margin:8px 0;min-height:60px;max-height:120px;overflow:auto}
-.badge{background:#ff6b00;color:#000;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:900}
-</style>
-</head>
-<body>
-
-<div class="head">
-<div style="display:flex;align-items:center;gap:10px">
-<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" onerror="this.style.display='none'">
-<h2>CALIFORNIA JUNCTION<br><small style="color:#ffcc00;font-size:12px">MANAGER DESKTOP - Manage kabelo & califonia</small></h2>
-</div>
-<div>
-<span class="badge">DESKTOP MODE</span>
-<button onclick="logout()" style="background:red;color:#fff;border:0;padding:7px 14px;border-radius:7px;font-weight:900;margin-left:8px">LOGOUT</button>
-</div>
-</div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Manager LIVE SYNC</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#f0f2f5}
+.head{background:#0a1931;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.card{background:#fff;border-radius:12px;padding:12px;margin:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.split{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr}}
+.kpi{font-size:26px;font-weight:900}.pay{padding:8px;border:0;border-radius:6px;font-weight:900;margin:3px;cursor:pointer}
+.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-g{background:#107c41;color:#fff}.pay-r{background:red;color:#fff}
+table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ddd;padding:5px}th{background:#0a1931;color:#fff}
+.sync{font-size:11px;padding:6px 10px;border-radius:10px}.online{background:#25D366;color:#fff}.offline{background:red;color:#fff}
+</style></head><body>
+<div class="head"><h2>CJ MANAGER - LIVE SYNC<br><small style="color:#ffcc00">See kabelo & califonia orders LIVE! Server: npoint</small> <span id="liveStatus" class="sync offline">Connecting...</span></h2><button onclick="logout()" style="background:red;color:#fff;border:0;padding:6px 12px;border-radius:6px">LOGOUT</button></div>
 
 <div class="grid">
-<div class="card"><h4>💰 TOTAL TODAY (This Desktop)</h4><div class="kpi" id="totalAll">R0</div><small id="ordersAll">0 orders today</small><br><small style="color:#666">To see both phones total, import their Excels below</small></div>
-<div class="card"><h4>👤 Kabelo Sales</h4><div class="kpi" id="totalKabelo">R0</div><small id="ordersKabelo">0 orders</small><div style="margin-top:6px"><span class="badge">Phone 1 - Counter</span></div></div>
-<div class="card"><h4>👤 Califonia Sales</h4><div class="kpi" id="totalCalifonia">R0</div><small id="ordersCalifonia">0 orders</small><div style="margin-top:6px"><span class="badge">Phone 2 - Kitchen</span></div></div>
+<div class="card"><h4>💰 TOTAL TODAY (Both Phones LIVE)</h4><div class="kpi" id="totalAll">R0</div><small id="ordersAll">0 orders</small></div>
+<div class="card"><h4>👤 Kabelo LIVE</h4><div class="kpi" id="totalKabelo">R0</div><small id="ordersKabelo">0 orders</small></div>
+<div class="card"><h4>👤 Califonia LIVE</h4><div class="kpi" id="totalCalifonia">R0</div><small id="ordersCalifonia">0 orders</small></div>
 </div>
 
 <div class="split">
-<div>
-<div class="card">
-<h3>📊 LIVE SALES TABLE <button onclick="loadSales()" class="pay pay-b">REFRESH</button> <button onclick="exportAll()" class="pay pay-g">⬇️ EXPORT ALL TO EXCEL</button> <button onclick="clearAllSales()" class="pay pay-r">CLEAR ALL SALES</button></h3>
-<p style="font-size:10px;color:#666;margin:6px 0">This table shows sales made on THIS DESKTOP only. For phones, ask kabelo & califonia to EXPORT EXCEL and send to you via WhatsApp, then use Import below to combine.</p>
+<div class="card"><h3>📊 LIVE SALES - Auto refresh every 3 sec <button onclick="loadSales()" class="pay pay-b">REFRESH NOW</button> <button onclick="exportAll()" class="pay pay-g">EXPORT ALL EXCEL</button> <button onclick="clearCloud()" class="pay pay-r">CLEAR ALL SALES (New Day)</button></h3>
 <table id="salesTable"><thead><tr><th>Order</th><th>Date</th><th>Time</th><th>Customer</th><th>Cashier</th><th>Phone</th><th>Items</th><th>Total</th></tr></thead><tbody></tbody></table>
 </div>
-
-<div class="card">
-<h3>📥 Import Phones Excel - Combine Sales</h3>
-<p style="font-size:11px;line-height:1.4">
-1. On Phone 1 (kabelo): Open pos.html > Login kabelo > EXPORT EXCEL > Send CSV to your WhatsApp<br>
-2. On Phone 2 (califonia): Same - EXPORT EXCEL > Send to you<br>
-3. On Desktop: Open both CSV files in Excel > Copy all rows into one file > Sum TOTAL column = Combined total for day<br>
-<b>OR</b> Upload CSV here to see preview:
-</p>
-<input type="file" id="csvFile" accept=".csv" onchange="importCSV(event)">
-<div id="importResult" style="font-size:11px;margin-top:8px;background:#f0f2f5;padding:8px;border-radius:6px">No file imported yet</div>
-</div>
-</div>
-
-<div>
-<div class="card">
-<h3>📦 STOCK MANAGER - Sync to Both Phones</h3>
-<div id="stockManage" style="margin:8px 0"></div>
-<button onclick="restockAll()" class="pay pay-o" style="width:100%">+ RESTOCK ALL +20</button>
-<button onclick="resetStock()" class="pay pay-d" style="width:100%">RESET STOCK TO 100</button>
-
-<h4 style="margin-top:12px">🔄 SYNC CODE FOR PHONES:</h4>
-<p style="font-size:10px;color:#666">After changing stock, click GENERATE and send code to both phones. On phones login screen, paste code and APPLY.</p>
-<div id="syncCodeDisplay" class="syncCode">Click GENERATE to create code...</div>
-<button onclick="generateSyncCode()" class="pay pay-g" style="width:100%">🔄 GENERATE SYNC CODE NOW</button>
-<button onclick="copyCode()" class="pay pay-b" style="width:100%">📋 COPY CODE TO SEND VIA WHATSAPP</button>
-<div style="background:#fff3cd;padding:8px;border-radius:6px;margin-top:8px;font-size:10px">
-<b>How Sync Works:</b><br>
-1. You change stock here (e.g., chips 100 → 150)<br>
-2. Generate code<br>
-3. Send code to kabelo & califonia WhatsApp<br>
-4. They open pos.html login screen > Paste code > APPLY STOCK<br>
-5. Both phones now have same stock!
-</div>
-</div>
-
-<div class="card">
-<h3>👥 Cashier Accounts Manager</h3>
-<div id="accounts" style="margin:8px 0"></div>
-<h4 style="margin-top:10px">➕ Add New Cashier:</h4>
-<input id="newUser" placeholder="Username e.g. thabo (lowercase, no space)">
-<input id="newPass" placeholder="Password e.g. 1234">
-<input id="newName" placeholder="Full Name e.g. Thabo Nkosi">
-<button onclick="addAccount()" class="pay pay-b" style="width:100%">ADD CASHIER ACCOUNT</button>
-<div style="background:#f0f2f5;padding:8px;border-radius:6px;margin-top:8px;font-size:10px">
-<b>Current Accounts:</b><br>
-• kabelo / 1234 = Phone 1<br>
-• califonia / 1234 = Phone 2<br>
-• manager / admin123 = You<br>
-<small>After adding new cashier, you must also add same account on phones. Easiest: tell cashier to use kabelo or califonia accounts for now. To change password, delete and re-add.</small>
-</div>
-</div>
-
-<div class="card">
-<h3>⚙️ Desktop Tools</h3>
-<button onclick="clearStorage()" class="pay pay-r" style="width:100%">🗑️ CLEAR ALL DATA (Reset Everything)</button>
-<button onclick="location.href='pos.html'" class="pay pay-b" style="width:100%">🛒 GO TO CASHIER POS (pos.html)</button>
-<p style="font-size:9px;color:#666;margin-top:8px">CLEAR ALL DATA will delete all sales, stock, accounts and reset to kabelo/califonia/manager. Use only if you want fresh start!</p>
-</div>
-
-</div>
+<div><div class="card"><h3>📦 STOCK LIVE - Manage for both phones</h3><div id="stockManage"></div><button onclick="restockAll()" class="pay pay-o" style="width:100%">+20 ALL STOCK</button><button onclick="resetStock()" class="pay" style="width:100%;background:#ddd">RESET TO 100</button><p style="font-size:10px;margin-top:8px">Stock changes sync to both phones instantly! No need to send code anymore - LIVE!</p></div>
+<div class="card"><h3>👥 Accounts</h3>kabelo / 1234 = Phone 1<br>califonia / 1234 = Phone 2<br>manager / admin123 = You</div></div>
 </div>
 
 <script>
+const NPOINT_URL="https://api.npoint.io/54f2c3245309deb2c4f6";
 let session=JSON.parse(localStorage.getItem('cj_session')||'null');
-if(!session || session.role!=='manager'){
-alert('Manager login required!\n\nLogin as:\nUsername: manager\nPassword: admin123');
-location.href='pos.html';
+if(!session || session.role!=='manager'){alert('Login as manager / admin123'); location.href='pos.html';}
+function logout(){localStorage.removeItem('cj_session'); location.href='pos.html';}
+let cloudData={sales:[],stock:{}};
+
+async function fetchCloud(){
+try{
+let r=await fetch(NPOINT_URL); let data=await r.json(); cloudData=data;
+document.getElementById('liveStatus').innerText='☁️ LIVE CONNECTED - Auto refresh ON'; document.getElementById('liveStatus').className='sync online';
+return data;
+}catch(e){document.getElementById('liveStatus').innerText='⚠️ Offline'; document.getElementById('liveStatus').className='sync offline'; return cloudData;}
 }
-
-function logout(){localStorage.removeItem('cj_session');location.href='pos.html';}
-
-let ACCOUNTS=JSON.parse(localStorage.getItem('cj_accounts')||'{"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager Mfanaka"}}');
-localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS));
-
-function loadSales(){
-let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]');
+async function saveCloud(){
+await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cloudData)});
+}
+async function loadSales(){
+let data=await fetchCloud();
+let sales=data.sales||[]; let stock=data.stock||{};
 let today=new Date().toLocaleDateString('en-ZA');
-let todaySales=all.filter(s=>s.date===today);
-let totalAll=todaySales.reduce((a,b)=>a+b.total,0);
-document.getElementById('totalAll').innerText='R'+totalAll;
-document.getElementById('ordersAll').innerText=todaySales.length+' orders today (this desktop)';
-
+let todaySales=sales.filter(s=>s.date===today);
+document.getElementById('totalAll').innerText='R'+todaySales.reduce((a,b)=>a+b.total,0);
+document.getElementById('ordersAll').innerText=todaySales.length+' orders today';
 let kabelo=todaySales.filter(s=>s.cashier.toLowerCase().includes('kabelo'));
-document.getElementById('totalKabelo').innerText='R'+kabelo.reduce((a,b)=>a+b.total,0);
-document.getElementById('ordersKabelo').innerText=kabelo.length+' orders';
-
+document.getElementById('totalKabelo').innerText='R'+kabelo.reduce((a,b)=>a+b.total,0); document.getElementById('ordersKabelo').innerText=kabelo.length+' orders';
 let califonia=todaySales.filter(s=>s.cashier.toLowerCase().includes('califonia'));
-document.getElementById('totalCalifonia').innerText='R'+califonia.reduce((a,b)=>a+b.total,0);
-document.getElementById('ordersCalifonia').innerText=califonia.length+' orders';
-
-let tbody=document.querySelector('#salesTable tbody');
-tbody.innerHTML='';
-if(!todaySales.length){
-tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#999;padding:20px">No sales today on this desktop<br><small>Sales from phones will not appear here automatically - Import their Excel files below</small></td></tr>';
-}else{
+document.getElementById('totalCalifonia').innerText='R'+califonia.reduce((a,b)=>a+b.total,0); document.getElementById('ordersCalifonia').innerText=califonia.length+' orders';
+let tbody=document.querySelector('#salesTable tbody'); tbody.innerHTML='';
 todaySales.slice().reverse().forEach(s=>{
 tbody.innerHTML+=`<tr><td>${s.no}</td><td>${s.date}</td><td>${s.time}</td><td>${s.customer}</td><td><b>${s.cashier}</b></td><td>${s.phone}</td><td>${(s.items||'').substring(0,50)}</td><td><b>R${s.total}</b></td></tr>`;
 });
-}
-
-let stock=JSON.parse(localStorage.getItem('cj_stock')||'{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}');
-let h='';
-for(let k in stock){
-h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee"><span><b>${k.toUpperCase()}</b>: <span style="font-weight:900">${stock[k]}</span> ${stock[k]<=5?'<span style="color:red;font-weight:900">⚠️ LOW</span>':''}</span><span><button onclick="changeStock('${k}',-10)" style="padding:3px 7px;border:1px solid #ddd;border-radius:4px">-10</button> <button onclick="changeStock('${k}',-1)" style="padding:3px 7px;border:1px solid #ddd;border-radius:4px">-1</button> <button onclick="changeStock('${k}',1)" style="padding:3px 7px;background:#ff6b00;border:0;border-radius:4px;font-weight:900">+1</button> <button onclick="changeStock('${k}',10)" style="padding:3px 7px;background:#0a1931;color:#fff;border:0;border-radius:4px">+10</button></span></div>`;
-}
+let h=''; for(let k in stock){h+=`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee"><span><b>${k.toUpperCase()}</b>: ${stock[k]} ${stock[k]<=5?'<span style=color:red>LOW</span>':''}</span><span><button onclick="changeStock('${k}',-5)">-5</button> <button onclick="changeStock('${k}',10)">+10</button></span></div>`;}
 document.getElementById('stockManage').innerHTML=h;
-
-let ah='';
-for(let u in ACCOUNTS){
-ah+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee"><span><b>${u}</b> (${ACCOUNTS[u].role})<br><small>${ACCOUNTS[u].name} / Pass: ${ACCOUNTS[u].pass}</small></span><span>${u!=='manager'?`<button onclick="delAcc('${u}')" style="background:red;color:#fff;border:0;padding:4px 8px;border-radius:4px">Delete</button>`:''}</span></div>`;
 }
-document.getElementById('accounts').innerHTML=ah;
-}
-
-function changeStock(k,d){
-let s=JSON.parse(localStorage.getItem('cj_stock')||'{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}');
-s[k]=Math.max(0,(s[k]||0)+d);
-localStorage.setItem('cj_stock',JSON.stringify(s));
-loadSales();
-generateSyncCode();
-}
-
-function restockAll(){
-let s=JSON.parse(localStorage.getItem('cj_stock')||'{}');
-for(let k in s)s[k]+=20;
-localStorage.setItem('cj_stock',JSON.stringify(s));
-loadSales();
-generateSyncCode();
-alert('All stock +20! Now GENERATE SYNC CODE and send to phones');
-}
-
-function resetStock(){
-if(!confirm('Reset all stock to 100? This will overwrite current stock!'))return;
-let init={"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100};
-localStorage.setItem('cj_stock',JSON.stringify(init));
-loadSales();
-generateSyncCode();
-}
-
-function generateSyncCode(){
-let s=localStorage.getItem('cj_stock')||'{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}';
-let code=btoa(s);
-document.getElementById('syncCodeDisplay').innerText=code;
-return code;
-}
-
-function copyCode(){
-let code=document.getElementById('syncCodeDisplay').innerText;
-if(!code || code.includes('Click GENERATE')){alert('Click GENERATE SYNC CODE NOW first!');return;}
-navigator.clipboard.writeText(code).then(()=>{
-alert('✅ Sync code COPIED!\n\nNow send to WhatsApp groups:\n- Send to Kabelo\n- Send to Califonia\n\nThey must paste in pos.html login screen > APPLY STOCK');
-}).catch(()=>{
-prompt('Copy this code and send to phones via WhatsApp:',code);
-});
-}
-
-function exportAll(){
-let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]');
-if(!all.length)return alert('No sales on this desktop yet. Sales from phones are on phones, not here. Ask them to EXPORT EXCEL and send to you.');
-let csv='Order No,Date,Time,Customer,Cashier,Phone ID,Items,Total\n';
-all.forEach(s=>{
-csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${(s.items||'').replace(/"/g,'""')}",${s.total}\n`;
-});
-let b=new Blob([csv],{type:'text/csv'});
-let a=document.createElement('a');
-a.href=URL.createObjectURL(b);
-a.download=`ALL_SALES_DESKTOP_${new Date().toISOString().slice(0,10)}.csv`;
-a.click();
-}
-
-function clearAllSales(){
-if(!confirm('⚠️ DELETE ALL SALES on this desktop? This cannot be undone! Export first!'))return;
-if(!confirm('Are you REALLY sure? Type OK to confirm you exported Excel!'))return;
-localStorage.setItem('cj_all_sales','[]');
-localStorage.setItem('cj_order_kabelo','1');
-localStorage.setItem('cj_order_califonia','1');
-localStorage.setItem('cj_order_manager','1');
-loadSales();
-alert('All sales cleared! Orders now start at #1 again');
-}
-
-function importCSV(e){
-let file=e.target.files[0];
-if(!file)return;
-let reader=new FileReader();
-reader.onload=function(ev){
-let text=ev.target.result;
-let lines=text.split('\n');
-let total=0;let count=0;
-for(let i=1;i<lines.length;i++){
-let line=lines[i].trim();
-if(!line)continue;
-let parts=line.split(',');
-let last=parts[parts.length-1];
-let num=parseFloat(last.replace(/"/g,''));
-if(!isNaN(num)){total+=num;count++;}
-}
-document.getElementById('importResult').innerHTML=`<b>✅ Imported: ${file.name}</b><br>Orders found: ${count}<br>Total Sales in file: <b>R${total}</b><br><br><small>To combine both phones: Add totals: Kabelo total + Califonia total = Combined daily total</small>`;
-};
-reader.readAsText(file);
-}
-
-function addAccount(){
-let u=document.getElementById('newUser').value.trim().toLowerCase();
-let p=document.getElementById('newPass').value.trim();
-let n=document.getElementById('newName').value.trim();
-if(!u||!p||!n){alert('Fill all 3 fields! Username, Password, Full Name');return;}
-if(u.includes(' ')){alert('Username no spaces! Use lowercase like: thabo');return;}
-if(ACCOUNTS[u]){alert('Username already exists! Choose different');return;}
-ACCOUNTS[u]={pass:p,role:'cashier',name:n};
-localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS));
-alert(`✅ Added cashier: ${u} / ${p}\n\nTell cashier:\nUsername: ${u}\nPassword: ${p}\n\nThey login on pos.html`);
-document.getElementById('newUser').value='';
-document.getElementById('newPass').value='';
-document.getElementById('newName').value='';
-loadSales();
-}
-
-function delAcc(u){
-if(u==='manager'){alert('Cannot delete manager account!');return;}
-if(!confirm(`Delete account ${u} (${ACCOUNTS[u].name})?`))return;
-delete ACCOUNTS[u];
-localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS));
-loadSales();
-alert(`Deleted ${u}`);
-}
-
-function clearStorage(){
-if(!confirm('⚠️ RESET EVERYTHING? This will delete:\n- All sales\n- All stock\n- All accounts (back to kabelo/califonia/manager)\n\nExport Excel first!'))return;
-if(!confirm('REALLY RESET? Last chance!'))return;
-localStorage.clear();
-ACCOUNTS={"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager Mfanaka"}};
-localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS));
-localStorage.setItem('cj_stock',JSON.stringify({"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}));
-localStorage.setItem('cj_all_sales','[]');
-alert('✅ All reset to fresh! Accounts: kabelo, califonia, manager');
-location.reload();
-}
-
-loadSales();
-setInterval(loadSales,5000);
-</script>
-</body>
-</html>
+async function changeStock(k,d){await fetchCloud(); cloudData.stock[k]=Math.max(0,(cloudData.stock[k]||0)+d); await saveCloud(); loadSales();}
+async function restockAll(){await fetchCloud(); for(let k in cloudData.stock)cloudData.stock[k]+=20; await saveCloud(); loadSales();}
+async function resetStock(){if(!confirm('Reset all to 100?'))return; await fetchCloud(); cloudData.stock={"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}; await saveCloud(); loadSales();}
+async function clearCloud(){if(!confirm('Clear ALL sales? Export first!'))return; if(!confirm('REALLY clear? Orders will start at 1 again'))return; await fetchCloud(); cloudData.sales=[]; await saveCloud(); loadSales(); alert('Cleared! New day starts at 1');}
+function exportAll(){let sales=cloudData.sales||[]; if(!sales.length)return alert('No sales'); let csv='Order,Date,Time,Customer,Cashier,Phone,Items,Total\n'; sales.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items}",${s.total}\n`;}); let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`ALL_SALES_LIVE_${new Date().toISOString().slice(0,10)}.csv`; a.click();}
+loadSales(); setInterval(loadSales,3000);
+</script></body></html>

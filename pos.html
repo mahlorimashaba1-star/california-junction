@@ -1,107 +1,187 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CJ POS - Offline Cashier</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>California Junction POS</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#0a1931}
-.login{max-width:380px;margin:30px auto;background:#fff;color:#000;padding:20px;border-radius:15px}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#0a1931;color:#fff}
+.login{max-width:380px;margin:20px auto;background:#fff;color:#000;padding:20px;border-radius:15px}
 .head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:10px;gap:10px}
-.logo{width:45px;height:45px;border-radius:50%;background:#fff;padding:2px}
-.daily{background:#ff6b00;color:#000;padding:7px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:11px;flex-wrap:wrap}
+.logo{width:45px;height:45px;border-radius:50%;background:#fff;padding:2px;object-fit:cover}
+.daily{background:#ff6b00;color:#000;padding:7px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:11px;flex-wrap:wrap;gap:4px}
 .wrap{display:grid;grid-template-columns:2fr 1fr;gap:8px;padding:8px}
 @media(max-width:800px){.wrap{grid-template-columns:1fr}}
 .menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:12px 2px;font-weight:900;font-size:11px;cursor:pointer}
-.btn:disabled{background:#ccc;color:#666}.low{background:red!important}
-.cart{background:#fff;color:#000;border-radius:12px;padding:10px}
-.pay{width:100%;padding:11px;border:0;border-radius:8px;font-weight:900;margin-top:4px;cursor:pointer}
-.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}
-input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0}
-.syncBox{background:#e8f5e9;border:2px solid #107c41;border-radius:10px;padding:8px;margin-top:8px}
-</style></head><body>
+.btn:disabled{background:#ccc}.low{background:red!important;color:#fff!important}
+.stock-tag{font-size:9px;display:block;margin-top:2px;color:#000;background:#fff;padding:1px 3px;border-radius:8px}
+.cart{background:#fff;color:#000;border-radius:12px;padding:10px;position:sticky;top:5px}
+.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee;font-size:12px}
+.total{font-size:19px;font-weight:900;display:flex;justify-content:space-between;margin:8px 0}
+.pay{width:100%;padding:11px;border:0;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;margin-top:5px}
+.pay-o{background:#ff6b00;color:#000}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}.pay-g{background:#25D366;color:#fff}
+input{padding:10px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0}
+.stockBox{background:#fff;color:#000;border:2px solid #0a1931;border-radius:10px;padding:8px;margin-top:8px}
+.stockRow{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #eee;font-size:11px}
+.syncBox{background:#e8f5e9;border:2px solid #107c41;border-radius:10px;padding:8px;margin-top:10px}
+</style>
+</head>
+<body>
 
 <div id="loginScreen" class="login">
-<img src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" style="width:70px;height:70px;border-radius:50%;display:block;margin:0 auto">
-<h2 style="text-align:center;color:#0a1931">CALIFORNIA JUNCTION<br><small style="color:#ff6b00">CASHIER LOGIN - OFFLINE</small></h2>
-<p style="text-align:center;font-size:11px;color:#666">Works without internet! Login saved on this phone</p>
-<input id="user" placeholder="Username: alex, sarah, manager">
-<input id="pass" type="password" placeholder="Password">
+<img src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" style="width:80px;height:80px;border-radius:50%;display:block;margin:0 auto;background:#fff;padding:3px" onerror="this.style.display='none'">
+<h2 style="text-align:center;color:#0a1931">CALIFORNIA JUNCTION<br><small style="color:#ff6b00">CASHIER LOGIN</small></h2>
+<p style="text-align:center;font-size:11px;color:#666;margin:6px 0">Login: kabelo or califonia</p>
+<input id="user" placeholder="Username: kabelo / califonia / manager" autocomplete="off">
+<input id="pass" type="password" placeholder="Password: 1234">
 <button onclick="login()" style="width:100%;padding:12px;background:#0a1931;color:#fff;border:0;border-radius:8px;font-weight:900;margin-top:8px">LOGIN</button>
-<div style="background:#f0f2f5;padding:8px;border-radius:8px;margin-top:10px;font-size:10px">
-<b>Accounts:</b><br>
-👤 alex / 1234 = Phone 1 (Counter)<br>
-👤 sarah / 1234 = Phone 2 (Kitchen)<br>
-👨‍💼 manager / admin123 = Desktop Manager<br>
-<small>Manager can change passwords in manager.html</small>
+<div style="background:#f0f2f5;padding:8px;border-radius:8px;margin-top:10px;font-size:11px;line-height:1.5">
+<b>✅ Accounts:</b><br>
+👤 <b>kabelo</b> / 1234 = Phone 1<br>
+👤 <b>califonia</b> / 1234 = Phone 2<br>
+👨‍💼 <b>manager</b> / admin123 = Desktop<br>
+<small style="color:#666">Order starts at #1 for each cashier</small>
 </div>
-<p id="loginMsg" style="color:red;text-align:center;margin-top:6px"></p>
-<div class="syncBox"><b>📲 Stock Sync from Manager:</b><br>
-<input id="syncCode" placeholder="Paste sync code from manager desktop"><button onclick="applySync()" style="width:100%;padding:8px;background:#107c41;color:#fff;border:0;border-radius:6px;margin-top:4px">APPLY STOCK FROM MANAGER</button></div>
+<p id="loginMsg" style="color:red;text-align:center;margin-top:8px;font-weight:900"></p>
+<div class="syncBox">
+<b>📲 Stock Sync from Manager Desktop:</b><br>
+<input id="syncCode" placeholder="Paste sync code from manager"><button onclick="applySync()" style="width:100%;padding:8px;background:#107c41;color:#fff;border:0;border-radius:6px;margin-top:4px;font-weight:900">APPLY STOCK</button>
+</div>
 </div>
 
 <div id="posApp" style="display:none">
 <div class="head">
-<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png">
-<h1>CALIFORNIA <span style="color:#ff6b00">JUNCTION</span> <small id="cashierTag" style="font-size:10px;background:#ff6b00;color:#000;padding:2px 6px;border-radius:8px"></small><br><small style="font-size:9px">Phone:<span id="phoneId"></span> | OFFLINE MODE | <button onclick="logout()" style="background:red;color:#fff;border:0;padding:2px 6px;border-radius:6px;font-size:9px">LOGOUT</button></small></h1>
+<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" onerror="this.src='https://via.placeholder.com/45'">
+<h1>CALIFORNIA <span style="color:#ff6b00">JUNCTION</span> <small id="cashierTag" style="font-size:10px;background:#ff6b00;color:#000;padding:2px 7px;border-radius:10px"></small><br><small style="font-size:9px;color:#ffcc00">Phone:<span id="phoneId"></span> | <button onclick="logout()" style="background:red;color:#fff;border:0;padding:2px 7px;border-radius:8px;font-size:9px">LOGOUT</button></small></h1>
 </div>
-<div class="daily"><span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span></span><span>👤 <span id="currCashier"></span></span></div>
-<div class="wrap"><div><input id="cust" placeholder="Customer Name"><div class="menu" id="menu"></div>
-<div style="background:#fff;color:#000;border-radius:10px;padding:8px;margin-top:8px"><h4>📦 STOCK (This Phone)</h4><div id="stockList" style="font-size:11px"></div><small style="font-size:9px">Stock updated from Manager sync code. Each phone deducts own stock when selling.</small></div></div>
-<div class="cart"><h3>Order #<span id="ord">1</span></h3><div id="items" style="min-height:60px">No items</div><div style="display:flex;justify-content:space-between;font-weight:900;margin:6px 0"><span>TOTAL</span><span id="tot">R0</span></div>
-<button class="pay pay-o" onclick="checkout()">CHECKOUT • LOGO SLIP</button><button class="pay pay-b" onclick="clearCart()">CLEAR</button>
-<div style="margin-top:8px;border-top:2px solid #ff6b00;padding-top:6px"><h4>📊 My Sales Today</h4><div id="todayList" style="font-size:10px;max-height:90px;overflow:auto"></div><button class="pay pay-ex" onclick="exportExcel()">⬇️ EXPORT EXCEL</button><button class="pay" style="background:#ff4444;color:#fff" onclick="resetDaily()">RESET MY DAY</button></div></div></div>
+<div class="daily"><span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span> ORDERS</span><span>👤 <span id="currCashier"></span></span></div>
+<div class="wrap">
+<div><input id="cust" placeholder="Customer Name (Optional)"><div class="menu" id="menu"></div><div class="stockBox"><h4>📦 STOCK (This Phone)</h4><div id="stockList"></div></div></div>
+<div class="cart"><h3>Order #<span id="ord">1</span></h3><div id="items" style="margin-top:6px;min-height:60px;color:#666">No items</div><div class="total"><span>TOTAL</span><span id="tot">R0</span></div><button class="pay pay-o" onclick="checkout()">CHECKOUT • PRINT SLIP WITH LOGO</button><button class="pay pay-b" onclick="clearCart()">CLEAR CART</button>
+<div style="margin-top:10px;border-top:2px solid #ff6b00;padding-top:8px"><h4>📊 My Sales Today</h4><div id="todayList" style="font-size:10px;max-height:90px;overflow:auto;margin:6px 0">No sales</div><button class="pay pay-ex" onclick="exportExcel()">⬇️ EXPORT TO EXCEL</button><button class="pay" style="background:#ff4444;color:#fff" onclick="resetDaily()">RESET MY DAY</button></div></div>
+</div>
 </div>
 
 <script>
 const LOGO_URL="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png";
-let ACCOUNTS=JSON.parse(localStorage.getItem('cj_accounts')||'{"alex":{"pass":"1234","role":"cashier","name":"Alex"},"sarah":{"pass":"1234","role":"cashier","name":"Sarah"},"manager":{"pass":"admin123","role":"manager","name":"Manager Mfanaka"}}');
-let currentUser=null, phoneId=localStorage.getItem('cj_phoneId')||'PHONE-'+Math.random().toString(36).substr(2,4).toUpperCase(); localStorage.setItem('cj_phoneId',phoneId);
-let stock={}, cart=[], products=[
-{name:"R10 Chips Kota",price:10,stockKey:"chips"},{name:"R15 Half Russian",price:15,stockKey:"russian"},
-{name:"R20 Single Kota",price:20,stockKey:"kota"},{name:"R25 Cheese Russian",price:25,stockKey:"russian"},
-{name:"R30 Options",price:30,stockKey:"kota"},{name:"R35 Mixes",price:35,stockKey:"mix"},
-{name:"R45 062 Special",price:45,stockKey:"mix"},{name:"R55 Full Tank",price:55,stockKey:"big"},
-{name:"R70 Big Boss",price:70,stockKey:"big"},{name:"Extra Cheese",price:5,stockKey:"cheese"},
-{name:"Extra Russian",price:10,stockKey:"russian"}];
-
-let saved=JSON.parse(localStorage.getItem('cj_session')||'null'); if(saved){currentUser=saved; showPOS();}
+let ACCOUNTS={"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager Mfanaka"}};
+localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS));
+let currentUser=null;
+let phoneId=localStorage.getItem('cj_phoneId')||'PHONE-'+Math.random().toString(36).substr(2,4).toUpperCase();
+localStorage.setItem('cj_phoneId',phoneId);
+let stock={},cart=[],products=[
+{name:"R10 Chips Kota",price:10,stockKey:"chips"},
+{name:"R15 Half Russian",price:15,stockKey:"russian"},
+{name:"R20 Single Kota",price:20,stockKey:"kota"},
+{name:"R25 Cheese Russian",price:25,stockKey:"russian"},
+{name:"R30 Options",price:30,stockKey:"kota"},
+{name:"R35 Mixes",price:35,stockKey:"mix"},
+{name:"R45 062 Special",price:45,stockKey:"mix"},
+{name:"R55 Full Tank",price:55,stockKey:"big"},
+{name:"R70 Big Boss",price:70,stockKey:"big"},
+{name:"Extra Cheese",price:5,stockKey:"cheese"},
+{name:"Extra Russian",price:10,stockKey:"russian"}
+];
+let saved=JSON.parse(localStorage.getItem('cj_session')||'null');
+if(saved){currentUser=saved;showPOS();}
 function login(){
-let u=document.getElementById('user').value.trim().toLowerCase(); let p=document.getElementById('pass').value.trim();
-if(!ACCOUNTS[u]){document.getElementById('loginMsg').innerText='User not found! Use alex, sarah, manager';return;}
-if(ACCOUNTS[u].pass!==p){document.getElementById('loginMsg').innerText='Wrong password';return;}
-currentUser={username:u,...ACCOUNTS[u],phoneId}; localStorage.setItem('cj_session',JSON.stringify(currentUser));
-if(ACCOUNTS[u].role==='manager'){location.href='manager.html';return;} showPOS();
+let u=document.getElementById('user').value.trim().toLowerCase();
+let p=document.getElementById('pass').value.trim();
+if(!ACCOUNTS[u]){document.getElementById('loginMsg').innerText='User not found! Use: kabelo or califonia';return;}
+if(ACCOUNTS[u].pass!==p){document.getElementById('loginMsg').innerText='Wrong password! Password is 1234';return;}
+currentUser={username:u,...ACCOUNTS[u],phoneId:phoneId};
+localStorage.setItem('cj_session',JSON.stringify(currentUser));
+if(ACCOUNTS[u].role==='manager'){window.location.href='manager.html';return;}
+showPOS();
 }
 function logout(){localStorage.removeItem('cj_session');location.reload();}
 function applySync(){
-let code=document.getElementById('syncCode').value.trim(); if(!code)return alert('Paste code from manager');
-try{let s=JSON.parse(atob(code)); localStorage.setItem('cj_stock',JSON.stringify(s)); stock=s; renderMenu(); alert('Stock updated from Manager! '+Object.keys(s).length+' items');}catch(e){alert('Invalid code! Copy full code from manager desktop');}
+let code=document.getElementById('syncCode').value.trim();
+if(!code)return alert('Paste sync code from manager desktop');
+try{let s=JSON.parse(atob(code));localStorage.setItem('cj_stock',JSON.stringify(s));stock=s;renderMenu();alert('✅ Stock updated from Manager!');}catch(e){alert('❌ Invalid code! Copy FULL code from manager');}
 }
 function showPOS(){
-document.getElementById('loginScreen').style.display='none'; document.getElementById('posApp').style.display='block';
-document.getElementById('phoneId').innerText=phoneId; document.getElementById('currCashier').innerText=currentUser.name;
+document.getElementById('loginScreen').style.display='none';
+document.getElementById('posApp').style.display='block';
+document.getElementById('phoneId').innerText=phoneId;
+document.getElementById('currCashier').innerText=currentUser.name;
 document.getElementById('cashierTag').innerText=currentUser.name+' @ '+phoneId;
 document.getElementById('date').innerText=new Date().toLocaleDateString('en-ZA');
 stock=JSON.parse(localStorage.getItem('cj_stock')||'{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}');
-let ord=parseInt(localStorage.getItem('cj_order_'+currentUser.username)||'1'); document.getElementById('ord').innerText=ord;
-renderMenu(); render(); renderDaily();
+let ord=parseInt(localStorage.getItem('cj_order_'+currentUser.username)||'1');
+if(ord<1)ord=1;
+document.getElementById('ord').innerText=ord;
+renderMenu();render();renderDaily();
 }
-function renderMenu(){let el=document.getElementById('menu'); el.innerHTML=''; products.forEach((p,i)=>{let s=stock[p.stockKey]||0; let b=document.createElement('button'); b.className='btn'; if(s<=0)b.classList.add('low'); b.disabled=s<=0; b.innerHTML=`${p.name}<br>R${p.price}<br><small>Stock:${s}</small>`; b.onclick=()=>add(i); el.appendChild(b);}); let h=''; for(let k in stock){h+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #eee"><span>${k.toUpperCase()}: ${stock[k]}</span><span>${stock[k]<=5?'<span style=color:red>LOW</span>':''}</span></div>`;} document.getElementById('stockList').innerHTML=h;}
-function add(i){if((stock[products[i].stockKey]||0)<=0)return alert('Out of stock! Ask manager to restock'); let f=cart.find(c=>c.i==i); if(f)f.q++; else cart.push({i,q:1}); render();}
-function render(){let h='',t=0; if(!cart.length)h='No items'; cart.forEach(c=>{let p=products[c.i]; let s=p.price*c.q; t+=s; h+=`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:12px"><span>${c.q}x ${p.name}</span><span>R${s} <button onclick="rem(${c.i})" style="background:red;color:#fff;border:0;border-radius:50%;width:15px">x</button></span></div>`;}); document.getElementById('items').innerHTML=h; document.getElementById('tot').innerText='R'+t;}
-function rem(i){cart=cart.filter(c=>c.i!=i); render();} function clearCart(){cart=[]; render();}
+function renderMenu(){
+let el=document.getElementById('menu');el.innerHTML='';
+products.forEach((p,i)=>{
+let s=stock[p.stockKey]||0;
+let b=document.createElement('button');b.className='btn'+(s<=0?' low':'');
+b.disabled=s<=0;
+b.innerHTML=`${p.name}<br>R${p.price}<span class="stock-tag">Stock:${s}</span>`;
+b.onclick=()=>add(i);
+el.appendChild(b);
+});
+let h='';for(let k in stock){h+=`<div class="stockRow"><span><b>${k.toUpperCase()}</b>: ${stock[k]}</span><span>${stock[k]<=5?'<span style="color:red;font-weight:900">⚠️ LOW</span>':''}</span></div>`;}
+document.getElementById('stockList').innerHTML=h;
+}
+function add(i){
+if((stock[products[i].stockKey]||0)<=0)return alert('Out of stock! Ask manager to restock');
+let f=cart.find(c=>c.i==i);if(f)f.q++;else cart.push({i,q:1});render();
+}
+function render(){
+let h='',t=0;if(!cart.length)h='<span style="color:#999">No items</span>';
+cart.forEach(c=>{
+let p=products[c.i];let s=p.price*c.q;t+=s;
+h+=`<div class="row"><span>${c.q}x ${p.name}</span><span>R${s} <button onclick="rem(${c.i})" style="border:0;background:red;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px">x</button></span></div>`;
+});
+document.getElementById('items').innerHTML=h;
+document.getElementById('tot').innerText='R'+t;
+}
+function rem(i){cart=cart.filter(c=>c.i!=i);render();}
+function clearCart(){cart=[];render();}
 function checkout(){
-if(!cart.length)return alert('Add items'); for(let c of cart){if((stock[products[c.i].stockKey]||0)<c.q)return alert('Not enough stock');}
-cart.forEach(c=>{stock[products[c.i].stockKey]-=c.q;}); localStorage.setItem('cj_stock',JSON.stringify(stock));
-let total=0; cart.forEach(c=>total+=products[c.i].price*c.q);
+if(!cart.length)return alert('Add kota first!');
+for(let c of cart){if((stock[products[c.i].stockKey]||0)<c.q)return alert('Not enough stock for '+products[c.i].name);}
+cart.forEach(c=>{stock[products[c.i].stockKey]-=c.q;});
+localStorage.setItem('cj_stock',JSON.stringify(stock));
+let total=0;cart.forEach(c=>total+=products[c.i].price*c.q);
 let rawNo=parseInt(localStorage.getItem('cj_order_'+currentUser.username)||'1');
 let sale={no:currentUser.name.charAt(0).toUpperCase()+rawNo,rawNo:rawNo,date:new Date().toLocaleDateString('en-ZA'),time:new Date().toLocaleTimeString(),customer:document.getElementById('cust').value||'Walk-in',cashier:currentUser.name,phone:phoneId,items:cart.map(c=>`${c.q}x ${products[c.i].name}`).join('; '),total:total};
-let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]'); all.push(sale); localStorage.setItem('cj_all_sales',JSON.stringify(all));
-localStorage.setItem('cj_order_'+currentUser.username,rawNo+1); document.getElementById('ord').innerText=rawNo+1;
-let itemsHtml=''; cart.forEach(c=>{let p=products[c.i]; itemsHtml+=`<div style="display:flex;justify-content:space-between"><span>${c.q}x ${p.name}</span><span>R${p.price*c.q}</span></div>`;});
-let html=`<html><body style="font-family:monospace;width:280px;margin:0 auto;padding:10px;font-size:12px"><div style="text-align:center"><img src="${LOGO_URL}" style="width:70px;height:70px;border-radius:50%"><h2>CALIFORNIA JUNCTION</h2><small>Best Kota in Papatsview<br>072 977 9153 / 062 460 0499<br>Free Juice + Delivery</small><hr>Order: <b>#${sale.no}</b><br>Date: ${sale.date} ${sale.time}<br>Customer: ${sale.customer}<br>Cashier: <b>${sale.cashier}</b> (${sale.phone})<hr>${itemsHtml}<hr><div style="display:flex;justify-content:space-between;font-weight:900;font-size:16px"><span>TOTAL</span><span>R${total}</span></div><hr><small>Thank You! Come Again!<br>Cashier: ${sale.cashier} | ${sale.phone}</small></div><script>window.print()<\/script></body></html>`;
-let w=window.open('','','width=350,height=600'); w.document.write(html);
-alert(`SOLD R${total} by ${currentUser.name}!`); clearCart(); document.getElementById('cust').value=''; renderMenu(); renderDaily();
+let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]');all.push(sale);localStorage.setItem('cj_all_sales',JSON.stringify(all));
+localStorage.setItem('cj_order_'+currentUser.username,rawNo+1);
+document.getElementById('ord').innerText=rawNo+1;
+let itemsHtml='';cart.forEach(c=>{let p=products[c.i];itemsHtml+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dashed #ccc"><span>${c.q}x ${p.name}</span><span>R${p.price*c.q}</span></div>`;});
+let receipt=`<html><head><meta charset="UTF-8"><style>body{font-family:monospace;width:280px;margin:0 auto;padding:10px;font-size:12px}.center{text-align:center}.bold{font-weight:900}.line{border-top:1px dashed #000;margin:6px 0}.logo{width:70px;height:70px;border-radius:50%;display:block;margin:0 auto;border:2px solid #000}h2{margin:4px 0;font-size:17px}.small{font-size:10px}</style></head><body><div class="center"><img src="${LOGO_URL}" class="logo" onerror="this.style.display='none'"><h2>CALIFORNIA JUNCTION</h2><div class="small">BEST KOTA IN PAPATSVIEW<br>072 977 9153 / 062 460 0499<br>Free Juice + Free Delivery</div><div class="line"></div><div style="text-align:left">Order: <b>#${sale.no}</b> (Start at 1)<br>Date: ${sale.date} ${sale.time}<br>Customer: ${sale.customer}<br>Cashier: <b>${sale.cashier}</b><br>Phone: ${sale.phone}</div><div class="line"></div>${itemsHtml}<div class="line"></div><div style="display:flex;justify-content:space-between;font-size:16px" class="bold"><span>TOTAL</span><span>R${total}</span></div><div class="line"></div><div class="center small">Thank You! Come Again!<br>Cashier: ${sale.cashier}<br><br>*** CUSTOMER COPY ***</div></div><script>window.onload=()=>setTimeout(()=>window.print(),400)<\/script></body></html>`;
+let w=window.open('','','width=350,height=600');w.document.write(receipt);w.document.close();
+alert(`✅ SOLD R${total} by ${currentUser.name}! Order #${sale.no}`);clearCart();document.getElementById('cust').value='';renderMenu();renderDaily();
 }
-function renderDaily(){let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]'); let today=new Date().toLocaleDateString('en-ZA'); let my=all.filter(s=>s.cashier===currentUser.name && s.date===today); let t=my.reduce((a,b)=>a+b.total,0); document.getElementById('dTotal').innerText='R'+t; document.getElementById('dCount').innerText=my.length; let h=''; my.slice(-10).reverse().forEach(s=>{h+=`#${s.no} R${s.total} ${s.time}<br>`;}); document.getElementById('todayList').innerHTML=h||'No sales';}
-function exportExcel(){let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]').filter(s=>s.cashier===currentUser.name); if(!all.length)return alert('No sales'); let csv='Order,Date,Time,Customer,Cashier,Phone,Items,Total\n'; all.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items}",${s.total}\n`;}); let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`Sales_${currentUser.name}_${new Date().toISOString().slice(0,10)}.csv`; a.click();}
-function resetDaily(){if(!confirm('Reset your daily?'))return; let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]'); let keep=all.filter(s=>!(s.cashier===currentUser.name && s.date===new Date().toLocaleDateString('en-ZA'))); localStorage.setItem('cj_all_sales',JSON.stringify(keep)); localStorage.setItem('cj_order_'+currentUser.username,1); document.getElementById('ord').innerText=1; renderDaily();}
+function renderDaily(){
+let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]');
+let today=new Date().toLocaleDateString('en-ZA');
+let my=all.filter(s=>s.cashier===currentUser.name && s.date===today);
+let t=my.reduce((a,b)=>a+b.total,0);
+document.getElementById('dTotal').innerText='R'+t;
+document.getElementById('dCount').innerText=my.length;
+let h='';my.slice(-10).reverse().forEach(s=>{h+=`#${s.no} R${s.total} ${s.time}<br>`;});
+document.getElementById('todayList').innerHTML=h||'No sales today';
+}
+function exportExcel(){
+let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]').filter(s=>s.cashier===currentUser.name);
+if(!all.length)return alert('No sales to export');
+let csv='Order No,Date,Time,Customer,Cashier,Phone ID,Items,Total\n';
+all.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items.replace(/"/g,'""')}",${s.total}\n`;});
+let b=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`Sales_${currentUser.name}_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+function resetDaily(){
+if(!confirm(`Reset ${currentUser.name} daily? You made ${document.getElementById('dTotal').innerText} today. Export first!`))return;
+let all=JSON.parse(localStorage.getItem('cj_all_sales')||'[]');
+let keep=all.filter(s=>!(s.cashier===currentUser.name && s.date===new Date().toLocaleDateString('en-ZA')));
+localStorage.setItem('cj_all_sales',JSON.stringify(keep));
+localStorage.setItem('cj_order_'+currentUser.username,1);
+document.getElementById('ord').innerText=1;
+renderDaily();
+alert('New day! Order starts at 1 again');
+}
 </script></body></html>

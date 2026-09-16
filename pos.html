@@ -1,136 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>California Junction POS - Logo Slip</title>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CJ POS - Offline Cashier</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial;background:#f0f2f5}
-.head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:10px 12px;gap:12px}
-.logo{width:55px;height:55px;border-radius:50%;background:#fff;padding:3px}
-.head h1{font-size:18px}.head span{color:#ff6b00}
-.daily{background:#ff6b00;color:#000;padding:8px 10px;display:flex;justify-content:space-between;flex-wrap:wrap;font-weight:900;font-size:13px;gap:6px}
-.wrap{display:grid;grid-template-columns:2fr 1fr;gap:10px;padding:10px}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#0a1931}
+.login{max-width:380px;margin:30px auto;background:#fff;color:#000;padding:20px;border-radius:15px}
+.head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:10px;gap:10px}
+.logo{width:45px;height:45px;border-radius:50%;background:#fff;padding:2px}
+.daily{background:#ff6b00;color:#000;padding:7px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:11px;flex-wrap:wrap}
+.wrap{display:grid;grid-template-columns:2fr 1fr;gap:8px;padding:8px}
 @media(max-width:800px){.wrap{grid-template-columns:1fr}}
-.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:14px 3px;font-weight:900;font-size:12px;cursor:pointer}
-.btn:disabled{background:#ccc}.low{background:red!important}
-.stock-tag{font-size:10px;display:block;margin-top:3px;color:#000;background:#fff;padding:2px 4px;border-radius:10px}
-.cart{background:#fff;border-radius:12px;padding:12px;position:sticky;top:5px}
-.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:13px}
-.total{font-size:20px;font-weight:900;display:flex;justify-content:space-between;margin:10px 0}
-.pay{width:100%;padding:13px;border:0;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer;margin-top:6px}
-.pay-o{background:#ff6b00;color:#000}.pay-g{background:#25D366;color:#fff}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}
-input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:5px 0}
-.stockBox{background:#fff;border:2px solid #0a1931;border-radius:10px;padding:10px;margin-top:10px}
-.stockRow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #eee;font-size:12px}
-</style>
-</head>
-<body>
-<div class="head">
-<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" onerror="this.src='https://via.placeholder.com/55'">
-<h1>CALIFORNIA <span>JUNCTION</span> POS<br><small style="font-size:11px;color:#ffcc00">062 460 0499 | Papatsview</small></h1>
-</div>
-<div class="daily">
-<span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span> ORDERS</span><span>📦 LOW:<span id="lowCount">0</span></span>
-</div>
-<div class="wrap">
-<div>
-<input id="cust" placeholder="Customer Name">
-<div class="menu" id="menu"></div>
-<div class="stockBox"><h4>📦 STOCK MANAGER</h4><div id="stockList"></div><button class="pay pay-b" onclick="restockAll()">+ RESTOCK ALL +20</button><button class="pay" style="background:#ddd" onclick="resetStock()">RESET TO 100</button></div>
-</div>
-<div class="cart">
-<h3>Order #<span id="ord">1</span></h3><div id="items" style="margin-top:8px;min-height:70px">No items</div><div class="total"><span>TOTAL</span><span id="tot">R0</span></div>
-<button class="pay pay-o" onclick="checkout()">CHECKOUT • PRINT SLIP WITH LOGO</button><button class="pay pay-b" onclick="clearCart()">CLEAR</button>
-<div style="margin-top:12px;border-top:2px solid #ff6b00;padding-top:10px"><h4>📊 TODAY</h4><div id="todayList" style="font-size:11px;max-height:120px;overflow:auto">No sales</div><button class="pay pay-ex" onclick="exportExcel()">⬇️ EXPORT EXCEL</button><button class="pay pay-g" onclick="exportStock()">⬇️ STOCK REPORT</button><button class="pay" style="background:#ff4444;color:#fff" onclick="resetDaily()">RESET DAILY</button></div>
-</div>
-</div>
-<script>
-const LOGO_URL="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png";
-const products=[
-{name:"R10 Chips Kota",price:10,stockKey:"chips"},
-{name:"R15 Half Russian",price:15,stockKey:"russian"},
-{name:"R20 Single Kota",price:20,stockKey:"kota"},
-{name:"R25 Cheese Russian",price:25,stockKey:"russian"},
-{name:"R30 Options",price:30,stockKey:"kota"},
-{name:"R35 Mixes",price:35,stockKey:"mix"},
-{name:"R45 062 Special",price:45,stockKey:"mix"},
-{name:"R55 Full Tank",price:55,stockKey:"big"},
-{name:"R70 Big Boss",price:70,stockKey:"big"},
-{name:"Extra Cheese",price:5,stockKey:"cheese"},
-{name:"Extra Russian",price:10,stockKey:"russian"}
-];
-let stock=JSON.parse(localStorage.getItem('cj_stock')||'{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}');
-let dailySales=JSON.parse(localStorage.getItem('cj_daily')||'[]');
-let orderNo=parseInt(localStorage.getItem('cj_order')||'1');if(orderNo<1)orderNo=1;
-document.getElementById('ord').innerText=orderNo;document.getElementById('date').innerText=new Date().toLocaleDateString('en-ZA');
-function saveStock(){localStorage.setItem('cj_stock',JSON.stringify(stock));}
-function saveDaily(){localStorage.setItem('cj_daily',JSON.stringify(dailySales));localStorage.setItem('cj_order',orderNo);}
-const menuEl=document.getElementById('menu');
-function renderMenu(){menuEl.innerHTML='';products.forEach((p,i)=>{let s=stock[p.stockKey]||0;let b=document.createElement('button');b.className='btn'+(s<=0?' low':'');b.disabled=s<=0;b.innerHTML=`${p.name}<br>R${p.price}<span class="stock-tag">${s<=5?'⚠️ ':''}Stock:${s}</span>`;b.onclick=()=>add(i);menuEl.appendChild(b);});renderStockManager();document.getElementById('lowCount').innerText=Object.values(stock).filter(v=>v<=5).length;}
-function renderStockManager(){let h='';for(let k in stock){h+=`<div class="stockRow"><span><b>${k.toUpperCase()}</b></span><span><button onclick="changeStock('${k}',-1)">-</button> ${stock[k]} <button onclick="changeStock('${k}',1)">+</button> <button onclick="changeStock('${k}',10)" style="background:#ff6b00;border:0;padding:3px 6px;border-radius:4px">+10</button></span></div>`;}document.getElementById('stockList').innerHTML=h;}
-function changeStock(k,d){stock[k]=Math.max(0,(stock[k]||0)+d);saveStock();renderMenu();}
-let cart=[];
-function add(i){if((stock[products[i].stockKey]||0)<=0)return alert('Out of stock');let f=cart.find(c=>c.i==i);if(f)f.q++;else cart.push({i,q:1});render();}
-function render(){let h='';let t=0;if(!cart.length)h='No items';cart.forEach(c=>{let p=products[c.i];let s=p.price*c.q;t+=s;h+=`<div class="row"><span>${c.q}x ${p.name}</span><span>R${s} <button onclick="rem(${c.i})" style="border:0;background:red;color:#fff;border-radius:50%;width:16px;height:16px">x</button></span></div>`});document.getElementById('items').innerHTML=h;document.getElementById('tot').innerText='R'+t;renderDaily();}
-function rem(i){cart=cart.filter(c=>c.i!=i);render();}function clearCart(){cart=[];render();}
-
-function checkout(){
-if(!cart.length)return alert('Add kota!');
-for(let c of cart){if((stock[products[c.i].stockKey]||0)<c.q)return alert('Not enough stock for '+products[c.i].name);}
-cart.forEach(c=>{stock[products[c.i].stockKey]-=c.q;});saveStock();
-let total=0;cart.forEach(c=>total+=products[c.i].price*c.q);
-let sale={no:orderNo,date:new Date().toLocaleDateString('en-ZA'),time:new Date().toLocaleTimeString(),customer:document.getElementById('cust').value||'Walk-in',items:cart.map(c=>`${c.q}x ${products[c.i].name}`).join('; '),total:total};
-dailySales.push(sale);orderNo++;document.getElementById('ord').innerText=orderNo;saveDaily();
-
-// RECEIPT WITH LOGO - PROFESSIONAL SLIP
-let itemsHtml='';cart.forEach(c=>{let p=products[c.i];itemsHtml+=`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #ccc"><span>${c.q}x ${p.name}</span><span>R${p.price*c.q}</span></div>`;});
-
-let receiptHtml=`
-<html><head><meta charset="UTF-8"><style>
-body{font-family:monospace;width:280px;margin:0 auto;padding:10px;font-size:13px}
-.center{text-align:center}.bold{font-weight:900}.line{border-top:1px dashed #000;margin:8px 0}
-.logo{width:80px;height:80px;border-radius:50%;margin:0 auto;display:block;border:2px solid #000}
-h2{margin:5px 0;font-size:18px}.small{font-size:11px}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:12px 2px;font-weight:900;font-size:11px;cursor:pointer}
+.btn:disabled{background:#ccc;color:#666}.low{background:red!important}
+.cart{background:#fff;color:#000;border-radius:12px;padding:10px}
+.pay{width:100%;padding:11px;border:0;border-radius:8px;font-weight:900;margin-top:4px;cursor:pointer}
+.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}
+input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0}
+.syncBox{background:#e8f5e9;border:2px solid #107c41;border-radius:10px;padding:8px;margin-top:8px}
 </style></head><body>
-<div class="center">
-<img src="${LOGO_URL}" class="logo" onerror="this.style.display='none'">
-<h2>CALIFORNIA JUNCTION</h2>
-<div class="small">BEST KOTA IN PAPATSVIEW<br>072 977 9153 / 062 460 0499<br>Free Juice + Free Delivery</div>
-<div class="line"></div>
-<div style="text-align:left">
-Order No: <b>#${sale.no}</b><br>
-Date: ${sale.date} ${sale.time}<br>
-Customer: ${sale.customer}<br>
-Cashier: Alex<br>
-</div>
-<div class="line"></div>
-${itemsHtml}
-<div class="line"></div>
-<div style="display:flex;justify-content:space-between;font-size:18px" class="bold"><span>TOTAL</span><span>R${total}</span></div>
-<div class="line"></div>
-<div class="center small">
-Thank You! Come Again!<br>
-Powered by Generator ⚡<br>
-Cash Only<br><br>
-*** CUSTOMER COPY ***
-</div>
-</div>
-<script>window.onload=()=>{setTimeout(()=>window.print(),500)}<\/script>
-</body></html>
-`;
-let w=window.open('','','width=350,height=600');w.document.write(receiptHtml);w.document.close();
-alert(`SOLD R${total}! Receipt with logo opening...`);
-clearCart();document.getElementById('cust').value='';renderMenu();
-}
 
-function renderDaily(){let t=0;dailySales.forEach(s=>t+=s.total);document.getElementById('dTotal').innerText='R'+t;document.getElementById('dCount').innerText=dailySales.length;if(!dailySales.length){document.getElementById('todayList').innerHTML='No sales';return;}let h='';[...dailySales].slice(-15).reverse().forEach(s=>{h+=`#${s.no} ${s.customer} R${s.total}<br>`;});document.getElementById('todayList').innerHTML=h;}
-function exportExcel(){if(!dailySales.length)return alert('No sales');let csv='Order No,Date,Time,Customer,Items,Total\\n';dailySales.forEach(s=>{csv+=`${s.no},"${s.date}","${s.time}","${s.customer}","${s.items.replace(/"/g,'""')}",${s.total}\\n`;});let b=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`California_Sales_${new Date().toISOString().slice(0,10)}.csv`;a.click();}
-function exportStock(){let csv='Item,Stock\\n';for(let k in stock)csv+=`${k},${stock[k]}\\n`;let b=new Blob([csv],{type:'text/csv'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`Stock_${new Date().toISOString().slice(0,10)}.csv`;a.click();}
-function restockAll(){for(let k in stock)stock[k]+=20;saveStock();renderMenu();}
-function resetStock(){if(confirm('Reset to 100?')){for(let k in stock)stock[k]=100;saveStock();renderMenu();}}
-function resetDaily(){if(confirm(`Reset? You made ${document.getElementById('dTotal').innerText}`)){dailySales=[];orderNo=1;document.getElementById('ord').innerText=1;saveDaily();renderDaily();}}
-renderMenu();render();renderDaily();
-</script>
-</body>
-</html>
+<div id="loginScreen" class="login">
+<img src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" style="width:70px;height:70px;border-radius:50%;display:block;margin:0 auto">
+<h2 style="text-align:center;color:#0a1931">CALIFORNIA JUNCTION<br><small style="color:#ff6b00">CASHIER LOGIN - OFFLINE</small></h2>
+<p style="text-align:center;font-size:11px;color:#666">Works without internet! Login saved on this phone</p>
+<input id="user" placeholder="Username: alex, sarah, manager">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()" style="width:100%;padding:12px;background:#0a1931;color:#fff;border:0;border-radius:8px;font-weight:900;margin-top:8px">LOGIN</button>
+<div style="background:#f0f2f5;padding:8px;border-radius:8px;margin-top:10px;font-size:10px">
+<b>Accounts:</b><br>
+👤 alex / 1234 = Phone 1 (Counter)<br>
+👤 sarah / 1234 = Phone 2 (Kitchen)<br>
+👨‍💼 manager / admin123 = Desktop Manager<br>
+<small>Manager can change passwords in manager.html</small>
+</div>
+<p id="loginMsg" style="color:red;text-align:center;margin-top:6px"></p>
+<div class="syncBox"><b>📲 Stock Sync from Manager:</b><br>
+<input id="syncCode" placeholder="Paste sync code from manager desktop"><button onclick="applySync()" style="width:100%;padding:8px;background:#107c41;color:#fff;border:0;border-radius:6px;margin-top:4px">APPLY STOCK FROM MANAGER</button></div>
+</div>
+
+<div id="posApp" style="display:none">
+<div class="head">
+<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png">
+<h1>CALIFORNIA <span style="color:#ff6b00">JUNCTION</span> <small id="cashierTag" style="font-size:10px;background:#ff6b00;color:#000;padding:2px 6px;border-radius:8px"></small><br><small style="font-size:9px">Phone:<span id="phoneId"></span> | OFFLINE MODE | <button onclick="logout()" style="background:red;color:#fff;border:0;padding:2px 6px;border-radius:6px;font-size:9px">LOGOUT</button></small></h1>
+</div>
+<div class="daily"><span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span></span><span>👤 <span id="currCashier"></span></span></div>
+<div class="wrap"><div><input id="cust" placeholder="Customer Name"><div class="menu" id="menu"></div>
+<div style="background:#fff;color:#000;border-radius:10px;padding:8px;margin-top:8px"><h4>📦 STOCK (This Phone)</h4><div id="stockList" style="font-size:11px"></div><small style="font-size:9px">Stock updated from Manager sync code. Each phone deducts own stock when selling.</small></div></div>
+<div class="cart"><h3>Order #<span id="ord">1</span></h3><div id="items" style="min-height:60px">No items</div><div style="display:flex;justify-content:space-between

@@ -1,28 +1,107 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Manager LIVE SYNC</title>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#f0f2f5}
-.head{background:#0a1931;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.card{background:#fff;border-radius:12px;padding:12px;margin:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.split{display:grid;grid-template-columns:2fr 1fr;gap:8px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr}}
-.kpi{font-size:26px;font-weight:900}.pay{padding:8px;border:0;border-radius:6px;font-weight:900;margin:3px;cursor:pointer}
-.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-g{background:#107c41;color:#fff}.pay-r{background:red;color:#fff}
-table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ddd;padding:5px}th{background:#0a1931;color:#fff}
-.sync{font-size:11px;padding:6px 10px;border-radius:10px}.online{background:#25D366;color:#fff}.offline{background:red;color:#fff}
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CJ Manager - FULL + LIVE SYNC</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#f0f2f5;color:#000}
+.head{background:#0a1931;color:#fff;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.logo{width:50px;height:50px;border-radius:50%;background:#fff;padding:2px}
+.card{background:#fff;border-radius:12px;padding:14px;margin:8px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr!important}}
+.split{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.kpi{font-size:28px;font-weight:900;color:#0a1931}
+.pay{padding:9px 12px;border:0;border-radius:7px;font-weight:900;margin:4px 2px;cursor:pointer;font-size:12px}
+.pay-o{background:#ff6b00;color:#000}.pay-b{background:#0a1931;color:#fff}.pay-g{background:#107c41;color:#fff}.pay-r{background:#ff4444;color:#fff}.pay-d{background:#ddd;color:#000}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-top:8px}
+th,td{border:1px solid #ddd;padding:6px;text-align:left}th{background:#0a1931;color:#fff}
+input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0;font-size:13px}
+.sync{font-size:11px;padding:6px 10px;border-radius:20px;font-weight:900}.online{background:#25D366;color:#fff}.offline{background:red;color:#fff}
+.badge{background:#ff6b00;color:#000;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:900}
+.syncCode{background:#000;color:#0f0;padding:10px;border-radius:8px;font-family:monospace;font-size:11px;word-break:break-all;max-height:100px;overflow:auto;margin:6px 0}
 </style></head><body>
-<div class="head"><h2>CJ MANAGER - LIVE SYNC<br><small style="color:#ffcc00">See kabelo & califonia orders LIVE! Server: npoint</small> <span id="liveStatus" class="sync offline">Connecting...</span></h2><button onclick="logout()" style="background:red;color:#fff;border:0;padding:6px 12px;border-radius:6px">LOGOUT</button></div>
+
+<div class="head">
+<div style="display:flex;align-items:center;gap:10px">
+<img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png">
+<h2>CALIFORNIA JUNCTION<br><small style="color:#ffcc00;font-size:12px">MANAGER FULL + LIVE SYNC - Server: npoint.io</small></h2>
+</div>
+<div>
+<span id="liveStatus" class="sync offline">Connecting...</span>
+<button onclick="location.href='pos.html'" style="background:#ff6b00;color:#000;border:0;padding:7px 12px;border-radius:7px;font-weight:900;margin-left:6px">POS</button>
+<button onclick="logout()" style="background:red;color:#fff;border:0;padding:7px 14px;border-radius:7px;font-weight:900">LOGOUT</button>
+</div>
+</div>
 
 <div class="grid">
-<div class="card"><h4>💰 TOTAL TODAY (Both Phones LIVE)</h4><div class="kpi" id="totalAll">R0</div><small id="ordersAll">0 orders</small></div>
-<div class="card"><h4>👤 Kabelo LIVE</h4><div class="kpi" id="totalKabelo">R0</div><small id="ordersKabelo">0 orders</small></div>
-<div class="card"><h4>👤 Califonia LIVE</h4><div class="kpi" id="totalCalifonia">R0</div><small id="ordersCalifonia">0 orders</small></div>
+<div class="card"><h4>💰 TOTAL TODAY (Both Phones LIVE)</h4><div class="kpi" id="totalAll">R0</div><small id="ordersAll">0 orders today</small><br><small style="color:green">✅ LIVE SYNC from kabelo & califonia</small></div>
+<div class="card"><h4>👤 Kabelo Sales (Phone 1)</h4><div class="kpi" id="totalKabelo">R0</div><small id="ordersKabelo">0 orders</small><br><span class="badge">Counter</span></div>
+<div class="card"><h4>👤 Califonia Sales (Phone 2)</h4><div class="kpi" id="totalCalifonia">R0</div><small id="ordersCalifonia">0 orders</small><br><span class="badge">Kitchen</span></div>
 </div>
 
 <div class="split">
-<div class="card"><h3>📊 LIVE SALES - Auto refresh every 3 sec <button onclick="loadSales()" class="pay pay-b">REFRESH NOW</button> <button onclick="exportAll()" class="pay pay-g">EXPORT ALL EXCEL</button> <button onclick="clearCloud()" class="pay pay-r">CLEAR ALL SALES (New Day)</button></h3>
+<div>
+
+<div class="card">
+<h3>📊 LIVE SALES TABLE - Auto refresh 3 sec <button onclick="loadSales()" class="pay pay-b">REFRESH NOW</button> <button onclick="exportAll()" class="pay pay-g">⬇️ EXPORT ALL TO EXCEL</button> <button onclick="clearCloud()" class="pay pay-r">CLEAR SALES (New Day)</button></h3>
+<p style="font-size:10px;color:#666">✅ This shows LIVE orders from BOTH phones kabelo & califonia instantly! No need Excel import anymore!</p>
 <table id="salesTable"><thead><tr><th>Order</th><th>Date</th><th>Time</th><th>Customer</th><th>Cashier</th><th>Phone</th><th>Items</th><th>Total</th></tr></thead><tbody></tbody></table>
 </div>
-<div><div class="card"><h3>📦 STOCK LIVE - Manage for both phones</h3><div id="stockManage"></div><button onclick="restockAll()" class="pay pay-o" style="width:100%">+20 ALL STOCK</button><button onclick="resetStock()" class="pay" style="width:100%;background:#ddd">RESET TO 100</button><p style="font-size:10px;margin-top:8px">Stock changes sync to both phones instantly! No need to send code anymore - LIVE!</p></div>
-<div class="card"><h3>👥 Accounts</h3>kabelo / 1234 = Phone 1<br>califonia / 1234 = Phone 2<br>manager / admin123 = You</div></div>
+
+<div class="card">
+<h3>📥 OLD METHOD - Import Excel (Backup)</h3>
+<p style="font-size:10px">If live sync fails, you can still import Excel from phones as backup:</p>
+<input type="file" id="csvFile" accept=".csv" onchange="importCSV(event)">
+<div id="importResult" style="font-size:11px;margin-top:8px;background:#f0f2f5;padding:8px;border-radius:6px">No file imported</div>
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+<h3>📦 STOCK MANAGER - LIVE SYNC to Both Phones</h3>
+<div id="stockManage" style="margin:8px 0"></div>
+<button onclick="restockAll()" class="pay pay-o" style="width:100%">+ RESTOCK ALL +20 (Live to phones)</button>
+<button onclick="resetStock()" class="pay pay-d" style="width:100%">RESET STOCK TO 100</button>
+
+<h4 style="margin-top:12px">🔄 Stock Status:</h4>
+<div style="background:#e8f5e9;padding:8px;border-radius:6px;font-size:11px;border:2px solid #107c41">
+<b>✅ LIVE SYNC MODE!</b><br>
+Stock changes here go to both phones INSTANTLY! No need to send code anymore!<br>
+Phones will see new stock in 5 seconds auto-refresh!
+</div>
+
+<h4 style="margin-top:10px">📲 Backup - Old Sync Code (if internet fails):</h4>
+<p style="font-size:9px">If phones offline, you can still send code via WhatsApp:</p>
+<div id="syncCodeDisplay" class="syncCode">Click GENERATE for backup code...</div>
+<button onclick="generateSyncCode()" class="pay pay-g" style="width:100%">GENERATE BACKUP SYNC CODE</button>
+<button onclick="copyCode()" class="pay pay-b" style="width:100%">COPY CODE FOR WHATSAPP</button>
+</div>
+
+<div class="card">
+<h3>👥 Cashier Accounts Manager</h3>
+<div id="accounts" style="margin:8px 0"></div>
+<h4 style="margin-top:10px">➕ Add New Cashier:</h4>
+<input id="newUser" placeholder="Username e.g. thabo">
+<input id="newPass" placeholder="Password e.g. 1234">
+<input id="newName" placeholder="Full Name e.g. Thabo">
+<button onclick="addAccount()" class="pay pay-b" style="width:100%">ADD CASHIER</button>
+<div style="background:#f0f2f5;padding:8px;border-radius:6px;margin-top:8px;font-size:10px">
+<b>Current:</b><br>
+kabelo / 1234 = Phone 1<br>
+califonia / 1234 = Phone 2<br>
+manager / admin123 = You
+</div>
+</div>
+
+<div class="card">
+<h3>⚙️ Tools</h3>
+<button onclick="location.href='init.html'" class="pay pay-o" style="width:100%">🔧 FIX SERVER IF LIVE SYNC FAILS</button>
+<button onclick="clearStorage()" class="pay pay-r" style="width:100%">🗑️ CLEAR ALL DATA (Reset Everything)</button>
+<button onclick="location.href='pos.html'" class="pay pay-b" style="width:100%">🛒 GO TO POS</button>
+<p style="font-size:9px;color:#666;margin-top:8px">Clear all deletes sales + stock + accounts - back to kabelo/califonia/manager</p>
+</div>
+
+</div>
 </div>
 
 <script>
@@ -30,40 +109,44 @@ const NPOINT_URL="https://api.npoint.io/54f2c3245309deb2c4f6";
 let session=JSON.parse(localStorage.getItem('cj_session')||'null');
 if(!session || session.role!=='manager'){alert('Login as manager / admin123'); location.href='pos.html';}
 function logout(){localStorage.removeItem('cj_session'); location.href='pos.html';}
-let cloudData={sales:[],stock:{}};
+let cloudData={sales:[],stock:{}}; let ACCOUNTS=JSON.parse(localStorage.getItem('cj_accounts')||'{"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager"}}');
 
 async function fetchCloud(){
 try{
-let r=await fetch(NPOINT_URL); let data=await r.json(); cloudData=data;
-document.getElementById('liveStatus').innerText='☁️ LIVE CONNECTED - Auto refresh ON'; document.getElementById('liveStatus').className='sync online';
+let r=await fetch(NPOINT_URL); let data=await r.json();
+if(!data.stock) data.stock={"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100};
+if(!data.sales) data.sales=[];
+cloudData=data;
+document.getElementById('liveStatus').innerText='☁️ LIVE CONNECTED'; document.getElementById('liveStatus').className='sync online';
 return data;
-}catch(e){document.getElementById('liveStatus').innerText='⚠️ Offline'; document.getElementById('liveStatus').className='sync offline'; return cloudData;}
+}catch(e){document.getElementById('liveStatus').innerText='⚠️ Offline - Backup mode'; document.getElementById('liveStatus').className='sync offline'; return cloudData;}
 }
-async function saveCloud(){
-await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cloudData)});
-}
+async function saveCloud(){try{await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cloudData)});}catch(e){alert('Save failed - check internet');}}
+
 async function loadSales(){
-let data=await fetchCloud();
-let sales=data.sales||[]; let stock=data.stock||{};
-let today=new Date().toLocaleDateString('en-ZA');
-let todaySales=sales.filter(s=>s.date===today);
-document.getElementById('totalAll').innerText='R'+todaySales.reduce((a,b)=>a+b.total,0);
-document.getElementById('ordersAll').innerText=todaySales.length+' orders today';
-let kabelo=todaySales.filter(s=>s.cashier.toLowerCase().includes('kabelo'));
-document.getElementById('totalKabelo').innerText='R'+kabelo.reduce((a,b)=>a+b.total,0); document.getElementById('ordersKabelo').innerText=kabelo.length+' orders';
-let califonia=todaySales.filter(s=>s.cashier.toLowerCase().includes('califonia'));
-document.getElementById('totalCalifonia').innerText='R'+califonia.reduce((a,b)=>a+b.total,0); document.getElementById('ordersCalifonia').innerText=califonia.length+' orders';
+let data=await fetchCloud(); let sales=data.sales||[]; let stock=data.stock||{};
+let today=new Date().toLocaleDateString('en-ZA'); let todaySales=sales.filter(s=>s.date===today);
+document.getElementById('totalAll').innerText='R'+todaySales.reduce((a,b)=>a+b.total,0); document.getElementById('ordersAll').innerText=todaySales.length+' orders today (BOTH PHONES LIVE)';
+let kabelo=todaySales.filter(s=>s.cashier.toLowerCase().includes('kabelo')); document.getElementById('totalKabelo').innerText='R'+kabelo.reduce((a,b)=>a+b.total,0); document.getElementById('ordersKabelo').innerText=kabelo.length+' orders';
+let califonia=todaySales.filter(s=>s.cashier.toLowerCase().includes('califonia')); document.getElementById('totalCalifonia').innerText='R'+califonia.reduce((a,b)=>a+b.total,0); document.getElementById('ordersCalifonia').innerText=califonia.length+' orders';
 let tbody=document.querySelector('#salesTable tbody'); tbody.innerHTML='';
-todaySales.slice().reverse().forEach(s=>{
-tbody.innerHTML+=`<tr><td>${s.no}</td><td>${s.date}</td><td>${s.time}</td><td>${s.customer}</td><td><b>${s.cashier}</b></td><td>${s.phone}</td><td>${(s.items||'').substring(0,50)}</td><td><b>R${s.total}</b></td></tr>`;
-});
-let h=''; for(let k in stock){h+=`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #eee"><span><b>${k.toUpperCase()}</b>: ${stock[k]} ${stock[k]<=5?'<span style=color:red>LOW</span>':''}</span><span><button onclick="changeStock('${k}',-5)">-5</button> <button onclick="changeStock('${k}',10)">+10</button></span></div>`;}
-document.getElementById('stockManage').innerHTML=h;
+if(!todaySales.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:20px;color:#999">No sales today yet<br><small>When kabelo or califonia sells on phones, it will appear here LIVE in 3 seconds!</small></td></tr>';}
+else{todaySales.slice().reverse().forEach(s=>{tbody.innerHTML+=`<tr><td>${s.no}</td><td>${s.date}</td><td>${s.time}</td><td>${s.customer}</td><td><b>${s.cashier}</b></td><td>${s.phone}</td><td>${(s.items||'').substring(0,60)}</td><td><b>R${s.total}</b></td></tr>`;});}
+let h=''; for(let k in stock){h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee"><span><b>${k.toUpperCase()}</b>: <b>${stock[k]}</b> ${stock[k]<=5?'<span style=color:red>⚠️ LOW</span>':''}</span><span><button onclick="changeStock('${k}',-5)" style="padding:3px 7px">-5</button> <button onclick="changeStock('${k}',-1)" style="padding:3px 7px">-1</button> <button onclick="changeStock('${k}',5)" style="padding:3px 7px;background:#ff6b00;border:0;border-radius:4px">+5</button> <button onclick="changeStock('${k}',20)" style="padding:3px 7px;background:#0a1931;color:#fff;border:0;border-radius:4px">+20</button></span></div>`;} document.getElementById('stockManage').innerHTML=h;
+let ah=''; for(let u in ACCOUNTS){ah+=`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee"><span><b>${u}</b> (${ACCOUNTS[u].role})<br><small>${ACCOUNTS[u].name} / ${ACCOUNTS[u].pass}</small></span><span>${u!=='manager'?`<button onclick="delAcc('${u}')" style="background:red;color:#fff;border:0;padding:4px 8px;border-radius:4px">Delete</button>`:''}</span></div>`;} document.getElementById('accounts').innerHTML=ah;
 }
+
 async function changeStock(k,d){await fetchCloud(); cloudData.stock[k]=Math.max(0,(cloudData.stock[k]||0)+d); await saveCloud(); loadSales();}
-async function restockAll(){await fetchCloud(); for(let k in cloudData.stock)cloudData.stock[k]+=20; await saveCloud(); loadSales();}
-async function resetStock(){if(!confirm('Reset all to 100?'))return; await fetchCloud(); cloudData.stock={"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}; await saveCloud(); loadSales();}
-async function clearCloud(){if(!confirm('Clear ALL sales? Export first!'))return; if(!confirm('REALLY clear? Orders will start at 1 again'))return; await fetchCloud(); cloudData.sales=[]; await saveCloud(); loadSales(); alert('Cleared! New day starts at 1');}
+async function restockAll(){await fetchCloud(); for(let k in cloudData.stock)cloudData.stock[k]+=20; await saveCloud(); loadSales(); alert('All +20! Phones will see in 5 sec');}
+async function resetStock(){if(!confirm('Reset to 100?'))return; await fetchCloud(); cloudData.stock={"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100,"oil":100,"salt":100}; await saveCloud(); loadSales();}
+async function clearCloud(){if(!confirm('Clear ALL sales? Export first!'))return; if(!confirm('REALLY? Orders start at 1 again'))return; await fetchCloud(); cloudData.sales=[]; await saveCloud(); loadSales();}
 function exportAll(){let sales=cloudData.sales||[]; if(!sales.length)return alert('No sales'); let csv='Order,Date,Time,Customer,Cashier,Phone,Items,Total\n'; sales.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items}",${s.total}\n`;}); let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`ALL_SALES_LIVE_${new Date().toISOString().slice(0,10)}.csv`; a.click();}
+function importCSV(e){let file=e.target.files[0]; if(!file)return; let reader=new FileReader(); reader.onload=function(ev){let text=ev.target.result; let lines=text.split('\n'); let total=0,count=0; for(let i=1;i<lines.length;i++){let line=lines[i].trim(); if(!line)continue; let parts=line.split(','); let num=parseFloat(parts[parts.length-1].replace(/"/g,'')); if(!isNaN(num)){total+=num;count++;}} document.getElementById('importResult').innerHTML=`<b>${file.name}</b><br>Orders:${count}<br>Total:R${total}`;}; reader.readAsText(file);}
+function generateSyncCode(){let s=JSON.stringify(cloudData.stock); let code=btoa(s); document.getElementById('syncCodeDisplay').innerText=code;}
+function copyCode(){let code=document.getElementById('syncCodeDisplay').innerText; if(code.includes('Click'))return alert('Generate first'); navigator.clipboard.writeText(code).then(()=>alert('Copied! Send via WhatsApp to phones'));}
+function addAccount(){let u=document.getElementById('newUser').value.trim().toLowerCase(); let p=document.getElementById('newPass').value.trim(); let n=document.getElementById('newName').value.trim(); if(!u||!p||!n)return alert('Fill all'); if(ACCOUNTS[u])return alert('Exists'); ACCOUNTS[u]={pass:p,role:'cashier',name:n}; localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS)); alert('Added '+u); loadSales();}
+function delAcc(u){if(u==='manager')return alert('Cannot delete manager'); if(!confirm('Delete '+u+'?'))return; delete ACCOUNTS[u]; localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS)); loadSales();}
+function clearStorage(){if(!confirm('RESET EVERYTHING? Export first!'))return; if(!confirm('REALLY RESET?'))return; localStorage.clear(); ACCOUNTS={"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager"}}; localStorage.setItem('cj_accounts',JSON.stringify(ACCOUNTS)); location.reload();}
+
 loadSales(); setInterval(loadSales,3000);
 </script></body></html>

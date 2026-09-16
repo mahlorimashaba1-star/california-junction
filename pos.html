@@ -1,138 +1,99 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CJ POS - LIVE SYNC</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#0a1931;color:#fff}
-.login{max-width:380px;margin:20px auto;background:#fff;color:#000;padding:20px;border-radius:15px}
-.head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:10px;gap:10px}
-.logo{width:45px;height:45px;border-radius:50%;background:#fff;padding:2px}
-.daily{background:#ff6b00;color:#000;padding:7px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:11px;flex-wrap:wrap}
-.wrap{display:grid;grid-template-columns:2fr 1fr;gap:8px;padding:8px}
-@media(max-width:800px){.wrap{grid-template-columns:1fr}}
-.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:12px 2px;font-weight:900;font-size:11px;cursor:pointer}
-.btn:disabled{background:#ccc}.low{background:red!important}
-.cart{background:#fff;color:#000;border-radius:12px;padding:10px}
-.pay{width:100%;padding:11px;border:0;border-radius:8px;font-weight:900;margin-top:4px;cursor:pointer}
-.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}
-input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0}
-.sync{font-size:10px;padding:4px 8px;border-radius:10px;text-align:center;margin:6px 0}.online{background:#25D366;color:#fff}.offline{background:red;color:#fff}
-</style></head><body>
-
-<div id="loginScreen" class="login">
-<img src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" style="width:70px;height:70px;border-radius:50%;display:block;margin:0 auto">
-<h2 style="text-align:center;color:#0a1931">CALIFORNIA JUNCTION<br><small style="color:#ff6b00">LIVE SYNC POS</small></h2>
-<div id="syncStatus" class="sync offline">⏳ Connecting to cloud...</div>
-<input id="user" placeholder="Username: kabelo / califonia"><input id="pass" type="password" placeholder="Password: 1234">
-<button onclick="login()" style="width:100%;padding:12px;background:#0a1931;color:#fff;border:0;border-radius:8px;font-weight:900;margin-top:8px">LOGIN</button>
-<div style="background:#f0f2f5;padding:8px;border-radius:8px;margin-top:10px;font-size:11px"><b>Accounts:</b><br>kabelo / 1234<br>califonia / 1234<br>manager / admin123</div>
-<p id="loginMsg" style="color:red;text-align:center"></p>
-</div>
-
-<div id="posApp" style="display:none">
-<div class="head"><img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png">
-<h1>CALIFORNIA <span style="color:#ff6b00">JUNCTION</span> <small id="cashierTag" style="font-size:10px;background:#ff6b00;color:#000;padding:2px 6px;border-radius:8px"></small><br>
-<small style="font-size:9px">Phone:<span id="phoneId"></span> | <span id="cloudStatus" class="sync online" style="display:inline">☁️ LIVE SYNC ON</span> | <button onclick="logout()" style="background:red;color:#fff;border:0;padding:2px 6px;border-radius:6px;font-size:9px">LOGOUT</button></small></h1></div>
-<div class="daily"><span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span></span><span>👤 <span id="currCashier"></span></span></div>
-<div class="wrap"><div><input id="cust" placeholder="Customer Name"><div class="menu" id="menu"></div>
-<div style="background:#fff;color:#000;border-radius:10px;padding:8px;margin-top:8px"><h4>📦 SHARED STOCK (Live Cloud)</h4><div id="stockList" style="font-size:11px"></div><small style="font-size:9px">Stock syncs to both phones & manager instantly!</small></div></div>
-<div class="cart"><h3>Order #<span id="ord">1</span></h3><div id="items" style="min-height:60px">No items</div><div style="display:flex;justify-content:space-between;font-weight:900;margin:6px 0"><span>TOTAL</span><span id="tot">R0</span></div>
-<button class="pay pay-o" onclick="checkout()">CHECKOUT • LOGO + LIVE SYNC</button><button class="pay pay-b" onclick="clearCart()">CLEAR</button>
-<div style="margin-top:8px;border-top:2px solid #ff6b00;padding-top:6px"><h4>📊 My Sales Today (Cloud)</h4><div id="todayList" style="font-size:10px;max-height:90px;overflow:auto"></div><button class="pay pay-ex" onclick="exportExcel()">EXPORT EXCEL</button></div></div></div>
-</div>
-
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CJ POS LIVE</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial;background:#0a1931;color:#fff}.login{max-width:380px;margin:20px auto;background:#fff;color:#000;padding:20px;border-radius:15px}.head{background:#0a1931;color:#fff;display:flex;align-items:center;padding:10px;gap:10px}.logo{width:45px;height:45px;border-radius:50%;background:#fff;padding:2px}.daily{background:#ff6b00;color:#000;padding:7px 10px;display:flex;justify-content:space-between;font-weight:900;font-size:11px}.wrap{display:grid;grid-template-columns:2fr 1fr;gap:8px;padding:8px}@media(max-width:800px){.wrap{grid-template-columns:1fr}}.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.btn{border:0;background:#ff6b00;color:#fff;border-radius:10px;padding:12px 2px;font-weight:900;font-size:11px}.btn:disabled{background:#ccc}.cart{background:#fff;color:#000;border-radius:12px;padding:10px}.pay{width:100%;padding:11px;border:0;border-radius:8px;font-weight:900;margin-top:4px}.pay-o{background:#ff6b00}.pay-b{background:#0a1931;color:#fff}.pay-ex{background:#107c41;color:#fff}input{padding:9px;border:1px solid #ddd;border-radius:6px;width:100%;margin:4px 0}.sync{font-size:10px;padding:4px 8px;border-radius:10px;text-align:center;margin:6px 0}.online{background:#25D366;color:#fff}.offline{background:red;color:#fff}</style></head><body>
+<div id="loginScreen" class="login"><img src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png" style="width:70px;height:70px;border-radius:50%;display:block;margin:0 auto"><h2 style="text-align:center;color:#0a1931">CALIFORNIA JUNCTION<br><small style="color:#ff6b00">LIVE SYNC POS</small></h2><div id="syncStatus" class="sync offline">⏳ Connecting...</div><input id="user" placeholder="kabelo / califonia"><input id="pass" type="password" placeholder="1234"><button onclick="login()" style="width:100%;padding:12px;background:#0a1931;color:#fff;border:0;border-radius:8px;font-weight:900;margin-top:8px">LOGIN</button><p id="loginMsg" style="color:red;text-align:center"></p><div style="margin-top:10px"><button onclick="forceInitServer()" style="width:100%;padding:8px;background:#ff6b00;border:0;border-radius:6px;font-weight:900">🔧 FIX SERVER IF NOT COUNTING</button><div id="serverCheck" style="font-size:10px;background:#000;color:#0f0;padding:6px;border-radius:6px;margin-top:6px;word-break:break-all">Checking server...</div></div></div>
+<div id="posApp" style="display:none"><div class="head"><img class="logo" src="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png"><h1>CALIFORNIA <span style="color:#ff6b00">JUNCTION</span> <small id="cashierTag" style="font-size:10px;background:#ff6b00;color:#000;padding:2px 6px;border-radius:8px"></small><br><small style="font-size:9px"><span id="phoneId"></span> | <span id="cloudStatus">☁️ LIVE</span> | <button onclick="logout()" style="background:red;color:#fff;border:0;padding:2px 6px;border-radius:6px;font-size:9px">LOGOUT</button></small></h1></div><div class="daily"><span>📅 <span id="date"></span></span><span>💰 <span id="dTotal">R0</span></span><span>🧾 <span id="dCount">0</span></span><span>👤 <span id="currCashier"></span></span></div><div class="wrap"><div><input id="cust" placeholder="Customer"><div class="menu" id="menu"></div><div style="background:#fff;color:#000;border-radius:10px;padding:8px;margin-top:8px"><h4>📦 SHARED STOCK</h4><div id="stockList" style="font-size:11px"></div></div></div><div class="cart"><h3>Order #<span id="ord">1</span></h3><div id="items">No items</div><div style="display:flex;justify-content:space-between;font-weight:900;margin:6px 0"><span>TOTAL</span><span id="tot">R0</span></div><button class="pay pay-o" onclick="checkout()">CHECKOUT • PRINT + LIVE SYNC</button><button class="pay pay-b" onclick="clearCart()">CLEAR</button><div style="margin-top:8px;border-top:2px solid #ff6b00;padding-top:6px"><h4>📊 My Today</h4><div id="todayList" style="font-size:10px;max-height:90px;overflow:auto"></div><button class="pay pay-ex" onclick="exportExcel()">EXPORT EXCEL</button><button onclick="debugCloud()" style="width:100%;padding:6px;background:#ddd;border:0;border-radius:6px;margin-top:4px;font-size:10px">🔍 DEBUG - Show Server Data</button></div></div></div></div>
 <script>
 const NPOINT_URL="https://api.npoint.io/54f2c3245309deb2c4f6";
 const LOGO_URL="https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png";
 let ACCOUNTS={"kabelo":{"pass":"1234","role":"cashier","name":"Kabelo"},"califonia":{"pass":"1234","role":"cashier","name":"Califonia"},"manager":{"pass":"admin123","role":"manager","name":"Manager"}};
 let currentUser=null, phoneId=localStorage.getItem('cj_phoneId')||'PHONE-'+Math.random().toString(36).substr(2,4).toUpperCase(); localStorage.setItem('cj_phoneId',phoneId);
-let stock={}, cart=[], products=[
-{name:"R10 Chips Kota",price:10,stockKey:"chips"},{name:"R15 Half Russian",price:15,stockKey:"russian"},
-{name:"R20 Single Kota",price:20,stockKey:"kota"},{name:"R25 Cheese Russian",price:25,stockKey:"russian"},
-{name:"R30 Options",price:30,stockKey:"kota"},{name:"R35 Mixes",price:35,stockKey:"mix"},
-{name:"R45 062 Special",price:45,stockKey:"mix"},{name:"R55 Full Tank",price:55,stockKey:"big"},
-{name:"R70 Big Boss",price:70,stockKey:"big"},{name:"Extra Cheese",price:5,stockKey:"cheese"},
-{name:"Extra Russian",price:10,stockKey:"russian"}];
+let cart=[], products=[{name:"R10 Chips",price:10,stockKey:"chips"},{name:"R15 Russian",price:15,stockKey:"russian"},{name:"R20 Kota",price:20,stockKey:"kota"},{name:"R25 Cheese Rus",price:25,stockKey:"russian"},{name:"R30 Options",price:30,stockKey:"kota"},{name:"R35 Mixes",price:35,stockKey:"mix"},{name:"R45 Special",price:45,stockKey:"mix"},{name:"R55 Full Tank",price:55,stockKey:"big"},{name:"R70 Big Boss",price:70,stockKey:"big"},{name:"Extra Cheese",price:5,stockKey:"cheese"}];
+let cloudData={sales:[],stock:{chips:100,russian:100,kota:100,mix:100,big:100,cheese:100,bread:100,fries:100}};
 
-let cloudData={sales:[],stock:{"chips":100,"russian":100,"kota":100,"mix":100,"big":100,"cheese":100,"bread":100,"fries":100}};
-
+function todayISO(){return new Date().toISOString().slice(0,10);} // YYYY-MM-DD same on all devices!
 async function fetchCloud(){
 try{
-let r=await fetch(NPOINT_URL);
-let data=await r.json();
+let r=await fetch(NPOINT_URL,{cache:'no-store'});
+let text=await r.text();
+console.log('Server raw:',text);
+document.getElementById('serverCheck').innerText='Server: '+text.substring(0,200);
+if(!text || text==='{}' || text.length<5){throw new Error('Empty');}
+let data=JSON.parse(text);
+if(!data.sales) data.sales=[];
+if(!data.stock) data.stock={chips:100,russian:100,kota:100,mix:100,big:100,cheese:100,bread:100,fries:100};
 cloudData=data;
-stock=data.stock||cloudData.stock;
-document.getElementById('syncStatus').innerText='☁️ LIVE SYNC CONNECTED - Orders go to manager!';
-document.getElementById('syncStatus').className='sync online';
-if(document.getElementById('cloudStatus')){document.getElementById('cloudStatus').innerText='☁️ LIVE SYNC ON';document.getElementById('cloudStatus').className='sync online';}
+document.getElementById('syncStatus').innerText='☁️ CONNECTED - Sales:'+data.sales.length; document.getElementById('syncStatus').className='sync online';
+if(document.getElementById('cloudStatus')) document.getElementById('cloudStatus').innerText='☁️ LIVE ('+data.sales.length+' sales)';
 return data;
 }catch(e){
-document.getElementById('syncStatus').innerText='⚠️ Offline - Will sync when online';
-document.getElementById('syncStatus').className='sync offline';
+console.log('Fetch failed',e);
+document.getElementById('syncStatus').innerText='⚠️ Server empty/offline - Click FIX SERVER'; document.getElementById('syncStatus').className='sync offline';
+document.getElementById('serverCheck').innerText='Error: '+e+' - Click FIX SERVER button!';
 return cloudData;
 }
 }
 async function saveCloud(){
 try{
-await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cloudData)});
-document.getElementById('cloudStatus').innerText='☁️ SYNCED ✓';
-setTimeout(()=>{document.getElementById('cloudStatus').innerText='☁️ LIVE SYNC ON';},2000);
-}catch(e){console.log('Save failed',e);}
+console.log('Saving:',cloudData);
+let res=await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(cloudData)});
+let txt=await res.text();
+console.log('Save response:',txt);
+document.getElementById('cloudStatus').innerText='☁️ SAVED ✓ '+cloudData.sales.length+' sales';
+return true;
+}catch(e){alert('Save failed: '+e+' Check internet'); return false;}
 }
+async function forceInitServer(){
+let init={sales:[],stock:{chips:100,russian:100,kota:100,mix:100,big:100,cheese:100,bread:100,fries:100}};
+try{
+let r=await fetch(NPOINT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(init)});
+let t=await r.text();
+alert('✅ Server fixed! Response: '+t+'\nNow try selling!');
+fetchCloud();
+}catch(e){alert('Init failed: '+e);}
+}
+function debugCloud(){alert('Server has '+cloudData.sales.length+' sales\nStock: '+JSON.stringify(cloudData.stock)+'\n\nOpen console F12 to see full'); console.log(cloudData);}
 
 let saved=JSON.parse(localStorage.getItem('cj_session')||'null'); if(saved){currentUser=saved; showPOS();} else{fetchCloud();}
-function login(){
-let u=document.getElementById('user').value.trim().toLowerCase(); let p=document.getElementById('pass').value.trim();
-if(!ACCOUNTS[u]){document.getElementById('loginMsg').innerText='Use kabelo or califonia';return;}
-if(ACCOUNTS[u].pass!==p){document.getElementById('loginMsg').innerText='Wrong password 1234';return;}
-currentUser={username:u,...ACCOUNTS[u],phoneId}; localStorage.setItem('cj_session',JSON.stringify(currentUser));
-if(ACCOUNTS[u].role==='manager'){location.href='manager.html';return;} showPOS();
-}
-function logout(){localStorage.removeItem('cj_session');location.reload();}
+function login(){let u=document.getElementById('user').value.trim().toLowerCase(); let p=document.getElementById('pass').value.trim(); if(!ACCOUNTS[u]||ACCOUNTS[u].pass!==p){document.getElementById('loginMsg').innerText='Wrong - kabelo/1234 or califonia/1234'; return;} currentUser={username:u,...ACCOUNTS[u],phoneId}; localStorage.setItem('cj_session',JSON.stringify(currentUser)); if(ACCOUNTS[u].role==='manager'){location.href='manager.html'; return;} showPOS();}
+function logout(){localStorage.removeItem('cj_session'); location.reload();}
 async function showPOS(){
 document.getElementById('loginScreen').style.display='none'; document.getElementById('posApp').style.display='block';
-document.getElementById('phoneId').innerText=phoneId; document.getElementById('currCashier').innerText=currentUser.name;
-document.getElementById('cashierTag').innerText=currentUser.name+' @ '+phoneId;
-document.getElementById('date').innerText=new Date().toLocaleDateString('en-ZA');
+document.getElementById('phoneId').innerText=phoneId; document.getElementById('currCashier').innerText=currentUser.name; document.getElementById('cashierTag').innerText=currentUser.name+' @ '+phoneId;
+document.getElementById('date').innerText=todayISO();
 await fetchCloud();
 renderMenu(); render(); renderDaily();
-setInterval(async ()=>{await fetchCloud(); renderMenu(); renderDaily();},5000);
+setInterval(async()=>{await fetchCloud(); renderMenu(); renderDaily();},4000);
 }
 function renderMenu(){
 let el=document.getElementById('menu'); el.innerHTML='';
-products.forEach((p,i)=>{let s=stock[p.stockKey]||0; let b=document.createElement('button'); b.className='btn'+(s<=0?' low':''); b.disabled=s<=0; b.innerHTML=`${p.name}<br>R${p.price}<br><small>Stock:${s}</small>`; b.onclick=()=>add(i); el.appendChild(b);});
-let h=''; for(let k in stock){h+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #eee"><span>${k.toUpperCase()}: ${stock[k]}</span><span>${stock[k]<=5?'<span style=color:red>LOW</span>':''}</span></div>`;} document.getElementById('stockList').innerHTML=h;
+products.forEach((p,i)=>{let s=cloudData.stock[p.stockKey]||0; let b=document.createElement('button'); b.className='btn'; if(s<=0){b.disabled=true; b.style.background='#ccc';} b.innerHTML=`${p.name}<br>R${p.price}<br>St:${s}`; b.onclick=()=>add(i); el.appendChild(b);});
+let h=''; for(let k in cloudData.stock){h+=`<div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #eee"><span>${k.toUpperCase()}: ${cloudData.stock[k]}</span><span>${cloudData.stock[k]<=5?'<span style=color:red>LOW</span>':''}</span></div>`;} document.getElementById('stockList').innerHTML=h;
 }
-function add(i){if((stock[products[i].stockKey]||0)<=0)return alert('Out of stock!'); let f=cart.find(c=>c.i==i); if(f)f.q++; else cart.push({i,q:1}); render();}
+function add(i){if((cloudData.stock[products[i].stockKey]||0)<=0)return alert('Out of stock'); let f=cart.find(c=>c.i==i); if(f)f.q++; else cart.push({i,q:1}); render();}
 function render(){let h='',t=0; if(!cart.length)h='No items'; cart.forEach(c=>{let p=products[c.i]; let s=p.price*c.q; t+=s; h+=`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee;font-size:12px"><span>${c.q}x ${p.name}</span><span>R${s} <button onclick="rem(${c.i})" style="background:red;color:#fff;border:0;border-radius:50%;width:15px">x</button></span></div>`;}); document.getElementById('items').innerHTML=h; document.getElementById('tot').innerText='R'+t;}
 function rem(i){cart=cart.filter(c=>c.i!=i); render();} function clearCart(){cart=[]; render();}
 async function checkout(){
 if(!cart.length)return alert('Add items');
-for(let c of cart){if((stock[products[c.i].stockKey]||0)<c.q)return alert('Not enough stock');}
 await fetchCloud();
-for(let c of cart){if((cloudData.stock[products[c.i].stockKey]||0)<c.q)return alert('Stock changed! Someone else sold. Refresh.');}
-cart.forEach(c=>{cloudData.stock[products[c.i].stockKey]-=c.q;}); stock=cloudData.stock;
+for(let c of cart){if((cloudData.stock[products[c.i].stockKey]||0)<c.q)return alert('Stock low - someone else sold, refresh');}
+cart.forEach(c=>{cloudData.stock[products[c.i].stockKey]-=c.q;});
 let total=0; cart.forEach(c=>total+=products[c.i].price*c.q);
 let orderNo=cloudData.sales.length+1;
-let sale={no:currentUser.name.charAt(0).toUpperCase()+orderNo,rawNo:orderNo,date:new Date().toLocaleDateString('en-ZA'),time:new Date().toLocaleTimeString(),customer:document.getElementById('cust').value||'Walk-in',cashier:currentUser.name,phone:phoneId,items:cart.map(c=>`${c.q}x ${products[c.i].name}`).join('; '),total:total};
+let sale={no:currentUser.name.charAt(0).toUpperCase()+orderNo,rawNo:orderNo,date:todayISO(),dateDisplay:new Date().toLocaleDateString('en-ZA'),time:new Date().toLocaleTimeString(),customer:document.getElementById('cust').value||'Walk-in',cashier:currentUser.name,phone:phoneId,items:cart.map(c=>`${c.q}x ${products[c.i].name}`).join('; '),total:total,isoDate:todayISO()};
 cloudData.sales.push(sale);
-await saveCloud();
-localStorage.setItem('cj_order_'+currentUser.username,orderNo+1); document.getElementById('ord').innerText=orderNo+1;
+let ok=await saveCloud();
+if(!ok)return alert('Failed to save - check internet');
+document.getElementById('ord').innerText=orderNo+1;
 let itemsHtml=''; cart.forEach(c=>{let p=products[c.i]; itemsHtml+=`<div style="display:flex;justify-content:space-between"><span>${c.q}x ${p.name}</span><span>R${p.price*c.q}</span></div>`;});
-let html=`<html><body style="font-family:monospace;width:280px;margin:0 auto;padding:10px;font-size:12px"><div style="text-align:center"><img src="${LOGO_URL}" style="width:70px;height:70px;border-radius:50%"><h2>CALIFORNIA JUNCTION</h2><small>072 977 9153 | Free Juice + Delivery</small><hr>Order: <b>#${sale.no}</b><br>Date: ${sale.date} ${sale.time}<br>Customer: ${sale.customer}<br>Cashier: <b>${sale.cashier}</b> (${sale.phone})<hr>${itemsHtml}<hr><div style="display:flex;justify-content:space-between;font-weight:900;font-size:16px"><span>TOTAL</span><span>R${total}</span></div><hr><small>Thank You! LIVE SYNCED ☁️</small></div><script>window.print()<\/script></body></html>`;
+let html=`<html><body style="font-family:monospace;width:280px;margin:0 auto;padding:10px;font-size:12px"><div style="text-align:center"><img src="${LOGO_URL}" style="width:70px"><h2>CALIFORNIA JUNCTION</h2><hr>Order #${sale.no}<br>${sale.dateDisplay} ${sale.time}<br>Customer: ${sale.customer}<br>Cashier: ${sale.cashier} (${sale.phone})<hr>${itemsHtml}<hr><div style="display:flex;justify-content:space-between;font-weight:900;font-size:16px"><span>TOTAL</span><span>R${total}</span></div><hr>Thank You! LIVE SYNCED</div><script>window.print()<\/script></body></html>`;
 let w=window.open('','','width=350,height=600'); w.document.write(html);
-alert(`SOLD R${total} by ${currentUser.name}! Synced to manager LIVE!`); clearCart(); document.getElementById('cust').value=''; renderMenu(); renderDaily();
+alert(`✅ SOLD R${total} by ${sale.cashier}!\nSaved to cloud! Manager will see LIVE!`); clearCart(); document.getElementById('cust').value=''; renderMenu(); renderDaily();
 }
 function renderDaily(){
-let today=new Date().toLocaleDateString('en-ZA');
-let my=(cloudData.sales||[]).filter(s=>s.cashier===currentUser.name && s.date===today);
-let t=my.reduce((a,b)=>a+b.total,0); document.getElementById('dTotal').innerText='R'+t; document.getElementById('dCount').innerText=my.length;
-document.getElementById('ord').innerText=(cloudData.sales.length+1);
-let h=''; my.slice(-10).reverse().forEach(s=>{h+=`#${s.no} R${s.total} ${s.time}<br>`;}); document.getElementById('todayList').innerHTML=h||'No sales';
+let today=todayISO();
+let my=(cloudData.sales||[]).filter(s=>s.cashier===currentUser.name && s.isoDate===today);
+let t=my.reduce((a,b)=>a+b.total,0); document.getElementById('dTotal').innerText='R'+t; document.getElementById('dCount').innerText=my.length; document.getElementById('ord').innerText=(cloudData.sales.length+1);
+let h=''; my.slice(-10).reverse().forEach(s=>{h+=`#${s.no} R${s.total} ${s.time}<br>`;}); document.getElementById('todayList').innerHTML=h||'No sales yet today';
 }
-function exportExcel(){
-let all=(cloudData.sales||[]).filter(s=>s.cashier===currentUser.name);
-if(!all.length)return alert('No sales'); let csv='Order,Date,Time,Customer,Cashier,Phone,Items,Total\n';
-all.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items}",${s.total}\n`;});
-let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`Sales_${currentUser.name}_${new Date().toISOString().slice(0,10)}.csv`; a.click();
-}
+function exportExcel(){let all=(cloudData.sales||[]).filter(s=>s.cashier===currentUser.name); if(!all.length)return alert('No sales'); let csv='Order,Date,Time,Customer,Cashier,Phone,Items,Total\n'; all.forEach(s=>{csv+=`"${s.no}","${s.date}","${s.time}","${s.customer}","${s.cashier}","${s.phone}","${s.items}",${s.total}\n`;}); let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`Sales_${currentUser.name}_${todayISO()}.csv`; a.click();}
 </script></body></html>

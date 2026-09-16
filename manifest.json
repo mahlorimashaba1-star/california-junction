@@ -1,7 +1,7 @@
 {
-  "name": "California Junction POS",
+  "name": "California Junction POS LIVE",
   "short_name": "CJ POS",
-  "description": "Live Sync POS for Kabelo & Califonia - Sales + Stock",
+  "description": "Live Sync POS for Kabelo & Califonia",
   "start_url": "/california-junction/pos.html",
   "display": "standalone",
   "background_color": "#0a1931",
@@ -10,13 +10,15 @@
   "icons": [
     {
       "src": "https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "sizes": "1600x1600",
+      "type": "image/webp",
+      "purpose": "any"
     },
     {
       "src": "https://raw.githubusercontent.com/mahlorimashaba1-star/california-junction/main/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/webp",
+      "purpose": "any maskable"
     }
   ]
 }

@@ -1,19 +1,191 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Manager - California Junction</title>
-<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#FFF8E8}header{padding:15px;background:#fff;border-bottom:4px solid #FF6B00;display:flex;align-items:center;gap:10px}header img{width:60px;height:60px;border-radius:50%;border:3px solid #0a2a4a}.tab{padding:10px 15px;background:#0a2a4a;color:#FFD700;border:none;border-radius:8px;margin:5px;cursor:pointer}.tab.active{background:#FF6B00;color:white}.box{background:white;border:2px solid #0a2a4a;border-radius:10px;padding:15px;margin:10px}</style>
-</head><body>
-<header><img src="logo.png"><div><h2 style="color:#0a2a4a">CALIFORNIA JUNCTION MANAGER</h2><p style="color:#E85D00;font-weight:bold">072 977 9153</p></div></header>
-<div style="padding:10px"><button class="tab active" onclick="showTab('sales')">📊 Sales</button><button class="tab" onclick="showTab('stock')">📦 Stock</button><button class="tab" onclick="showTab('cashiers')">👥 Cashiers</button><a href="index.html" style="float:right;color:#0a2a4a">Customer Site</a> | <a href="pos.html" style="float:right;color:#0a2a4a;margin-right:10px">POS</a></div>
-<div id="salesTab" class="box"><h3>Sales Report</h3><div id="salesList"></div><button onclick="clearSales()" style="background:#ef4444;color:white;padding:8px;border:none;border-radius:6px;margin-top:10px">Clear All Sales</button></div>
-<div id="stockTab" class="box" style="display:none"><h3>Stock</h3><div id="stockList"></div></div>
-<div id="cashiersTab" class="box" style="display:none"><h3>Cashiers</h3><div id="cashierList"></div><input id="newName" placeholder="Name" style="padding:8px;margin-top:10px"><input id="newPin" placeholder="PIN" style="padding:8px"><button onclick="addCashier()" style="padding:8px;background:#22c55e;color:white;border:none;border-radius:6px">Add Cashier</button></div>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manager Dashboard - California Junction</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#FFF8E8;color:#0a1628}
+header{padding:15px;background:#fff;border-bottom:4px solid #FF6B00;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.header-left{display:flex;align-items:center;gap:12px}
+.logo{width:70px;height:70px;border-radius:50%;border:3px solid #0a2a4a;object-fit:cover}
+.tabs{padding:10px;background:#0a2a4a;display:flex;gap:6px;overflow-x:auto}
+.tab{padding:10px 16px;background:#112240;color:#FFD700;border:2px solid #FF6B00;border-radius:8px;cursor:pointer;font-weight:900;white-space:nowrap}
+.tab.active{background:#FF6B00;color:white}
+.box{background:white;border:2px solid #0a2a4a;border-radius:12px;padding:15px;margin:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:15px}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
+.stat{background:#0a2a4a;color:white;padding:15px;border-radius:10px;text-align:center;border:2px solid #FF6B00}
+.stat h3{color:#FFD700;font-size:28px}
+.stat p{font-size:12px;color:#94a3b8}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:8px;text-align:left;border-bottom:1px solid #ddd}
+th{background:#0a2a4a;color:#FFD700}
+.btn{padding:8px 12px;border:none;border-radius:6px;font-weight:900;cursor:pointer}
+.btn-red{background:#ef4444;color:white}
+.btn-green{background:#22c55e;color:white}
+.btn-blue{background:#3b82f6;color:white}
+.btn-orange{background:#FF6B00;color:white}
+.input{padding:10px;border-radius:8px;border:2px solid #FF6B00;background:#FFF8E8;width:100%;margin:5px 0}
+.stock-row{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid #eee}
+</style>
+</head>
+<body>
+<header>
+<div class="header-left">
+<img class="logo" src="logo.png" alt="Logo">
+<div>
+<h2 style="color:#0a2a4a">CALIFORNIA JUNCTION</h2>
+<p style="color:#E85D00;font-weight:900">MANAGER DASHBOARD • 072 977 9153</p>
+</div>
+</div>
+<div>
+<a href="pos.html" class="btn btn-blue" style="text-decoration:none">POS</a>
+<a href="index.html" class="btn btn-orange" style="text-decoration:none;margin-left:5px">CUSTOMER SITE</a>
+</div>
+</header>
+
+<div class="tabs">
+<button class="tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+<button class="tab" onclick="showTab('sales')">🧾 All Sales</button>
+<button class="tab" onclick="showTab('stock')">📦 Stock Control</button>
+<button class="tab" onclick="showTab('cashiers')">👥 Cashiers</button>
+<button class="tab" onclick="showTab('settings')">⚙️ Settings</button>
+</div>
+
+<div id="dashboardTab" class="box">
+<h3 style="color:#0a2a4a;margin-bottom:12px">📈 TODAY'S OVERVIEW</h3>
+<div class="stat-grid">
+<div class="stat"><h3 id="todaySales">R0</h3><p>TODAY SALES</p></div>
+<div class="stat"><h3 id="todayOrders">0</h3><p>TODAY ORDERS</p></div>
+<div class="stat"><h3 id="totalSales">R0</h3><p>TOTAL SALES (ALL TIME)</p></div>
+</div>
+<h4 style="margin:15px 0;color:#0a2a4a">🏆 Best Sellers</h4>
+<div id="bestSellers"></div>
+<h4 style="margin:15px 0;color:#0a2a4a">👥 Sales by Cashier</h4>
+<div id="byCashier"></div>
+</div>
+
+<div id="salesTab" class="box" style="display:none">
+<h3>All Sales History</h3>
+<input id="searchSales" class="input" placeholder="Search customer or cashier..." onkeyup="render()">
+<div style="overflow-x:auto;margin-top:10px">
+<table><thead><tr><th>Date/Time</th><th>Customer</th><th>Cashier</th><th>Items</th><th>Total</th></tr></thead><tbody id="salesTable"></tbody></table>
+</div>
+<div style="margin-top:15px;display:flex;gap:10px">
+<button class="btn btn-red" onclick="clearSales()">🗑️ Clear All Sales</button>
+<button class="btn btn-green" onclick="exportSales()">📥 Export CSV</button>
+</div>
+</div>
+
+<div id="stockTab" class="box" style="display:none">
+<h3>📦 Stock Control - Set Stock Levels</h3>
+<p style="font-size:12px;color:#666;margin-bottom:10px">This stock is shared with POS. When you sell, it auto-decreases.</p>
+<div id="stockList"></div>
+<div style="margin-top:15px">
+<button class="btn btn-green" onclick="restockAll()">✅ Restock All to 100</button>
+<button class="btn btn-red" onclick="clearStock()" style="margin-left:10px">Reset Stock</button>
+</div>
+</div>
+
+<div id="cashiersTab" class="box" style="display:none">
+<h3>👥 Cashier Management</h3>
+<div id="cashierList" style="margin:10px 0"></div>
+<h4 style="margin-top:15px">Add New Cashier</h4>
+<input id="newCashierName" class="input" placeholder="Name e.g. Thandi">
+<input id="newCashierPin" class="input" placeholder="PIN e.g. 5678" type="number">
+<button class="btn btn-green" onclick="addCashier()">➕ Add Cashier</button>
+<p style="font-size:11px;color:#666;margin-top:10px">Cashiers login to POS with Name + PIN. Owner PIN is 0000.</p>
+</div>
+
+<div id="settingsTab" class="box" style="display:none">
+<h3>⚙️ Shop Settings</h3>
+<p><b>Logo:</b> Make sure file is named <code>logo.png</code> in your GitHub repo. Current logo shows in header.</p>
+<img src="logo.png" style="width:100px;height:100px;border-radius:50%;border:3px solid #0a2a4a;margin:10px 0;display:block">
+<p><b>WhatsApp Number:</b> 072 977 9153 (27729779153)</p>
+<p><b>Shop Address:</b> Corner of Cali St & Junction Ave</p>
+<div style="margin-top:20px;border-top:2px solid #eee;padding-top:15px">
+<h4 style="color:#ef4444">Danger Zone</h4>
+<button class="btn btn-red" onclick="clearAllData()">💥 DELETE ALL DATA (Sales + Stock + Cashiers)</button>
+<p style="font-size:11px;color:#666;margin-top:5px">This will erase everything. Use only if you want to start fresh.</p>
+</div>
+</div>
+
 <script>
-let KOTAS=['r10','r20','r30','r40','r45','r55','r60','cheese','egg','atchar'];
-function showTab(t){document.getElementById('salesTab').style.display=t=='sales'?'block':'none';document.getElementById('stockTab').style.display=t=='stock'?'block':'none';document.getElementById('cashiersTab').style.display=t=='cashiers'?'block':'none';render();}
-function render(){let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');let html='';let total=0;sales.slice().reverse().forEach(s=>{total+=s.total;html+=`<div style="border-bottom:1px solid #ddd;padding:6px;font-size:12px"><b>${s.time}</b> - ${s.customer} (${s.cashier}) - ${s.items} - <b>R${s.total}</b></div>`});document.getElementById('salesList').innerHTML=html||'No sales yet'+`<h3 style="margin-top:10px">Total: R${total}</h3>`;let stock=JSON.parse(localStorage.getItem('cj_stock')||'{}');let sh='';KOTAS.forEach(id=>{sh+=`<div style="display:flex;justify-content:space-between;padding:5px;border-bottom:1px solid #eee"><span>${id}</span><span>${stock[id]!==undefined?stock[id]:100}</span></div>`});document.getElementById('stockList').innerHTML=sh;let cashiers=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');let ch='';cashiers.forEach((c,i)=>{ch+=`<div style="display:flex;justify-content:space-between;padding:5px"><span>${c.name} - PIN: ${c.pin}</span><button onclick="delCashier(${i})" style="background:#ef4444;color:white;border:none;padding:4px 8px;border-radius:4px">Delete</button></div>`});document.getElementById('cashierList').innerHTML=ch;}
-function clearSales(){if(confirm('Clear all sales?')){localStorage.removeItem('cj_sales');render();}}
-function addCashier(){let n=document.getElementById('newName').value;let p=document.getElementById('newPin').value;if(!n||!p){alert('Enter name and PIN');return}let c=JSON.parse(localStorage.getItem('cj_cashiers')||'[]');c.push({name:n,pin:p});localStorage.setItem('cj_cashiers',JSON.stringify(c));document.getElementById('newName').value='';document.getElementById('newPin').value='';render();}
-function delCashier(i){let c=JSON.parse(localStorage.getItem('cj_cashiers')||'[]');c.splice(i,1);localStorage.setItem('cj_cashiers',JSON.stringify(c));render();}
+const KOTAS=[
+{id:'r10',name:'KOTA R10',price:10},
+{id:'r20',name:'KOTA R20',price:20},
+{id:'r30',name:'KOTA R30',price:30},
+{id:'r40',name:'KOTA R40',price:40},
+{id:'r45',name:'KOTA R45',price:45},
+{id:'r55',name:'KOTA R55',price:55},
+{id:'r60',name:'KOTA R60',price:60},
+{id:'cheese',name:'Extra Cheese',price:5},
+{id:'egg',name:'Extra Egg',price:5},
+{id:'atchar',name:'Extra Atchar',price:3},
+{id:'french',name:'French Polony',price:5},
+{id:'russian',name:'Russian',price:8},
+{id:'vienna',name:'Vienna',price:5},
+];
+
+function showTab(t){
+document.getElementById('dashboardTab').style.display=t=='dashboard'?'block':'none';
+document.getElementById('salesTab').style.display=t=='sales'?'block':'none';
+document.getElementById('stockTab').style.display=t=='stock'?'block':'none';
+document.getElementById('cashiersTab').style.display=t=='cashiers'?'block':'none';
+document.getElementById('settingsTab').style.display=t=='settings'?'block':'none';
+document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
+render();
+}
+
+function render(){
+let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');
+let stock=JSON.parse(localStorage.getItem('cj_stock')||'{}');
+let search=(document.getElementById('searchSales')?.value||'').toLowerCase();
+
+// Dashboard stats
+let today=new Date().toDateString();
+let todayFiltered=sales.filter(s=>new Date(s.time).toDateString()===today || s.time.includes(today.split(' ')[1]));
+let todayTotal=todayFiltered.reduce((a,b)=>a+b.total,0);
+let allTotal=sales.reduce((a,b)=>a+b.total,0);
+document.getElementById('todaySales').innerText='R'+todayTotal;
+document.getElementById('todayOrders').innerText=todayFiltered.length;
+document.getElementById('totalSales').innerText='R'+allTotal;
+
+// Best sellers
+let counts={};sales.forEach(s=>{s.items.split(',').forEach(i=>{let n=i.trim();counts[n]=(counts[n]||0)+1})});
+let sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+document.getElementById('bestSellers').innerHTML=sorted.map(([name,c])=>`<div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee"><span>${name}</span><b>${c} sold</b></div>`).join('')||'No data yet';
+
+// By cashier
+let byCash={};sales.forEach(s=>{byCash[s.cashier]=(byCash[s.cashier]||0)+s.total});
+document.getElementById('byCashier').innerHTML=Object.entries(byCash).map(([name,total])=>`<div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee"><span>${name}</span><b>R${total}</b></div>`).join('')||'No data yet';
+
+// Sales table
+let filtered=sales.filter(s=>!search || s.customer.toLowerCase().includes(search) || s.cashier.toLowerCase().includes(search));
+let rows=filtered.slice().reverse().map(s=>`<tr><td>${s.time}</td><td>${s.customer}</td><td>${s.cashier||'-'}</td><td>${s.items}</td><td><b>R${s.total}</b></td></tr>`).join('');
+document.getElementById('salesTable').innerHTML=rows||'<tr><td colspan="5">No sales yet</td></tr>';
+
+// Stock
+let stockHtml='';KOTAS.forEach(k=>{let q=stock[k.id]!==undefined?stock[k.id]:100;stockHtml+=`<div class="stock-row"><div><b>${k.name}</b> - R${k.price}<br><span style="font-size:11px;color:${q<10?'red':'green'}">Stock: ${q} ${q<10?'⚠️ LOW!':''}</span></div><div style="display:flex;gap:5px"><button class="btn btn-blue" style="padding:5px 8px" onclick="setStock('${k.id}',${q-1})">-1</button><button class="btn btn-green" style="padding:5px 8px" onclick="setStock('${k.id}',${q+10})">+10</button><input type="number" value="${q}" style="width:60px;padding:5px;border:2px solid #FF6B00;border-radius:5px" onchange="setStock('${k.id}',this.value)"></div></div>`});
+document.getElementById('stockList').innerHTML=stockHtml;
+
+// Cashiers
+let cashiers=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');
+document.getElementById('cashierList').innerHTML=cashiers.map((c,i)=>`<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #eee"><span><b>${c.name}</b> - PIN: ${c.pin}</span><button class="btn btn-red" style="padding:4px 8px" onclick="delCashier(${i})">Delete</button></div>`).join('');
+}
+
+function setStock(id,val){let s=JSON.parse(localStorage.getItem('cj_stock')||'{}');s[id]=Math.max(0,parseInt(val)||0);localStorage.setItem('cj_stock',JSON.stringify(s));render();}
+function restockAll(){let s={};KOTAS.forEach(k=>s[k.id]=100);localStorage.setItem('cj_stock',JSON.stringify(s));render();alert('All restocked to 100!');}
+function clearStock(){if(confirm('Reset all stock to 100?')){restockAll();}}
+function clearSales(){if(confirm('Are you sure? Delete ALL sales history? This cannot be undone!')){localStorage.removeItem('cj_sales');render();}}
+function exportSales(){let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');if(sales.length===0){alert('No sales to export');return}let csv='Date,Customer,Cashier,Items,Total\n'+sales.map(s=>`"${s.time}","${s.customer}","${s.cashier}","${s.items}",${s.total}`).join('\n');let blob=new Blob([csv],{type:'text/csv'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='california_junction_sales.csv';a.click();}
+function addCashier(){let n=document.getElementById('newCashierName').value.trim();let p=document.getElementById('newCashierPin').value.trim();if(!n||!p){alert('Enter name and PIN');return}let c=JSON.parse(localStorage.getItem('cj_cashiers')||'[]');c.push({name:n,pin:p});localStorage.setItem('cj_cashiers',JSON.stringify(c));document.getElementById('newCashierName').value='';document.getElementById('newCashierPin').value='';render();}
+function delCashier(i){if(confirm('Delete this cashier?')){let c=JSON.parse(localStorage.getItem('cj_cashiers')||'[]');c.splice(i,1);localStorage.setItem('cj_cashiers',JSON.stringify(c));render();}}
+function clearAllData(){if(confirm('⚠️ DELETE EVERYTHING? Sales, Stock, Cashiers will be gone forever! Type YES to confirm') && prompt('Type DELETE to confirm')==='DELETE'){localStorage.removeItem('cj_sales');localStorage.removeItem('cj_stock');localStorage.removeItem('cj_cashiers');localStorage.removeItem('cj_current_cashier');alert('All data deleted! Reloading...');location.reload();}}
+
 render();
 </script>
-</body></html>
+</body>
+</html>

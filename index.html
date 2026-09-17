@@ -24,12 +24,12 @@ h1{color:#ffcc00;font-size:2.2rem;font-style:italic}
 </style>
 </head>
 <body>
-<div class="banner">🔥 ORDER ONLINE • 066 091 6915 • EST. 2023 🔥</div>
+<div class="banner">🔥 ORDER ONLINE • 072 977 9153 • EST. 2023 🔥</div>
 <header>
 <img id="logoImg" class="logo" src="https://via.placeholder.com/100">
 <h1>CALIFORNIA JUNCTION</h1>
 <p>KASI STYLE • Thick, Loaded & Tasty</p>
-<p style="color:#FFD700;font-size:11px">Corner of Cali St & Junction Ave • 066 091 6915 / 062 460 0499</p>
+<p style="color:#FFD700;font-size:11px">Corner of Cali St & Junction Ave • 072 977 9153 / 062 460 0499</p>
 </header>
 
 <div class="container">
@@ -43,7 +43,7 @@ h1{color:#ffcc00;font-size:2.2rem;font-style:italic}
 <div id="cartItems" style="font-size:12px;margin:8px 0">Cart empty</div>
 <div style="display:flex;justify-content:space-between;font-weight:900;color:#FFD700;font-size:18px"><span>TOTAL</span><span id="total">R0</span></div>
 <button class="checkout" onclick="orderWhatsApp()">📱 ORDER ON WHATSAPP - R<span id="btnTotal">0</span></button>
-<p style="font-size:9px;text-align:center;color:#94a3b8;margin-top:5px">Clicking will open WhatsApp with your order ready to send</p>
+<p style="font-size:9px;text-align:center;color:#94a3b8;margin-top:5px">Will open WhatsApp to 072 977 9153 with your order</p>
 </div>
 
 <script>
@@ -71,36 +71,17 @@ document.getElementById('total').innerText='R'+total;
 document.getElementById('btnTotal').innerText=total;
 }
 function add(name,price){CART.push({name,price});render()}
-
 function orderWhatsApp(){
 let name=document.getElementById('custName').value.trim();
 let phone=document.getElementById('custPhone').value.trim();
 if(CART.length===0){alert('Please add a Kota first!');return}
-if(!name){alert('Please enter your name');document.getElementById('custName').focus();return}
-if(!phone){alert('Please enter your phone number');document.getElementById('custPhone').focus();return}
+if(!name){alert('Please enter your name');return}
+if(!phone){alert('Please enter your phone');return}
 let total=CART.reduce((a,b)=>a+b.price,0);
 let orderList=CART.map(c=>`• ${c.name} - R${c.price}`).join('\n');
-
-let message=`*CALIFORNIA JUNCTION - NEW ORDER* 🔥
-
-*Customer:* ${name}
-*Phone:* ${phone}
-
-*Order:*
-${orderList}
-
-*TOTAL: R${total}*
-
-Delivery/Collection: 
-Address: 
-
-Please confirm order! 🙏
-066 091 6915`;
-
+let message=`*CALIFORNIA JUNCTION - NEW ORDER* 🔥\n\n*Customer:* ${name}\n*Phone:* ${phone}\n\n*Order:*\n${orderList}\n\n*TOTAL: R${total}*\n\nDelivery/Collection:\nAddress:\n\nPlease confirm order! 🙏\n072 977 9153`;
 let encoded=encodeURIComponent(message);
-let url=`https://wa.me/27660916915?text=${encoded}`;
-
-// FIX: Use location.href for mobile - works 100%
+let url=`https://wa.me/27729779153?text=${encoded}`;
 window.location.href=url;
 }
 render();

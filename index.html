@@ -43,7 +43,6 @@ h1{color:#ffcc00;font-size:2.2rem;font-style:italic}
 <div id="cartItems" style="font-size:12px;margin:8px 0">Cart empty</div>
 <div style="display:flex;justify-content:space-between;font-weight:900;color:#FFD700;font-size:18px"><span>TOTAL</span><span id="total">R0</span></div>
 <button class="checkout" onclick="orderWhatsApp()">📱 ORDER ON WHATSAPP - R<span id="btnTotal">0</span></button>
-<p style="font-size:9px;text-align:center;color:#94a3b8;margin-top:5px">Will open WhatsApp to 072 977 9153 with your order</p>
 </div>
 
 <script>
@@ -60,7 +59,7 @@ let CART=[];let LOGO=localStorage.getItem('cj_logo');
 function render(){
 let m=document.getElementById('menu');m.innerHTML='';
 KOTAS.forEach(k=>{
-m.innerHTML+=`<div class="kota"><h3>${k.name}</h3><span class="price">R${k.price}</span><p>${k.desc}</p><button class="btn-order" onclick="add('${k.name}',${k.price})">ADD</button></div>`;
+m.innerHTML+=`<div class="kota"><h3>${k.name}</h3><span class="price">R${k.price}</span><p>${k.desc}</p><button class="btn-order" onclick="add('${k.name}',${k.price})">ADD TO CART</button></div>`;
 });
 if(LOGO) document.getElementById('logoImg').src=LOGO;
 let total=CART.reduce((a,b)=>a+b.price,0);
@@ -79,7 +78,7 @@ if(!name){alert('Please enter your name');return}
 if(!phone){alert('Please enter your phone');return}
 let total=CART.reduce((a,b)=>a+b.price,0);
 let orderList=CART.map(c=>`• ${c.name} - R${c.price}`).join('\n');
-let message=`*CALIFORNIA JUNCTION - NEW ORDER* 🔥\n\n*Customer:* ${name}\n*Phone:* ${phone}\n\n*Order:*\n${orderList}\n\n*TOTAL: R${total}*\n\nDelivery/Collection:\nAddress:\n\nPlease confirm order! 🙏\n072 977 9153`;
+let message=`*CALIFORNIA JUNCTION - NEW ORDER* 🔥\n\n*Customer:* ${name}\n*Phone:* ${phone}\n\n*Order:*\n${orderList}\n\n*TOTAL: R${total}*\n\nPlease confirm order! 🙏`;
 let encoded=encodeURIComponent(message);
 let url=`https://wa.me/27729779153?text=${encoded}`;
 window.location.href=url;

@@ -5,90 +5,103 @@
 <title>California Junction | Order Online</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0d1b2a;color:white}
+body{background:#0d1b2a;color:white;padding-bottom:300px}
 .banner{background:linear-gradient(90deg,#FF6B00,#FFD700);color:#000;text-align:center;padding:10px;font-weight:900}
 header{text-align:center;padding:20px;background:#0a1628;border-bottom:3px solid #ff6b00}
 .logo{width:100px;height:100px;border-radius:50%;border:3px solid #ff6b00;background:#fff;object-fit:cover}
-h1{color:#ffcc00;font-size:2.5rem;font-style:italic}
+h1{color:#ffcc00;font-size:2.2rem;font-style:italic}
 .container{max-width:900px;margin:auto;padding:15px}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:600px){.menu-grid{grid-template-columns:1fr}}
 .kota{background:#112240;border:2px solid #ff6b00;border-radius:12px;padding:15px;text-align:center}
-.kota h3{color:#FFD700;font-size:18px}
-.kota .price{color:#22c55e;font-size:26px;font-weight:900;display:block;margin:8px 0}
-.kota p{font-size:12px;color:#94a3b8;margin-bottom:10px}
-.btn-order{background:#FFD700;color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;width:100%;cursor:pointer;font-size:14px}
-.extra-row{display:flex;gap:8px;justify-content:center;margin-top:15px;flex-wrap:wrap}
-.extra{background:#0a1628;border:1px dashed #ff6b00;padding:10px 15px;border-radius:20px;font-size:12px}
-.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:15px;border-radius:20px 20px 0 0;max-width:900px;margin:auto}
-.customer-input{width:100%;padding:12px;border-radius:10px;border:1px solid #FFD700;background:#1e293b;color:white;margin-bottom:8px}
-.checkout{width:100%;background:#22c55e;color:white;padding:15px;border:none;border-radius:12px;font-weight:900;font-size:18px}
+.kota h3{color:#FFD700}
+.price{color:#22c55e;font-size:24px;font-weight:900;display:block;margin:6px 0}
+.kota p{font-size:11px;color:#94a3b8}
+.btn-order{background:#FFD700;color:#000;padding:11px;border:none;border-radius:10px;font-weight:900;width:100%;margin-top:8px;cursor:pointer}
+.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:15px;border-radius:20px 20px 0 0;max-width:900px;margin:auto;left:50%;transform:translateX(-50%)}
+.input{width:100%;padding:12px;border-radius:10px;border:1px solid #FFD700;background:#1e293b;color:white;margin-bottom:8px}
+.checkout{width:100%;background:#25D366;color:white;padding:15px;border:none;border-radius:12px;font-weight:900;font-size:18px;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="banner">🔥 EST. 2023 • FRESH • LOADED • FLAVOURFUL • ORDER ONLINE 🔥</div>
+<div class="banner">🔥 ORDER ONLINE • 066 091 6915 • EST. 2023 🔥</div>
 <header>
 <img id="logoImg" class="logo" src="https://via.placeholder.com/100">
 <h1>CALIFORNIA JUNCTION</h1>
 <p>KASI STYLE • Thick, Loaded & Tasty</p>
-<p style="color:#FFD700;font-size:12px;margin-top:5px">Corner of Cali St & Junction Ave, Kasi • 066 091 6915 / 062 460 0499</p>
-<a href="pos.html" style="color:#94a3b8;font-size:10px">Cashier Login → pos.html</a>
+<p style="color:#FFD700;font-size:11px">Corner of Cali St & Junction Ave • 066 091 6915 / 062 460 0499</p>
 </header>
 
-<div class="container" style="padding-bottom:250px">
-<h2 style="color:#FFD700;text-align:center;margin:15px 0">🍔 OUR KOTAS - POSTER MENU</h2>
+<div class="container">
+<h2 style="color:#FFD700;text-align:center;margin:15px 0">🍔 KOTA MENU</h2>
 <div class="menu-grid" id="menu"></div>
-
-<h2 style="color:#FFD700;text-align:center;margin:20px 0 10px">🔥 EXTRAS</h2>
-<div class="extra-row">
-<div class="extra">Extra Cheese +R5</div>
-<div class="extra">Extra Egg +R5</div>
-<div class="extra">Extra Atchar +R3</div>
-</div>
 </div>
 
 <div class="cart">
-<input id="custName" class="customer-input" placeholder="Your Name (e.g. Thabo)">
-<input id="custPhone" class="customer-input" placeholder="Your Phone Number">
-<div id="cartItems" style="font-size:12px;margin:8px 0">Cart empty - Add a Kota!</div>
+<input id="custName" class="input" placeholder="Your Name e.g. Thabo">
+<input id="custPhone" class="input" type="tel" placeholder="Your Phone e.g. 072 123 4567">
+<div id="cartItems" style="font-size:12px;margin:8px 0">Cart empty</div>
 <div style="display:flex;justify-content:space-between;font-weight:900;color:#FFD700;font-size:18px"><span>TOTAL</span><span id="total">R0</span></div>
-<button class="checkout" onclick="orderWhatsApp()">📱 ORDER VIA WHATSAPP - R<span id="btnTotal">0</span></button>
+<button class="checkout" onclick="orderWhatsApp()">📱 ORDER ON WHATSAPP - R<span id="btnTotal">0</span></button>
+<p style="font-size:9px;text-align:center;color:#94a3b8;margin-top:5px">Clicking will open WhatsApp with your order ready to send</p>
 </div>
 
 <script>
 const KOTAS=[
-{id:'r10',name:'KOTA R10',price:10,desc:'KOTA chips, atchar'},
-{id:'r20',name:'KOTA R20',price:20,desc:'KOTA chips, atchar, French and Vienna'},
-{id:'r30',name:'KOTA R30',price:30,desc:'KOTA chips, French and Russian OR cheese and Vienna'},
-{id:'r40',name:'KOTA R40',price:40,desc:'KOTA chips, atchar, French, cheese and Russian'},
-{id:'r45',name:'KOTA R45',price:45,desc:'KOTA chips, atchar, French, cheese, egg and beef Russian'},
-{id:'r55',name:'KOTA R55',price:55,desc:'KOTA chips, atchar, French, Russian, double Vienna'},
-{id:'r60',name:'KOTA R60',price:60,desc:'KOTA chips, atchar, French, cheese, egg, Russian and double Vienna'},
+{id:'r10',name:'KOTA R10',price:10,desc:'chips, atchar'},
+{id:'r20',name:'KOTA R20',price:20,desc:'chips, atchar, French and Vienna'},
+{id:'r30',name:'KOTA R30',price:30,desc:'chips, French and Russian OR cheese and Vienna'},
+{id:'r40',name:'KOTA R40',price:40,desc:'chips, atchar, French, cheese and Russian'},
+{id:'r45',name:'KOTA R45',price:45,desc:'chips, atchar, French, cheese, egg and beef Russian'},
+{id:'r55',name:'KOTA R55',price:55,desc:'chips, atchar, French, Russian, double Vienna'},
+{id:'r60',name:'KOTA R60',price:60,desc:'chips, atchar, French, cheese, egg, Russian and double Vienna'},
 ];
-const EXTRAS=[{name:'Extra Cheese',price:5},{name:'Extra Egg',price:5},{name:'Extra Atchar',price:3}];
-let CART=[];let LOGO=localStorage.getItem('cj_logo')||'';
+let CART=[];let LOGO=localStorage.getItem('cj_logo');
 function render(){
 let m=document.getElementById('menu');m.innerHTML='';
 KOTAS.forEach(k=>{
-m.innerHTML+=`<div class="kota"><h3>${k.name}</h3><span class="price">R${k.price}</span><p>${k.desc}</p><button class="btn-order" onclick="add('${k.name}',${k.price})">ADD TO ORDER</button></div>`;
+m.innerHTML+=`<div class="kota"><h3>${k.name}</h3><span class="price">R${k.price}</span><p>${k.desc}</p><button class="btn-order" onclick="add('${k.name}',${k.price})">ADD</button></div>`;
 });
 if(LOGO) document.getElementById('logoImg').src=LOGO;
 let total=CART.reduce((a,b)=>a+b.price,0);
 let counts={};CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1});
 let html='';for(let n in counts){html+=`${n} x${counts[n]}<br>`}
-document.getElementById('cartItems').innerHTML=html||'Cart empty';
+document.getElementById('cartItems').innerHTML=html||'Cart empty - Add a Kota!';
 document.getElementById('total').innerText='R'+total;
 document.getElementById('btnTotal').innerText=total;
 }
 function add(name,price){CART.push({name,price});render()}
+
 function orderWhatsApp(){
-let name=document.getElementById('custName').value||'Customer';
-let phone=document.getElementById('custPhone').value||'';
-if(CART.length===0){alert('Add a Kota first!');return}
-if(!phone){alert('Please enter phone number');return}
+let name=document.getElementById('custName').value.trim();
+let phone=document.getElementById('custPhone').value.trim();
+if(CART.length===0){alert('Please add a Kota first!');return}
+if(!name){alert('Please enter your name');document.getElementById('custName').focus();return}
+if(!phone){alert('Please enter your phone number');document.getElementById('custPhone').focus();return}
 let total=CART.reduce((a,b)=>a+b.price,0);
-let msg=`*CALIFORNIA JUNCTION - NEW ONLINE ORDER*%0A%0A*Customer:* ${name}%0A*Phone:* ${phone}%0A%0A*Order:*%0A${CART.map(c=>`- ${c.name} R${c.price}`).join('%0A')}%0A%0A*TOTAL: R${total}*%0A%0ALocation: Corner of Cali St & Junction Ave`;
-window.open(`https://wa.me/27660916915?text=${msg}`,'_blank');
+let orderList=CART.map(c=>`• ${c.name} - R${c.price}`).join('\n');
+
+let message=`*CALIFORNIA JUNCTION - NEW ORDER* 🔥
+
+*Customer:* ${name}
+*Phone:* ${phone}
+
+*Order:*
+${orderList}
+
+*TOTAL: R${total}*
+
+Delivery/Collection: 
+Address: 
+
+Please confirm order! 🙏
+066 091 6915`;
+
+let encoded=encodeURIComponent(message);
+let url=`https://wa.me/27660916915?text=${encoded}`;
+
+// FIX: Use location.href for mobile - works 100%
+window.location.href=url;
 }
 render();
 </script>

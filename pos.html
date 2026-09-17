@@ -2,81 +2,265 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POS Login - California Junction</title>
+<title>POS - California Junction</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#FFF8E8;color:#0a1628}
 .login-screen{position:fixed;inset:0;background:#0a2a4a;z-index:999;display:flex;align-items:center;justify-content:center;padding:15px}
-.login-box{background:#fff;border:4px solid #FF6B00;border-radius:15px;padding:25px;width:100%;max-width:360px;text-align:center}
-.login-box h2{color:#0a2a4a;margin-bottom:15px}
-.login-box input,.login-box select{width:100%;padding:13px;border-radius:10px;border:2px solid #FF6B00;background:#FFF8E8;color:#0a2a4a;margin-bottom:10px;font-weight:bold}
-.btn-login{width:100%;background:#22c55e;color:white;padding:13px;border:none;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}
-header{padding:12px;background:#fff;border-bottom:4px solid #ff6b00;display:flex;align-items:center;gap:12px;justify-content:space-between}
-.logo{width:70px;height:70px;border-radius:50%;border:3px solid #0a2a4a;object-fit:cover}
-.container{max-width:1300px;margin:auto;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-bottom:280px}
+.login-box{background:#fff;border:4px solid #FF6B00;border-radius:20px;padding:30px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.login-box h2{color:#0a2a4a;margin:15px 0}
+.login-box input,.login-box select{width:100%;padding:14px;border-radius:10px;border:2px solid #FF6B00;background:#FFF8E8;color:#0a2a4a;margin-bottom:12px;font-weight:bold;font-size:15px}
+.btn-login{width:100%;background:#22c55e;color:white;padding:14px;border:none;border-radius:12px;font-weight:900;font-size:17px;cursor:pointer}
+header{padding:12px;background:#fff;border-bottom:4px solid #FF6B00;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.header-left{display:flex;align-items:center;gap:12px}
+.logo{width:65px;height:65px;border-radius:50%;border:3px solid #0a2a4a;object-fit:cover}
+.container{max-width:1300px;margin:auto;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-bottom:300px}
 @media(max-width:768px){.container{grid-template-columns:1fr}}
-.box{border:2px solid #0a2a4a;border-radius:12px;padding:10px;background:#fff}
-.kota{background:#FFF8E8;border:1px solid #0a2a4a;border-radius:8px;padding:8px;margin-bottom:6px}
-.badge{font-size:9px;background:#0a2a4a;color:#FFD700;padding:2px 5px;border-radius:10px}
-.ctrls{display:flex;gap:4px;margin-top:6px}
-.ctrls button{flex:1;padding:6px;border:none;border-radius:5px;font-weight:bold;font-size:11px}
-.btn-sell{width:100%;background:#0a2a4a;color:#FFD700;padding:8px;border:none;border-radius:6px;font-weight:900;margin-top:5px}
-.cart{position:fixed;bottom:0;left:0;right:0;background:#0a2a4a;border-top:4px solid #FFD700;padding:10px;border-radius:15px 15px 0 0;z-index:30}
-.customer-row{display:flex;gap:6px;margin-bottom:8px}
-.customer-row input{flex:1;padding:11px;border-radius:8px;border:2px solid #FFD700;background:#fff;color:#0a2a4a}
-.total{display:flex;justify-content:space-between;font-size:18px;font-weight:900;color:#FFD700;border-top:1px solid #fff;padding-top:6px}
-.checkout{width:100%;background:#22c55e;color:white;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:900;margin-top:6px}
-.logged{font-size:11px;color:#22c55e}
+.box{border:2px solid #0a2a4a;border-radius:14px;padding:12px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.08)}
+.box h2{color:#E85D00;text-align:center;font-size:16px;margin-bottom:10px;border-bottom:2px solid #FFF8E8;padding-bottom:6px}
+.kota{background:#FFF8E8;border:1.5px solid #0a2a4a;border-radius:10px;padding:10px;margin-bottom:8px;position:relative}
+.kota h3{color:#0a2a4a;font-size:14px}
+.kota.price{color:#22c55e;font-weight:900;font-size:18px;position:absolute;right:10px;top:8px}
+.kota p{font-size:11px;color:#666;margin:4px 0}
+.badge{font-size:10px;background:#0a2a4a;color:#FFD700;padding:3px 7px;border-radius:20px;margin-left:6px}
+.ctrls{display:flex;gap:5px;margin-top:8px}
+.ctrls button{flex:1;padding:7px;border:none;border-radius:6px;font-weight:900;font-size:11px;cursor:pointer}
+.btn-sell{width:100%;background:#0a2a4a;color:#FFD700;padding:10px;border:none;border-radius:8px;font-weight:900;margin-top:8px;cursor:pointer;font-size:13px}
+.btn-sell:disabled{background:#ccc;color:#666}
+.cart{position:fixed;bottom:0;left:0;right:0;background:#0a2a4a;border-top:4px solid #FFD700;padding:12px;border-radius:20px 20px 0 0;z-index:30;max-width:900px;margin:auto;left:50%;transform:translateX(-50%);box-shadow:0 -5px 20px rgba(0,0,0,0.3)}
+.customer-row{display:flex;gap:8px;margin-bottom:10px}
+.customer-row input{flex:1;padding:12px;border-radius:10px;border:2px solid #FFD700;background:#fff;color:#0a2a4a;font-weight:bold}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900;color:#FFD700;border-top:2px solid rgba(255,255,255,0.2);padding-top:8px;margin-top:6px}
+.checkout{width:100%;background:#22c55e;color:white;padding:14px;border:none;border-radius:12px;font-size:18px;font-weight:900;margin-top:8px;cursor:pointer}
+.logged{font-size:12px;color:#22c55e;font-weight:bold}
+.extra-card{background:#FFF8E8;border:1px dashed #FF6B00;border-radius:8px;padding:8px;text-align:center}
 </style>
 </head>
 <body>
 <div id="loginScreen" class="login-screen">
 <div class="login-box">
-<img src="logo.png" style="width:90px;height:90px;border-radius:50%;border:3px solid #0a2a4a;margin-bottom:10px">
-<h2>POS LOGIN</h2>
-<p style="font-size:12px;color:#E85D00;font-weight:bold;margin-bottom:10px">072 977 9153</p>
+<img src="logo.png" style="width:110px;height:110px;border-radius:50%;border:4px solid #0a2a4a;margin-bottom:10px;object-fit:cover" alt="Logo">
+<h2>CALIFORNIA JUNCTION</h2>
+<h3 style="color:#E85D00;font-size:14px">POS LOGIN</h3>
+<p style="font-size:12px;color:#0a2a4a;font-weight:bold;margin:10px 0">072 977 9153</p>
 <select id="loginCashier"></select>
 <input id="loginPin" type="password" placeholder="Enter PIN">
-<button class="btn-login" onclick="doLogin()">🔓 LOGIN</button>
-<p style="font-size:10px;color:#666;margin-top:12px">Kabelo / 1234 or Owner / 0000</p>
+<button class="btn-login" onclick="doLogin()">🔓 LOGIN TO SELL</button>
+<div style="background:#FFF8E8;padding:8px;border-radius:8px;margin-top:12px;font-size:11px;text-align:left">
+<b>Demo Logins:</b><br>• Kabelo - PIN 1234<br>• Owner - PIN 0000<br><br>Change in Manager > Cashiers
 </div>
 </div>
+</div>
+
 <header>
-<div style="display:flex;align-items:center;gap:10px">
-<img class="logo" src="logo.png">
+<div class="header-left">
+<img class="logo" src="logo.png" alt="Logo">
 <div>
-<h2 style="color:#0a2a4a;font-size:16px">POS - CALIFORNIA JUNCTION</h2>
-<span id="loggedAs" class="logged"></span>
+<h2 style="color:#0a2a4a;font-size:16px">CALIFORNIA JUNCTION POS</h2>
+<span id="loggedAs" class="logged"></span><br>
+<span style="font-size:11px;color:#E85D00;font-weight:bold">072 977 9153</span>
 </div>
 </div>
+<div style="display:flex;gap:8px">
+<a href="manager.html" style="background:#0a2a4a;color:#FFD700;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:900;font-size:11px">MANAGER</a>
 <button onclick="logout()" style="background:#ef4444;color:white;padding:8px 12px;border:none;border-radius:8px;font-weight:900;font-size:11px">LOGOUT</button>
+</div>
 </header>
+
 <div class="container">
-<div class="box"><h2 style="color:#E85D00;text-align:center;font-size:14px;margin-bottom:8px">🍔 KOTAS</h2><div id="kotaList"></div></div>
-<div class="box"><h2 style="color:#E85D00;text-align:center;font-size:14px;margin-bottom:8px">🔥 EXTRAS</h2><div id="extraList" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div></div>
+<div class="box">
+<h2>🍔 KOTA MENU</h2>
+<div id="kotaList"></div>
 </div>
+<div class="box">
+<h2>🔥 EXTRAS & ADD-ONS</h2>
+<div id="extraList" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+<div style="margin-top:15px;background:#0a2a4a;color:#FFD700;padding:10px;border-radius:8px">
+<h4 style="font-size:12px;text-align:center">📊 QUICK STOCK OVERVIEW</h4>
+<div id="quickStock" style="font-size:10px;margin-top:6px"></div>
+</div>
+</div>
+</div>
+
 <div class="cart">
-<div class="customer-row"><input id="customerName" placeholder="Customer Name"></div>
-<div style="display:flex;justify-content:space-between;font-size:12px;color:#FFD700"><span>🛒 CART</span><span id="cartCount">0 items</span></div>
-<div id="cartItems" style="font-size:11px;margin:4px 0;max-height:45px;overflow-y:auto;color:white">Cart empty</div>
-<div class="total"><span>TOTAL</span><span id="total">R0</span></div>
-<button class="checkout" onclick="checkout()">✅ SELL - R<span id="btnTotal">0</span> + PRINT</button>
+<div class="customer-row">
+<input id="customerName" placeholder="Customer Name (e.g. Thabo)">
+<input id="customerPhone" placeholder="Phone (optional)" style="max-width:140px">
 </div>
+<div style="display:flex;justify-content:space-between;font-size:13px;color:#FFD700;font-weight:900">
+<span>🛒 CART - <span id="cartCount">0 items</span></span>
+<span style="color:#fff;cursor:pointer" onclick="clearCart()">🗑️ Clear</span>
+</div>
+<div id="cartItems" style="font-size:12px;margin:6px 0;max-height:60px;overflow-y:auto;color:white;line-height:1.4">Cart empty - Add Kotas!</div>
+<div class="total"><span>TOTAL TO PAY</span><span id="total">R0</span></div>
+<button class="checkout" onclick="checkout()">✅ SELL & PRINT SLIP - R<span id="btnTotal">0</span></button>
+<p style="font-size:9px;text-align:center;color:#FFD700;margin-top:5px">Stock auto-updates • Slip includes logo • Sale saved to manager</p>
+</div>
+
 <script>
-const KOTAS=[{id:'r10',name:'KOTA R10',price:10,desc:'chips, atchar'},{id:'r20',name:'KOTA R20',price:20,desc:'chips, atchar, French and Vienna'},{id:'r30',name:'KOTA R30',price:30,desc:'chips, French and Russian OR cheese and Vienna'},{id:'r40',name:'KOTA R40',price:40,desc:'chips, atchar, French, cheese and Russian'},{id:'r45',name:'KOTA R45',price:45,desc:'chips, atchar, French, cheese, egg and beef Russian'},{id:'r55',name:'KOTA R55',price:55,desc:'chips, atchar, French, Russian, double Vienna'},{id:'r60',name:'KOTA R60',price:60,desc:'chips, atchar, French, cheese, egg, Russian and double Vienna'},];
-const EXTRAS=[{id:'cheese',name:'Extra Cheese',price:5},{id:'egg',name:'Extra Egg',price:5},{id:'atchar',name:'Extra Atchar',price:3}];
+const KOTAS=[
+{id:'r10',name:'KOTA R10',price:10,desc:'chips, atchar'},
+{id:'r20',name:'KOTA R20',price:20,desc:'chips, atchar, French and Vienna'},
+{id:'r30',name:'KOTA R30',price:30,desc:'chips, French and Russian OR cheese and Vienna'},
+{id:'r40',name:'KOTA R40',price:40,desc:'chips, atchar, French, cheese and Russian'},
+{id:'r45',name:'KOTA R45',price:45,desc:'chips, atchar, French, cheese, egg and beef Russian'},
+{id:'r55',name:'KOTA R55',price:55,desc:'chips, atchar, French, Russian, double Vienna'},
+{id:'r60',name:'KOTA R60',price:60,desc:'chips, atchar, French, cheese, egg, Russian and double Vienna'},
+];
+const EXTRAS=[
+{id:'cheese',name:'Extra Cheese',price:5},
+{id:'egg',name:'Extra Egg',price:5},
+{id:'atchar',name:'Extra Atchar',price:3},
+{id:'french',name:'French Polony',price:5},
+{id:'russian',name:'Russian',price:8},
+{id:'vienna',name:'Vienna',price:5},
+];
 let STOCK=JSON.parse(localStorage.getItem('cj_stock')||'{}');
 let CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');
 let CART=[];let CURRENT_CASHIER=null;
+
 function getS(id){return STOCK[id]!==undefined?STOCK[id]:100}
-function setS(id,v){STOCK[id]=Math.max(0,parseInt(v));localStorage.setItem('cj_stock',JSON.stringify(STOCK));render()}
-function initLogin(){let sel=document.getElementById('loginCashier');sel.innerHTML='';CASHIERS.forEach(c=>{sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`});let saved=localStorage.getItem('cj_current_cashier');if(saved){document.getElementById('loginScreen').style.display='none';CURRENT_CASHIER=saved;document.getElementById('loggedAs').innerText='Logged in: '+CURRENT_CASHIER;render();}}
-function doLogin(){let name=document.getElementById('loginCashier').value;let pin=document.getElementById('loginPin').value;let found=CASHIERS.find(c=>c.name===name && c.pin===pin);if(!found){alert('Wrong PIN!');return}CURRENT_CASHIER=name;localStorage.setItem('cj_current_cashier',name);document.getElementById('loginScreen').style.display='none';document.getElementById('loggedAs').innerText='Logged in: '+name;render();}
+function setS(id,v){STOCK[id]=Math.max(0,parseInt(v)||0);localStorage.setItem('cj_stock',JSON.stringify(STOCK));render();}
+
+function initLogin(){
+let sel=document.getElementById('loginCashier');sel.innerHTML='';
+CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');
+CASHIERS.forEach(c=>{sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`});
+let saved=localStorage.getItem('cj_current_cashier');
+if(saved){document.getElementById('loginScreen').style.display='none';CURRENT_CASHIER=saved;document.getElementById('loggedAs').innerText='Logged in: '+CURRENT_CASHIER;render();}
+}
+function doLogin(){
+let name=document.getElementById('loginCashier').value;
+let pin=document.getElementById('loginPin').value;
+CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[]');
+let found=CASHIERS.find(c=>c.name===name && c.pin===pin);
+if(!found){alert('❌ Wrong PIN! Check Manager for correct PIN');return}
+CURRENT_CASHIER=name;localStorage.setItem('cj_current_cashier',name);
+document.getElementById('loginScreen').style.display='none';
+document.getElementById('loggedAs').innerText='Logged in: '+name;
+render();
+}
 function logout(){localStorage.removeItem('cj_current_cashier');location.reload();}
-function render(){let kl=document.getElementById('kotaList');kl.innerHTML='';KOTAS.forEach(k=>{let s=getS(k.id);kl.innerHTML+=`<div class="kota"><span style="float:right;color:#22c55e;font-weight:900">R${k.price}</span><h3 style="color:#0a2a4a;font-size:13px">${k.name} <span class="badge">${s}</span></h3><p style="font-size:10px;color:#666">${k.desc}</p><div class="ctrls"><button style="background:#ef4444;color:white" onclick="setS('${k.id}',${s-1})">-1</button><button style="background:#3b82f6;color:white" onclick="setS('${k.id}',${s+1})">+ STOCK</button><button style="background:#22c55e;color:white" onclick="setS('${k.id}',${s+10})">+10</button></div><button class="btn-sell" ${s<=0?'disabled':''} onclick="add('${k.id}','${k.name}',${k.price})">${s<=0?'OUT':'ADD'}</button></div>`;});let el=document.getElementById('extraList');el.innerHTML='';EXTRAS.forEach(e=>{let s=getS(e.id);el.innerHTML+=`<div style="background:#FFF8E8;border:1px dashed #ff6b00;border-radius:6px;padding:6px;text-align:center"><b style="font-size:10px">${e.name}</b><br><span style="color:#22c55e;font-weight:bold">R${e.price}</span><br><span class="badge">${s}</span><br><button class="btn-sell" style="padding:4px;font-size:9px" ${s<=0?'disabled':''} onclick="add('${e.id}','${e.name}',${e.price})">ADD</button></div>`;});let counts={};let total=0;CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1;total+=i.price});let html='';for(let n in counts){let p=KOTAS.concat(EXTRAS).find(x=>x.name===n).price;html+=`<div style="display:flex;justify-content:space-between"><span>${n} x${counts[n]}</span><span>R${p*counts[n]}</span></div>`}document.getElementById('cartItems').innerHTML=html||'Cart empty';document.getElementById('total').innerText='R'+total;document.getElementById('btnTotal').innerText=total;document.getElementById('cartCount').innerText=CART.length+' items';}
-function add(id,name,price){if(getS(id)<=0){alert('Out of stock');return} CART.push({id,name,price});setS(id,getS(id)-1)}
-function checkout(){let cust=document.getElementById('customerName').value||'Walk-in Customer';if(CART.length===0){alert('Cart empty');return}let total=CART.reduce((a,b)=>a+b.price,0);let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');sales.push({time:new Date().toLocaleString(),customer:cust,items:CART.map(c=>c.name).join(', '),total:total,cashier:CURRENT_CASHIER});localStorage.setItem('cj_sales',JSON.stringify(sales));let slip=`<html><body style="font-family:monospace;text-align:center;padding:10px"><img src="logo.png" style="width:80px;height:80px;border-radius:50%"><br><h2>CALIFORNIA JUNCTION</h2><p>072 977 9153</p><hr><p style="text-align:left"><b>Customer:</b> ${cust}<br><b>Cashier:</b> ${CURRENT_CASHIER}<br><b>Date:</b> ${new Date().toLocaleString()}</p><hr><div style="text-align:left">${CART.map(c=>`<div style="display:flex;justify-content:space-between"><span>${c.name}</span><span>R${c.price}</span></div>`).join('')}</div><hr><h3 style="text-align:right">TOTAL: R${total}</h3><hr><p>Thank you!</p><script>window.print();setTimeout(()=>window.close(),1000)<\/script></body></html>`;let w=window.open('','','width=350,height=700');w.document.write(slip);w.document.close();document.getElementById('customerName').value='';CART=[];render();}
-initLogin();render();
+
+function render(){
+let kl=document.getElementById('kotaList');kl.innerHTML='';
+KOTAS.forEach(k=>{
+let s=getS(k.id);
+let low=s<10;
+kl.innerHTML+=`<div class="kota" style="${low?'border-color:red':''}">
+<span class="price">R${k.price}</span>
+<h3>${k.name} <span class="badge" style="${low?'background:red':''}">${s} left</span></h3>
+<p>${k.desc}</p>
+<div class="ctrls">
+<button style="background:#ef4444;color:white" onclick="setS('${k.id}',${s-1})">-1</button>
+<button style="background:#3b82f6;color:white" onclick="setS('${k.id}',${s+5})">+5</button>
+<button style="background:#22c55e;color:white" onclick="setS('${k.id}',${s+10})">+10</button>
+</div>
+<button class="btn-sell" ${s<=0?'disabled':''} onclick="addItem('${k.id}','${k.name}',${k.price})">${s<=0?'❌ OUT OF STOCK':'➕ ADD TO CART'}</button>
+</div>`;
+});
+
+let el=document.getElementById('extraList');el.innerHTML='';
+EXTRAS.forEach(e=>{
+let s=getS(e.id);
+el.innerHTML+=`<div class="extra-card">
+<b style="font-size:11px">${e.name}</b><br>
+<span style="color:#22c55e;font-weight:900">R${e.price}</span><br>
+<span class="badge">${s}</span>
+<button class="btn-sell" style="padding:6px;font-size:10px;margin-top:4px" ${s<=0?'disabled':''} onclick="addItem('${e.id}','${e.name}',${e.price})">${s<=0?'OUT':'ADD'}</button>
+</div>`;
+});
+
+let counts={};let total=0;
+CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1;total+=i.price});
+let html='';
+for(let n in counts){
+let p=[...KOTAS,...EXTRAS].find(x=>x.name===n).price;
+let qty=counts[n];
+html+=`<div style="display:flex;justify-content:space-between"><span>${n} x${qty}</span><span>R${p*qty} <span style="color:#ff6b00;cursor:pointer" onclick="removeOne('${n}')">[x]</span></span></div>`;
+}
+document.getElementById('cartItems').innerHTML=html||'Cart empty - Add a Kota!';
+document.getElementById('total').innerText='R'+total;
+document.getElementById('btnTotal').innerText=total;
+document.getElementById('cartCount').innerText=CART.length+' items';
+
+let qs='';[...KOTAS,...EXTRAS].slice(0,6).forEach(k=>{let s=getS(k.id);qs+=`${k.name}:${s} ${s<10?'🔴':''} | `});
+document.getElementById('quickStock').innerText=qs;
+}
+
+function addItem(id,name,price){
+if(getS(id)<=0){alert('❌ Out of stock: '+name);return}
+CART.push({id,name,price});
+setS(id,getS(id)-1);
+}
+function removeOne(name){
+let idx=CART.findIndex(c=>c.name===name);
+if(idx>-1){
+let item=CART[idx];
+CART.splice(idx,1);
+setS(item.id,getS(item.id)+1);
+}
+}
+function clearCart(){
+if(CART.length===0)return;
+if(confirm('Clear cart? Stock will be returned')){
+CART.forEach(c=>{setS(c.id,getS(c.id)+1);});
+CART=[];render();
+}
+}
+
+function checkout(){
+let custName=document.getElementById('customerName').value.trim()||'Walk-in Customer';
+let custPhone=document.getElementById('customerPhone').value.trim()||'';
+if(CART.length===0){alert('Cart empty! Add Kotas first');return}
+let total=CART.reduce((a,b)=>a+b.price,0);
+let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');
+sales.push({
+time:new Date().toLocaleString(),
+customer:custName + (custPhone? ' ('+custPhone+')' : ''),
+items:CART.map(c=>c.name).join(', '),
+total:total,
+cashier:CURRENT_CASHIER||'Unknown'
+});
+localStorage.setItem('cj_sales',JSON.stringify(sales));
+
+let itemsHtml=CART.map(c=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #ccc"><span>${c.name}</span><span>R${c.price}</span></div>`).join('');
+
+let slip=`<html><head><title>Receipt</title></head><body style="font-family:monospace;width:300px;margin:auto;padding:15px;text-align:center">
+<img src="logo.png" style="width:90px;height:90px;border-radius:50%;border:3px solid #0a2a4a" onerror="this.style.display='none'"><br>
+<h2 style="margin:8px 0;color:#0a2a4a">CALIFORNIA JUNCTION</h2>
+<p style="margin:2px 0">KOTA • FAST FOOD</p>
+<p style="margin:2px 0;font-weight:bold">072 977 9153 / 062 460 0499</p>
+<p style="font-size:11px">Corner of Cali St & Junction Ave</p>
+<hr>
+<div style="text-align:left;font-size:12px">
+<b>Customer:</b> ${custName}<br>
+${custPhone?'<b>Phone:</b> '+custPhone+'<br>':''}
+<b>Cashier:</b> ${CURRENT_CASHIER}<br>
+<b>Date:</b> ${new Date().toLocaleString()}<br>
+</div>
+<hr>
+<div style="text-align:left">${itemsHtml}</div>
+<hr>
+<h3 style="text-align:right;margin:8px 0">TOTAL: R${total}</h3>
+<hr>
+<p style="font-size:11px">Thank you for your support! 🙏<br>Please come again!</p>
+<p style="font-size:10px;margin-top:10px">FAST • FRESH • FLAME GRILLED</p>
+<script>window.print();setTimeout(()=>window.close(),800)<\/script>
+</body></html>`;
+
+let w=window.open('','','width=380,height=700');
+w.document.write(slip);
+w.document.close();
+
+document.getElementById('customerName').value='';
+document.getElementById('customerPhone').value='';
+CART=[];
+render();
+}
+
+initLogin();
+render();
 </script>
 </body>
 </html>

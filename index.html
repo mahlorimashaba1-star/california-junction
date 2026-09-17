@@ -2,154 +2,94 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>California Junction POS - Logo + Customer</title>
+<title>California Junction | Order Online</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0d1b2a;color:#fff;padding-bottom:260px}
-.banner{background:linear-gradient(90deg,#FF6B00,#FFD700);color:#000;text-align:center;padding:8px;font-weight:900;font-size:12px}
-header{text-align:center;padding:12px;background:#0a1628;border-bottom:3px solid #ff6b00;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
-.logo{width:80px;height:80px;border-radius:50%;border:3px solid #ff6b00;background:#fff;object-fit:cover;cursor:pointer}
-.logo-upload{font-size:10px;color:#FFD700;cursor:pointer;text-decoration:underline}
-h1{color:#ffcc00;font-size:1.8rem;font-style:italic}
-.nav{background:#000;padding:8px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:2px solid #ff6b00}
-.nav a{color:#ff6b00;margin:0 6px;text-decoration:none;font-weight:800;font-size:11px}
-.container{max-width:1300px;margin:auto;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:768px){.container{grid-template-columns:1fr}}
-.box{border:2px solid #ff6b00;border-radius:12px;padding:10px;background:#112240}
-.box h2{color:#ffcc00;text-align:center;margin-bottom:10px;font-size:16px;border-bottom:2px solid #ff6b00;padding-bottom:5px}
-.kota{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:8px;margin-bottom:6px}
-.kota h3{color:#FFD700;font-size:14px}
-.kota p{font-size:10px;color:#94a3b8;margin:3px 0}
-.badge{font-size:9px;background:#334155;padding:2px 5px;border-radius:10px}
-.ctrls{display:flex;gap:4px;margin-top:6px}
-.ctrls button{flex:1;padding:6px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;font-size:11px}
-.btn-sell{width:100%;background:#FFD700;color:#000;padding:8px;border:none;border-radius:6px;font-weight:900;margin-top:5px;font-size:12px}
-.extra-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
-.extra{background:#0a1628;border:1px dashed #ff6b00;border-radius:6px;padding:6px;text-align:center}
-.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:10px;border-radius:15px 15px 0 0;z-index:30}
-.customer-row{display:flex;gap:6px;margin-bottom:8px}
-.customer-row input,.customer-row select{flex:1;padding:10px;border-radius:8px;border:1px solid #FFD700;background:#1e293b;color:white;font-size:13px}
-.total{display:flex;justify-content:space-between;font-size:18px;font-weight:900;color:#FFD700;margin-top:6px;border-top:1px solid #334155;padding-top:6px}
-.checkout{width:100%;background:#22c55e;color:white;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:900;margin-top:6px}
+body{background:#0d1b2a;color:white}
+.banner{background:linear-gradient(90deg,#FF6B00,#FFD700);color:#000;text-align:center;padding:10px;font-weight:900}
+header{text-align:center;padding:20px;background:#0a1628;border-bottom:3px solid #ff6b00}
+.logo{width:100px;height:100px;border-radius:50%;border:3px solid #ff6b00;background:#fff;object-fit:cover}
+h1{color:#ffcc00;font-size:2.5rem;font-style:italic}
+.container{max-width:900px;margin:auto;padding:15px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.menu-grid{grid-template-columns:1fr}}
+.kota{background:#112240;border:2px solid #ff6b00;border-radius:12px;padding:15px;text-align:center}
+.kota h3{color:#FFD700;font-size:18px}
+.kota .price{color:#22c55e;font-size:26px;font-weight:900;display:block;margin:8px 0}
+.kota p{font-size:12px;color:#94a3b8;margin-bottom:10px}
+.btn-order{background:#FFD700;color:#000;padding:12px;border:none;border-radius:10px;font-weight:900;width:100%;cursor:pointer;font-size:14px}
+.extra-row{display:flex;gap:8px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.extra{background:#0a1628;border:1px dashed #ff6b00;padding:10px 15px;border-radius:20px;font-size:12px}
+.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:15px;border-radius:20px 20px 0 0;max-width:900px;margin:auto}
+.customer-input{width:100%;padding:12px;border-radius:10px;border:1px solid #FFD700;background:#1e293b;color:white;margin-bottom:8px}
+.checkout{width:100%;background:#22c55e;color:white;padding:15px;border:none;border-radius:12px;font-weight:900;font-size:18px}
 </style>
 </head>
 <body>
-<div class="banner">OPEN DAILY • FRESH • LOADED • EST. 2023 • 066 091 6915</div>
+<div class="banner">🔥 EST. 2023 • FRESH • LOADED • FLAVOURFUL • ORDER ONLINE 🔥</div>
 <header>
-<div>
-<img id="logoImg" class="logo" src="https://via.placeholder.com/80" title="Click to change logo">
-<br><label class="logo-upload" for="logoInput">📸 Change Logo</label>
-<input type="file" id="logoInput" accept="image/*" style="display:none">
-</div>
-<div>
+<img id="logoImg" class="logo" src="https://via.placeholder.com/100">
 <h1>CALIFORNIA JUNCTION</h1>
-<p style="font-size:10px">KASI STYLE • Thick, Loaded & Tasty</p>
-<p style="font-size:9px;color:#94a3b8">Corner of Cali St & Junction Ave</p>
-</div>
+<p>KASI STYLE • Thick, Loaded & Tasty</p>
+<p style="color:#FFD700;font-size:12px;margin-top:5px">Corner of Cali St & Junction Ave, Kasi • 066 091 6915 / 062 460 0499</p>
+<a href="pos.html" style="color:#94a3b8;font-size:10px">Cashier Login → pos.html</a>
 </header>
-<div class="nav">
-<a href="manager.html">MANAGER</a>
-<a href="https://wa.me/27660916915">WHATSAPP</a>
-</div>
 
-<div class="container">
-<div class="box">
-<h2>🍔 KOTA MENU - POSTER</h2>
-<div id="kotaList"></div>
-</div>
-<div class="box">
-<h2>🔥 EXTRAS</h2>
-<div class="extra-grid" id="extraList"></div>
-<div style="margin-top:10px;background:#22c55e;color:#000;padding:8px;border-radius:8px;text-align:center;font-weight:900;font-size:11px">066 091 6915 / 062 460 0499<br>Cash & Card • Spicy / Mild</div>
+<div class="container" style="padding-bottom:250px">
+<h2 style="color:#FFD700;text-align:center;margin:15px 0">🍔 OUR KOTAS - POSTER MENU</h2>
+<div class="menu-grid" id="menu"></div>
+
+<h2 style="color:#FFD700;text-align:center;margin:20px 0 10px">🔥 EXTRAS</h2>
+<div class="extra-row">
+<div class="extra">Extra Cheese +R5</div>
+<div class="extra">Extra Egg +R5</div>
+<div class="extra">Extra Atchar +R3</div>
 </div>
 </div>
 
 <div class="cart">
-<div class="customer-row">
-<input id="customerName" placeholder="Customer Name e.g. Thabo">
-<select id="cashierSel"></select>
-</div>
-<div style="display:flex;justify-content:space-between;font-size:12px"><span>🛒 CART</span><span id="cartCount">0 items</span></div>
-<div id="cartItems" style="font-size:11px;margin-top:4px;max-height:50px;overflow-y:auto">Cart empty</div>
-<div class="total"><span>TOTAL</span><span id="total">R0</span></div>
-<button class="checkout" onclick="checkout()">✅ SELL - R<span id="btnTotal">0</span> + PRINT SLIP</button>
+<input id="custName" class="customer-input" placeholder="Your Name (e.g. Thabo)">
+<input id="custPhone" class="customer-input" placeholder="Your Phone Number">
+<div id="cartItems" style="font-size:12px;margin:8px 0">Cart empty - Add a Kota!</div>
+<div style="display:flex;justify-content:space-between;font-weight:900;color:#FFD700;font-size:18px"><span>TOTAL</span><span id="total">R0</span></div>
+<button class="checkout" onclick="orderWhatsApp()">📱 ORDER VIA WHATSAPP - R<span id="btnTotal">0</span></button>
 </div>
 
 <script>
 const KOTAS=[
-{id:'r10',name:'KOTA R10',price:10,desc:'chips, atchar'},
-{id:'r20',name:'KOTA R20',price:20,desc:'chips, atchar, French and Vienna'},
-{id:'r30',name:'KOTA R30',price:30,desc:'chips, French and Russian OR cheese and Vienna'},
-{id:'r40',name:'KOTA R40',price:40,desc:'chips, atchar, French, cheese and Russian'},
-{id:'r45',name:'KOTA R45',price:45,desc:'chips, atchar, French, cheese, egg and beef Russian'},
-{id:'r55',name:'KOTA R55',price:55,desc:'chips, atchar, French, Russian, double Vienna'},
-{id:'r60',name:'KOTA R60',price:60,desc:'chips, atchar, French, cheese, egg, Russian and double Vienna'},
+{id:'r10',name:'KOTA R10',price:10,desc:'KOTA chips, atchar'},
+{id:'r20',name:'KOTA R20',price:20,desc:'KOTA chips, atchar, French and Vienna'},
+{id:'r30',name:'KOTA R30',price:30,desc:'KOTA chips, French and Russian OR cheese and Vienna'},
+{id:'r40',name:'KOTA R40',price:40,desc:'KOTA chips, atchar, French, cheese and Russian'},
+{id:'r45',name:'KOTA R45',price:45,desc:'KOTA chips, atchar, French, cheese, egg and beef Russian'},
+{id:'r55',name:'KOTA R55',price:55,desc:'KOTA chips, atchar, French, Russian, double Vienna'},
+{id:'r60',name:'KOTA R60',price:60,desc:'KOTA chips, atchar, French, cheese, egg, Russian and double Vienna'},
 ];
-const EXTRAS=[
-{id:'cheese',name:'Extra Cheese',price:5},
-{id:'egg',name:'Extra Egg',price:5},
-{id:'atchar',name:'Extra Atchar',price:3},
-];
-let STOCK=JSON.parse(localStorage.getItem('cj_stock')||'{}');
-let CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');
-let CART=[];
-let LOGO=localStorage.getItem('cj_logo')||'';
-function getS(id){return STOCK[id]!==undefined?STOCK[id]:100}
-function setS(id,v){STOCK[id]=Math.max(0,parseInt(v));localStorage.setItem('cj_stock',JSON.stringify(STOCK));render()}
-
+const EXTRAS=[{name:'Extra Cheese',price:5},{name:'Extra Egg',price:5},{name:'Extra Atchar',price:3}];
+let CART=[];let LOGO=localStorage.getItem('cj_logo')||'';
 function render(){
-let kl=document.getElementById('kotaList');kl.innerHTML='';
+let m=document.getElementById('menu');m.innerHTML='';
 KOTAS.forEach(k=>{
-let s=getS(k.id);
-kl.innerHTML+=`<div class="kota"><span style="float:right;color:#22c55e;font-weight:900">R${k.price}</span><h3>${k.name} <span class="badge">${s}</span></h3><p>${k.desc}</p><div class="ctrls"><button style="background:#ef4444;color:white" onclick="setS('${k.id}',${s-1})">-1</button><button style="background:#3b82f6;color:white" onclick="setS('${k.id}',${s+1})">+ STOCK</button><button style="background:#22c55e;color:white" onclick="setS('${k.id}',${s+10})">+10</button></div><button class="btn-sell" ${s<=0?'disabled':''} onclick="add('${k.id}','${k.name}',${k.price})">${s<=0?'OUT OF STOCK':'ADD'}</button></div>`;
+m.innerHTML+=`<div class="kota"><h3>${k.name}</h3><span class="price">R${k.price}</span><p>${k.desc}</p><button class="btn-order" onclick="add('${k.name}',${k.price})">ADD TO ORDER</button></div>`;
 });
-let el=document.getElementById('extraList');el.innerHTML='';
-EXTRAS.forEach(e=>{
-let s=getS(e.id);
-el.innerHTML+=`<div class="extra"><b style="font-size:10px">${e.name}</b><br><span style="color:#22c55e;font-weight:bold">R${e.price}</span><br><span class="badge">${s}</span><br><button class="btn-sell" style="padding:4px;font-size:9px" ${s<=0?'disabled':''} onclick="add('${e.id}','${e.name}',${e.price})">ADD</button></div>`;
-});
-let counts={};let total=0;CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1;total+=i.price});
-let html='';for(let n in counts){let p=KOTAS.concat(EXTRAS).find(x=>x.name===n).price;html+=`<div style="display:flex;justify-content:space-between"><span>${n} x${counts[n]}</span><span>R${p*counts[n]}</span></div>`}
+if(LOGO) document.getElementById('logoImg').src=LOGO;
+let total=CART.reduce((a,b)=>a+b.price,0);
+let counts={};CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1});
+let html='';for(let n in counts){html+=`${n} x${counts[n]}<br>`}
 document.getElementById('cartItems').innerHTML=html||'Cart empty';
 document.getElementById('total').innerText='R'+total;
 document.getElementById('btnTotal').innerText=total;
-document.getElementById('cartCount').innerText=CART.length+' items';
-let sel=document.getElementById('cashierSel');sel.innerHTML='<option>Select Cashier</option>';CASHIERS.forEach(c=>{sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`});
-if(LOGO) document.getElementById('logoImg').src=LOGO;
 }
-function add(id,name,price){if(getS(id)<=0){alert('Out of stock');return} CART.push({id,name,price});setS(id,getS(id)-1)}
-
-function checkout(){
-let cust=document.getElementById('customerName').value||'Walk-in Customer';
-let cashier=document.getElementById('cashierSel').value||'Kabelo';
-if(CART.length===0){alert('Cart empty');return}
+function add(name,price){CART.push({name,price});render()}
+function orderWhatsApp(){
+let name=document.getElementById('custName').value||'Customer';
+let phone=document.getElementById('custPhone').value||'';
+if(CART.length===0){alert('Add a Kota first!');return}
+if(!phone){alert('Please enter phone number');return}
 let total=CART.reduce((a,b)=>a+b.price,0);
-let items=CART.map(c=>c.name).join(', ');
-let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');
-sales.push({time:new Date().toLocaleString(),customer:cust,items:items,total:total,cashier:cashier,detail:CART});
-localStorage.setItem('cj_sales',JSON.stringify(sales));
-
-// PRINT SLIP WITH LOGO + CUSTOMER
-let logoHtml=LOGO?`<img src="${LOGO}" style="width:60px;height:60px;border-radius:50%"><br>`:'';
-let slip=`<html><body style="font-family:monospace;text-align:center;padding:10px">
-${logoHtml}
-<h2>CALIFORNIA JUNCTION</h2><p>Kasi Style EST.2023<br>066 091 6915 / 062 460 0499</p><hr>
-<p style="text-align:left"><b>Customer:</b> ${cust}<br><b>Cashier:</b> ${cashier}<br><b>Date:</b> ${new Date().toLocaleString()}</p><hr>
-<div style="text-align:left">${CART.map(c=>`<div style="display:flex;justify-content:space-between"><span>${c.name}</span><span>R${c.price}</span></div>`).join('')}</div><hr>
-<h3 style="text-align:right">TOTAL: R${total}</h3><hr><p>Thank you ${cust}!<br>Thick, Loaded & Tasty!</p>
-<script>window.print();setTimeout(()=>window.close(),1000)<\/script>
-</body></html>`;
-let w=window.open('','','width=350,height=700');w.document.write(slip);w.document.close();
-
-document.getElementById('customerName').value='';CART=[];render();
+let msg=`*CALIFORNIA JUNCTION - NEW ONLINE ORDER*%0A%0A*Customer:* ${name}%0A*Phone:* ${phone}%0A%0A*Order:*%0A${CART.map(c=>`- ${c.name} R${c.price}`).join('%0A')}%0A%0A*TOTAL: R${total}*%0A%0ALocation: Corner of Cali St & Junction Ave`;
+window.open(`https://wa.me/27660916915?text=${msg}`,'_blank');
 }
-
-// LOGO UPLOAD IN POS
-document.getElementById('logoInput').addEventListener('change',function(e){
-let r=new FileReader();r.onload=function(ev){LOGO=ev.target.result;localStorage.setItem('cj_logo',LOGO);document.getElementById('logoImg').src=LOGO;alert('Logo saved! Will show in Manager too!')};r.readAsDataURL(e.target.files[0]);
-});
-document.getElementById('logoImg').addEventListener('click',()=>document.getElementById('logoInput').click());
-
 render();
 </script>
 </body>

@@ -1,87 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>California Junction | Kasi Style POS</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>California Junction POS - Logo + Customer</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0d1b2a;color:#fff;padding-bottom:240px}
-.banner{background:linear-gradient(90deg,#FF6B00,#FFD700);color:#000;text-align:center;padding:10px;font-weight:900;font-size:13px}
-header{text-align:center;padding:15px;background:#0a1628;border-bottom:3px solid #ff6b00;display:flex;align-items:center;justify-content:center;gap:15px}
-.logo{width:70px;height:70px;border-radius:50%;border:3px solid #ff6b00;background:#fff;object-fit:cover}
-h1{color:#ffcc00;font-size:2rem;font-style:italic}
-.nav{background:#000;padding:10px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:2px solid #ff6b00}
-.nav a{color:#ff6b00;margin:0 8px;text-decoration:none;font-weight:800;font-size:12px}
-.container{max-width:1300px;margin:auto;padding:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+body{background:#0d1b2a;color:#fff;padding-bottom:260px}
+.banner{background:linear-gradient(90deg,#FF6B00,#FFD700);color:#000;text-align:center;padding:8px;font-weight:900;font-size:12px}
+header{text-align:center;padding:12px;background:#0a1628;border-bottom:3px solid #ff6b00;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.logo{width:80px;height:80px;border-radius:50%;border:3px solid #ff6b00;background:#fff;object-fit:cover;cursor:pointer}
+.logo-upload{font-size:10px;color:#FFD700;cursor:pointer;text-decoration:underline}
+h1{color:#ffcc00;font-size:1.8rem;font-style:italic}
+.nav{background:#000;padding:8px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:2px solid #ff6b00}
+.nav a{color:#ff6b00;margin:0 6px;text-decoration:none;font-weight:800;font-size:11px}
+.container{max-width:1300px;margin:auto;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:768px){.container{grid-template-columns:1fr}}
-.box{border:2px solid #ff6b00;border-radius:12px;padding:12px;background:#112240}
-.box h2{color:#ffcc00;text-align:center;margin-bottom:12px;font-size:18px;border-bottom:2px solid #ff6b00;padding-bottom:6px}
-.kota{background:#0a1628;border:1px solid #1e3a5f;border-radius:10px;padding:10px;margin-bottom:8px}
-.kota h3{color:#FFD700;font-size:15px}
-.kota.price{color:#22c55e;font-size:20px;font-weight:900;float:right}
-.kota p{font-size:11px;color:#94a3b8;margin:4px 0}
-.badge{font-size:10px;background:#334155;padding:2px 6px;border-radius:10px}
-.ctrls{display:flex;gap:5px;margin-top:8px}
-.ctrls button{flex:1;padding:8px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
-.btn-blue{background:#3b82f6;color:white}.btn-red{background:#ef4444;color:white}.btn-green{background:#22c55e;color:white}
-.btn-sell{width:100%;background:#FFD700;color:#000;padding:10px;border:none;border-radius:8px;font-weight:900;margin-top:6px;cursor:pointer}
-.btn-sell:disabled{background:#555}
-.extra-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.extra{background:#0a1628;border:1px dashed #ff6b00;border-radius:8px;padding:8px;text-align:center}
-.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:12px;border-radius:18px 18px 0 0;z-index:30}
-.total{display:flex;justify-content:space-between;font-size:20px;font-weight:900;color:#FFD700;margin-top:8px;border-top:1px solid #334155;padding-top:8px}
-.checkout{width:100%;background:#22c55e;color:white;padding:13px;border:none;border-radius:10px;font-size:17px;font-weight:900;margin-top:8px;cursor:pointer}
-.cashier-select{width:100%;padding:8px;border-radius:8px;margin-top:8px;background:#1e293b;color:white;border:1px solid #FFD700}
+.box{border:2px solid #ff6b00;border-radius:12px;padding:10px;background:#112240}
+.box h2{color:#ffcc00;text-align:center;margin-bottom:10px;font-size:16px;border-bottom:2px solid #ff6b00;padding-bottom:5px}
+.kota{background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:8px;margin-bottom:6px}
+.kota h3{color:#FFD700;font-size:14px}
+.kota p{font-size:10px;color:#94a3b8;margin:3px 0}
+.badge{font-size:9px;background:#334155;padding:2px 5px;border-radius:10px}
+.ctrls{display:flex;gap:4px;margin-top:6px}
+.ctrls button{flex:1;padding:6px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;font-size:11px}
+.btn-sell{width:100%;background:#FFD700;color:#000;padding:8px;border:none;border-radius:6px;font-weight:900;margin-top:5px;font-size:12px}
+.extra-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.extra{background:#0a1628;border:1px dashed #ff6b00;border-radius:6px;padding:6px;text-align:center}
+.cart{position:fixed;bottom:0;left:0;right:0;background:#020617;border-top:3px solid #FFD700;padding:10px;border-radius:15px 15px 0 0;z-index:30}
+.customer-row{display:flex;gap:6px;margin-bottom:8px}
+.customer-row input,.customer-row select{flex:1;padding:10px;border-radius:8px;border:1px solid #FFD700;background:#1e293b;color:white;font-size:13px}
+.total{display:flex;justify-content:space-between;font-size:18px;font-weight:900;color:#FFD700;margin-top:6px;border-top:1px solid #334155;padding-top:6px}
+.checkout{width:100%;background:#22c55e;color:white;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:900;margin-top:6px}
 </style>
 </head>
 <body>
-<div class="banner">OPEN DAILY • FRESH • LOADED • FLAVOURFUL • EST. 2023</div>
+<div class="banner">OPEN DAILY • FRESH • LOADED • EST. 2023 • 066 091 6915</div>
 <header>
-<img id="logoImg" class="logo" src="https://via.placeholder.com/70">
+<div>
+<img id="logoImg" class="logo" src="https://via.placeholder.com/80" title="Click to change logo">
+<br><label class="logo-upload" for="logoInput">📸 Change Logo</label>
+<input type="file" id="logoInput" accept="image/*" style="display:none">
+</div>
 <div>
 <h1>CALIFORNIA JUNCTION</h1>
-<p style="font-size:11px">KASI STYLE • Thick, Loaded & Tasty • 066 091 6915</p>
-<select id="cashierSel" class="cashier-select"></select>
+<p style="font-size:10px">KASI STYLE • Thick, Loaded & Tasty</p>
+<p style="font-size:9px;color:#94a3b8">Corner of Cali St & Junction Ave</p>
 </div>
 </header>
 <div class="nav">
-<a href="#kotas">KOTA MENU</a>
-<a href="#extras">EXTRAS</a>
 <a href="manager.html">MANAGER</a>
-<a href="https://wa.me/27660916915">WHATSAPP ORDER</a>
+<a href="https://wa.me/27660916915">WHATSAPP</a>
 </div>
 
 <div class="container">
-<div class="box" id="kotas">
-<h2>🍔 KOTA MENU - FROM POSTER</h2>
+<div class="box">
+<h2>🍔 KOTA MENU - POSTER</h2>
 <div id="kotaList"></div>
 </div>
 <div class="box">
 <h2>🔥 EXTRAS</h2>
 <div class="extra-grid" id="extraList"></div>
-<div style="margin-top:12px;background:linear-gradient(90deg,#22c55e,#16a34a);color:#000;padding:10px;border-radius:10px;text-align:center;font-weight:900;font-size:12px">
-ORDER NOW: 066 091 6915 / 062 460 0499<br>Corner of Cali St & Junction Ave, Kasi<br><small>Cash & Card • Spicy / Mild / Extra Spicy</small>
-</div>
+<div style="margin-top:10px;background:#22c55e;color:#000;padding:8px;border-radius:8px;text-align:center;font-weight:900;font-size:11px">066 091 6915 / 062 460 0499<br>Cash & Card • Spicy / Mild</div>
 </div>
 </div>
 
 <div class="cart">
-<div style="display:flex;justify-content:space-between;font-size:13px"><span>🛒 CART</span><span id="cartCount">0 items</span></div>
-<div id="cartItems" style="font-size:12px;margin-top:6px;max-height:60px;overflow-y:auto">Cart empty</div>
+<div class="customer-row">
+<input id="customerName" placeholder="Customer Name e.g. Thabo">
+<select id="cashierSel"></select>
+</div>
+<div style="display:flex;justify-content:space-between;font-size:12px"><span>🛒 CART</span><span id="cartCount">0 items</span></div>
+<div id="cartItems" style="font-size:11px;margin-top:4px;max-height:50px;overflow-y:auto">Cart empty</div>
 <div class="total"><span>TOTAL</span><span id="total">R0</span></div>
-<button class="checkout" onclick="checkout()">✅ SELL - R<span id="btnTotal">0</span> • PRINT SLIP</button>
+<button class="checkout" onclick="checkout()">✅ SELL - R<span id="btnTotal">0</span> + PRINT SLIP</button>
 </div>
 
 <script>
 const KOTAS=[
-{id:'r10',name:'KOTA R10',price:10,desc:'KOTA chips, atchar'},
-{id:'r20',name:'KOTA R20',price:20,desc:'KOTA chips, atchar, French and Vienna'},
-{id:'r30',name:'KOTA R30',price:30,desc:'KOTA chips, French and Russian OR cheese and Vienna'},
-{id:'r40',name:'KOTA R40',price:40,desc:'KOTA chips, atchar, French, cheese and Russian'},
-{id:'r45',name:'KOTA R45',price:45,desc:'KOTA chips, atchar, French, cheese, egg and beef Russian'},
-{id:'r55',name:'KOTA R55',price:55,desc:'KOTA chips, atchar, French, Russian, double Vienna'},
-{id:'r60',name:'KOTA R60',price:60,desc:'KOTA chips, atchar, French, cheese, egg, Russian and double Vienna'},
+{id:'r10',name:'KOTA R10',price:10,desc:'chips, atchar'},
+{id:'r20',name:'KOTA R20',price:20,desc:'chips, atchar, French and Vienna'},
+{id:'r30',name:'KOTA R30',price:30,desc:'chips, French and Russian OR cheese and Vienna'},
+{id:'r40',name:'KOTA R40',price:40,desc:'chips, atchar, French, cheese and Russian'},
+{id:'r45',name:'KOTA R45',price:45,desc:'chips, atchar, French, cheese, egg and beef Russian'},
+{id:'r55',name:'KOTA R55',price:55,desc:'chips, atchar, French, Russian, double Vienna'},
+{id:'r60',name:'KOTA R60',price:60,desc:'chips, atchar, French, cheese, egg, Russian and double Vienna'},
 ];
 const EXTRAS=[
 {id:'cheese',name:'Extra Cheese',price:5},
@@ -89,8 +91,7 @@ const EXTRAS=[
 {id:'atchar',name:'Extra Atchar',price:3},
 ];
 let STOCK=JSON.parse(localStorage.getItem('cj_stock')||'{}');
-let SALES=JSON.parse(localStorage.getItem('cj_sales')||'[]');
-let CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"}]');
+let CASHIERS=JSON.parse(localStorage.getItem('cj_cashiers')||'[{"name":"Kabelo","pin":"1234"},{"name":"Owner","pin":"0000"}]');
 let CART=[];
 let LOGO=localStorage.getItem('cj_logo')||'';
 function getS(id){return STOCK[id]!==undefined?STOCK[id]:100}
@@ -100,12 +101,12 @@ function render(){
 let kl=document.getElementById('kotaList');kl.innerHTML='';
 KOTAS.forEach(k=>{
 let s=getS(k.id);
-kl.innerHTML+=`<div class="kota" style="${s<10?'border-color:#ef4444':''}"><span class="price">R${k.price}</span><h3>${k.name} <span class="badge" style="${s<10?'background:#ef4444':''}">${s}</span></h3><p>${k.desc}</p><div class="ctrls"><button class="btn-red" onclick="setS('${k.id}',${s-1})">-1</button><button class="btn-blue" onclick="setS('${k.id}',${s+1})">+ STOCK</button><button class="btn-green" onclick="setS('${k.id}',${s+10})">+10</button></div><button class="btn-sell" ${s<=0?'disabled':''} onclick="add('${k.id}','${k.name}',${k.price})">${s<=0?'OUT OF STOCK':'ADD TO CART'}</button></div>`;
+kl.innerHTML+=`<div class="kota"><span style="float:right;color:#22c55e;font-weight:900">R${k.price}</span><h3>${k.name} <span class="badge">${s}</span></h3><p>${k.desc}</p><div class="ctrls"><button style="background:#ef4444;color:white" onclick="setS('${k.id}',${s-1})">-1</button><button style="background:#3b82f6;color:white" onclick="setS('${k.id}',${s+1})">+ STOCK</button><button style="background:#22c55e;color:white" onclick="setS('${k.id}',${s+10})">+10</button></div><button class="btn-sell" ${s<=0?'disabled':''} onclick="add('${k.id}','${k.name}',${k.price})">${s<=0?'OUT OF STOCK':'ADD'}</button></div>`;
 });
 let el=document.getElementById('extraList');el.innerHTML='';
 EXTRAS.forEach(e=>{
 let s=getS(e.id);
-el.innerHTML+=`<div class="extra"><b style="font-size:11px">${e.name}</b><br><span style="color:#22c55e;font-weight:bold">+R${e.price}</span><br><span class="badge">${s}</span><div class="ctrls"><button class="btn-red" style="padding:4px" onclick="setS('${e.id}',${s-1})">-</button><button class="btn-green" style="padding:4px" onclick="setS('${e.id}',${s+1})">+</button></div><button class="btn-sell" style="padding:5px;font-size:10px" ${s<=0?'disabled':''} onclick="add('${e.id}','${e.name}',${e.price})">ADD</button></div>`;
+el.innerHTML+=`<div class="extra"><b style="font-size:10px">${e.name}</b><br><span style="color:#22c55e;font-weight:bold">R${e.price}</span><br><span class="badge">${s}</span><br><button class="btn-sell" style="padding:4px;font-size:9px" ${s<=0?'disabled':''} onclick="add('${e.id}','${e.name}',${e.price})">ADD</button></div>`;
 });
 let counts={};let total=0;CART.forEach(i=>{counts[i.name]=(counts[i.name]||0)+1;total+=i.price});
 let html='';for(let n in counts){let p=KOTAS.concat(EXTRAS).find(x=>x.name===n).price;html+=`<div style="display:flex;justify-content:space-between"><span>${n} x${counts[n]}</span><span>R${p*counts[n]}</span></div>`}
@@ -113,26 +114,42 @@ document.getElementById('cartItems').innerHTML=html||'Cart empty';
 document.getElementById('total').innerText='R'+total;
 document.getElementById('btnTotal').innerText=total;
 document.getElementById('cartCount').innerText=CART.length+' items';
-
-let sel=document.getElementById('cashierSel');sel.innerHTML='';
-CASHIERS.forEach(c=>{sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`});
+let sel=document.getElementById('cashierSel');sel.innerHTML='<option>Select Cashier</option>';CASHIERS.forEach(c=>{sel.innerHTML+=`<option value="${c.name}">${c.name}</option>`});
 if(LOGO) document.getElementById('logoImg').src=LOGO;
 }
-function add(id,name,price){if(getS(id)<=0){alert('Out of stock! Add stock');return} CART.push({id,name,price});setS(id,getS(id)-1)}
+function add(id,name,price){if(getS(id)<=0){alert('Out of stock');return} CART.push({id,name,price});setS(id,getS(id)-1)}
 
 function checkout(){
+let cust=document.getElementById('customerName').value||'Walk-in Customer';
+let cashier=document.getElementById('cashierSel').value||'Kabelo';
 if(CART.length===0){alert('Cart empty');return}
 let total=CART.reduce((a,b)=>a+b.price,0);
 let items=CART.map(c=>c.name).join(', ');
-let cashier=document.getElementById('cashierSel').value||'Kabelo';
-let sale={time:new Date().toLocaleString(),items:items,total:total,cashier:cashier,detail:CART};
-SALES.push(sale);localStorage.setItem('cj_sales',JSON.stringify(SALES));
+let sales=JSON.parse(localStorage.getItem('cj_sales')||'[]');
+sales.push({time:new Date().toLocaleString(),customer:cust,items:items,total:total,cashier:cashier,detail:CART});
+localStorage.setItem('cj_sales',JSON.stringify(sales));
 
-// PRINT SLIP
-let slip=`CALIFORNIA JUNCTION\nKasi Style EST.2023\n--------------------------\nCashier: ${cashier}\nTime: ${sale.time}\n--------------------------\n${CART.map(c=>c.name+' - R'+c.price).join('\n')}\n--------------------------\nTOTAL: R${total}\n--------------------------\nThank you!\n066 091 6915`;
-let w=window.open('','','width=300,height=600');w.document.write(`<pre style="font-family:monospace;font-size:14px">${slip}</pre><script>window.print();setTimeout(()=>window.close(),1000)<\/script>`);
-CART=[];render();
+// PRINT SLIP WITH LOGO + CUSTOMER
+let logoHtml=LOGO?`<img src="${LOGO}" style="width:60px;height:60px;border-radius:50%"><br>`:'';
+let slip=`<html><body style="font-family:monospace;text-align:center;padding:10px">
+${logoHtml}
+<h2>CALIFORNIA JUNCTION</h2><p>Kasi Style EST.2023<br>066 091 6915 / 062 460 0499</p><hr>
+<p style="text-align:left"><b>Customer:</b> ${cust}<br><b>Cashier:</b> ${cashier}<br><b>Date:</b> ${new Date().toLocaleString()}</p><hr>
+<div style="text-align:left">${CART.map(c=>`<div style="display:flex;justify-content:space-between"><span>${c.name}</span><span>R${c.price}</span></div>`).join('')}</div><hr>
+<h3 style="text-align:right">TOTAL: R${total}</h3><hr><p>Thank you ${cust}!<br>Thick, Loaded & Tasty!</p>
+<script>window.print();setTimeout(()=>window.close(),1000)<\/script>
+</body></html>`;
+let w=window.open('','','width=350,height=700');w.document.write(slip);w.document.close();
+
+document.getElementById('customerName').value='';CART=[];render();
 }
+
+// LOGO UPLOAD IN POS
+document.getElementById('logoInput').addEventListener('change',function(e){
+let r=new FileReader();r.onload=function(ev){LOGO=ev.target.result;localStorage.setItem('cj_logo',LOGO);document.getElementById('logoImg').src=LOGO;alert('Logo saved! Will show in Manager too!')};r.readAsDataURL(e.target.files[0]);
+});
+document.getElementById('logoImg').addEventListener('click',()=>document.getElementById('logoInput').click());
+
 render();
 </script>
 </body>

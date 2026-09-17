@@ -1,100 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>California Junction - Manager</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#020617;color:white;padding:10px}
-.header{background:linear-gradient(90deg,#FFD700,#FF6B00);color:black;padding:15px;border-radius:12px;text-align:center;font-weight:bold}
-.card{background:#1e293b;padding:12px;border-radius:12px;margin-top:10px}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:8px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
-th{color:#FFD700}
-input{width:60px;padding:5px;border-radius:5px;border:none;text-align:center;font-weight:bold}
-.btn{padding:6px 12px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}
-.btn-save{background:#22c55e;color:white}
-.btn-reset{background:#ef4444;color:white;width:100%;margin-top:10px;padding:10px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.stat{background:#334155;padding:10px;border-radius:10px;text-align:center}
-.stat b{color:#FFD700;font-size:18px;display:block}
-</style>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Manager - California Junction - SYNCED</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#020617;color:white;padding:10px}.header{background:linear-gradient(90deg,#FFD700,#FF6B00);color:black;padding:15px;border-radius:15px;text-align:center;font-weight:bold}table{width:100%;border-collapse:collapse;margin-top:15px;background:#1e293b;border-radius:12px;overflow:hidden}th,td{padding:12px 8px;text-align:left;border-bottom:1px solid #334155}th{background:#334155;color:#FFD700}input{width:70px;padding:8px;border-radius:6px;border:none;text-align:center;font-weight:bold;font-size:16px}button{padding:8px 12px;border:none;border-radius:6px;font-weight:bold;cursor:pointer}.btn-plus{background:#22c55e;color:white}.btn-minus{background:#ef4444;color:white}.btn-big{width:100%;padding:15px;margin-top:10px;font-size:16px;border-radius:10px}</style>
 </head>
 <body>
-<div class="header"><h1>CALIFORNIA JUNCTION</h1><p>MANAGER - STOCK CONTROL</p></div>
-
-<div class="stats">
-<div class="stat"><b id="totalItems">0</b>Items</div>
-<div class="stat"><b id="lowStock">0</b>Low Stock</div>
-<div class="stat"><b id="totalValue">R0</b>Stock Value</div>
-</div>
-
-<div class="card">
-<h3>📦 STOCK MANAGEMENT - New Menu 2026</h3>
-<table>
-<thead><tr><th>Item</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
-<tbody id="stockTable"></tbody>
-</table>
-<button class="btn-reset" onclick="resetAll()">🔄 Reset All Stock to 100</button>
-<button class="btn-reset" style="background:#3b82f6" onclick="clearData()">🗑️ Clear All Data</button>
-</div>
-
-<div class="card">
-<h3>📊 Quick Add Stock</h3>
-<p style="font-size:12px;color:#94a3b8;margin:5px 0">Add bulk - e.g. you bought 50 Kota R30</p>
-<select id="quickItem" style="width:100%;padding:10px;border-radius:8px;margin:5px 0">
-<option value="kota_r10">KOTA R10</option>
-<option value="kota_r20">KOTA R20</option>
-<option value="kota_r30">KOTA R30</option>
-<option value="kota_r40">KOTA R40</option>
-<option value="kota_r45">KOTA R45</option>
-<option value="kota_r55">KOTA R55</option>
-<option value="kota_r60">KOTA R60</option>
-<option value="extra_cheese">Extra Cheese</option>
-<option value="extra_egg">Extra Egg</option>
-<option value="extra_atchar">Extra Atchar</option>
-</select>
-<input id="quickQty" type="number" placeholder="Qty + e.g. 50" style="width:100%;padding:10px;margin:5px 0">
-<button class="btn-save" style="width:100%;padding:12px" onclick="quickAdd()">➕ ADD STOCK</button>
-</div>
+<div class="header"><h1>MANAGER - SYNCED TO POS</h1><p>Same stock as index.html - Poster Menu</p></div>
+<table><thead><tr><th>Item (Poster Menu)</th><th>Price</th><th>Stock</th><th>Controls</th></tr></thead><tbody id="tbody"></tbody></table>
+<button class="btn-big" style="background:#22c55e;color:white" onclick="add10All()">➕ ADD 10 TO ALL</button>
+<button class="btn-big" style="background:#3b82f6;color:white" onclick="reset()">🔄 RESET ALL TO 100</button>
+<button class="btn-big" style="background:#FFD700;color:black" onclick="location.href='index.html'">← BACK TO POS</button>
 
 <script>
-const products=[
-{id:'kota_r10',name:'KOTA R10 - chips, atchar',price:10},
-{id:'kota_r20',name:'KOTA R20 - chips, atchar, French, Vienna',price:20},
-{id:'kota_r30',name:'KOTA R30 - chips, French, Russian/cheese/Vienna',price:30},
-{id:'kota_r40',name:'KOTA R40 - chips, atchar, French, cheese, Russian',price:40},
-{id:'kota_r45',name:'KOTA R45 - chips, atchar, French, cheese, egg, beef Russian',price:45},
-{id:'kota_r55',name:'KOTA R55 - chips, atchar, French, Russian, double Vienna',price:55},
-{id:'kota_r60',name:'KOTA R60 - chips, atchar, French, cheese, egg, Russian, double Vienna',price:60},
-{id:'extra_cheese',name:'Extra Cheese +R5',price:5},
-{id:'extra_egg',name:'Extra Egg +R5',price:5},
-{id:'extra_atchar',name:'Extra Atchar +R3',price:3},
+// MUST MATCH index.html EXACTLY FOR SYNC!
+const PRODUCTS=[
+{id:'r10',name:'KOTA R10 - chips, atchar',price:10},
+{id:'r20',name:'KOTA R20 - chips, atchar, French and Vienna',price:20},
+{id:'r30',name:'KOTA R30 - chips, French and Russian OR cheese and Vienna',price:30},
+{id:'r40',name:'KOTA R40 - chips, atchar, French, cheese and Russian',price:40},
+{id:'r45',name:'KOTA R45 - chips, atchar, French, cheese, egg and beef Russian',price:45},
+{id:'r55',name:'KOTA R55 - chips, atchar, French, Russian, double Vienna',price:55},
+{id:'r60',name:'KOTA R60 - chips, atchar, French, cheese, egg, Russian and double Vienna',price:60},
+{id:'cheese',name:'Extra Cheese +R5',price:5},
+{id:'egg',name:'Extra Egg +R5',price:5},
+{id:'atchar',name:'Extra Atchar +R3',price:3},
 ];
-let stock=JSON.parse(localStorage.getItem('cj_stock')||'{}');
-function getStock(id){return stock[id]!==undefined?stock[id]:100;}
-function save(id,val){stock[id]=parseInt(val);localStorage.setItem('cj_stock',JSON.stringify(stock));render();}
-function render(){
-let html='';let totalVal=0;let low=0;
-products.forEach(p=>{
-let s=getStock(p.id);totalVal+=s*p.price;if(s<10)low++;
-html+=`<tr><td>${p.name}</td><td>R${p.price}</td><td><input type="number" value="${s}" onchange="save('${p.id}',this.value)"></td><td><button class="btn btn-save" onclick="save('${p.id}',getStock('${p.id}')+10)">+10</button></td></tr>`;
-});
-document.getElementById('stockTable').innerHTML=html;
-document.getElementById('totalItems').innerText=products.length;
-document.getElementById('lowStock').innerText=low;
-document.getElementById('totalValue').innerText='R'+totalVal;
-}
-function quickAdd(){
-let id=document.getElementById('quickItem').value;
-let qty=parseInt(document.getElementById('quickQty').value);
-if(!qty){alert('Enter qty');return;}
-let cur=getStock(id);save(id,cur+qty);
-document.getElementById('quickQty').value='';
-alert('Added '+qty+' to '+id+'! New stock: '+(cur+qty));
-}
-function resetAll(){if(confirm('Reset ALL to 100?')){stock={};localStorage.removeItem('cj_stock');render();}}
-function clearData(){if(confirm('Clear EVERYTHING?')){localStorage.clear();render();}}
+let STOCK=JSON.parse(localStorage.getItem('cj_stock')||'{}');
+function getS(id){return STOCK[id]!==undefined?STOCK[id]:100}
+function setS(id,v){STOCK[id]=Math.max(0,parseInt(v));localStorage.setItem('cj_stock',JSON.stringify(STOCK));render()}
+function render(){let html='';PRODUCTS.forEach(p=>{let s=getS(p.id);html+=`<tr><td>${p.name}<br><small style="color:#94a3b8">R${p.price}</small></td><td>R${p.price}</td><td><input type="number" value="${s}" onchange="setS('${p.id}',this.value)"></td><td><button class="btn-minus" onclick="setS('${p.id}',${s-1})">-1</button> <button class="btn-plus" onclick="setS('${p.id}',${s+1})">+1</button> <button class="btn-plus" onclick="setS('${p.id}',${s+10})">+10</button></td></tr>`});document.getElementById('tbody').innerHTML=html;}
+function add10All(){PRODUCTS.forEach(p=>{setS(p.id,getS(p.id)+10)});alert('Added 10 to all - SYNCED!')}
+function reset(){if(confirm('Reset all to 100? This will sync both apps!')){localStorage.removeItem('cj_stock');STOCK={};render()}}
 render();
 </script>
 </body>
